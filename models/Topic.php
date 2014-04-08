@@ -3,15 +3,15 @@
 use Model;
 
 /**
- * Conversation Model
+ * Topic Model
  */
-class Conversation extends Model
+class Topic extends Model
 {
 
     /**
      * @var string The database table used by the model.
      */
-    public $table = 'rainlab_forum_conversations';
+    public $table = 'rainlab_forum_topics';
 
     /**
      * @var array Guarded fields
@@ -32,8 +32,15 @@ class Conversation extends Model
      * @var array Relations
      */
     public $hasOne = [];
-    public $hasMany = [];
-    public $belongsTo = [];
+
+    public $hasMany = [
+        'posts' => ['RainLab\Forum\Models\Post']
+    ];
+
+    public $belongsTo = [
+        'channel' => ['RainLab\Forum\Models\Channel']
+    ];
+
     public $belongsToMany = [];
     public $morphTo = [];
     public $morphOne = [];

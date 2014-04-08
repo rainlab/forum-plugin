@@ -26,13 +26,21 @@ class Channel extends Model
     /**
      * @var array Validation rules
      */
-    public $rules = [];
+    public $rules = [
+        'title' => 'required'
+    ];
+
+    public $sluggable = ['slug' => 'title'];
 
     /**
      * @var array Relations
      */
     public $hasOne = [];
-    public $hasMany = [];
+
+    public $hasMany = [
+        'topics' => ['RainLab\Forum\Models\Topic']
+    ];
+
     public $belongsTo = [];
     public $belongsToMany = [];
     public $morphTo = [];

@@ -33,7 +33,11 @@ class Post extends Model
      */
     public $hasOne = [];
     public $hasMany = [];
-    public $belongsTo = [];
+
+    public $belongsTo = [
+        'post' => ['RainLab\Forum\Models\Topic']
+    ];
+
     public $belongsToMany = [];
     public $morphTo = [];
     public $morphOne = [];

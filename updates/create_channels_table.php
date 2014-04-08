@@ -12,6 +12,15 @@ class CreateChannelsTable extends Migration
         {
             $table->engine = 'InnoDB';
             $table->increments('id');
+            $table->integer('parent_id')->unsigned()->index();
+            $table->string('title', 31);
+            $table->string('slug', 31)->index()->unique();
+            $table->string('description');
+            $table->integer('category_left');
+            $table->integer('category_right');
+            $table->integer('category_depth');
+            $table->integer('count_topics');
+            $table->integer('count_posts');
             $table->timestamps();
         });
     }

@@ -1,1 +1,6 @@
-1.0.1: First version of Forum
+1.0.1:
+- First version of Forum
+- create_channels_table.php
+- create_posts_table.php
+- create_topics_table.php
+- seed_all_tables.php
