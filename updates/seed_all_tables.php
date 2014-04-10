@@ -8,10 +8,10 @@ class SeedAllTables extends Seeder
 
     public function run()
     {
-        Channel::create([
-            'title' => 'Uncategorized',
-            'description' => 'A channel with no home',
-        ]);
+        // Channel::create([
+        //     'title' => 'Uncategorized',
+        //     'description' => 'A channel with no home',
+        // ]);
     }
 
 }

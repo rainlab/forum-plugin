@@ -13,6 +13,8 @@ class Channel extends Model
      */
     public $table = 'rainlab_forum_channels';
 
+    public $implement = ['October.Rain.Database.Behaviors.NestedSetModel'];
+
     /**
      * @var array Guarded fields
      */
@@ -21,7 +23,7 @@ class Channel extends Model
     /**
      * @var array Fillable fields
      */
-    protected $fillable = [];
+    protected $fillable = ['title', 'description', 'parent_id'];
 
     /**
      * @var array Validation rules

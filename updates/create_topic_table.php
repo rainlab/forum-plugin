@@ -22,7 +22,7 @@ class CreateTopicsTable extends Migration
             $table->integer('last_post_member_id');
             $table->dateTime('start_time')->index();
             $table->dateTime('last_post_time')->index();
-            $table->index(['sticky', 'last_post_time']);
+            $table->index(['sticky', 'last_post_time'], 'sticky_post_time');
             $table->timestamps();
         });
     }

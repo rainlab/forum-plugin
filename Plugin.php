@@ -23,4 +23,14 @@ class Plugin extends PluginBase
         ];
     }
 
+    public function registerComponents()
+    {
+        return [
+           '\RainLab\Forum\Components\ChannelList' => 'channelList',
+           '\RainLab\Forum\Components\Channel'     => 'channel',
+           '\RainLab\Forum\Components\Topic'       => 'topic',
+        ];
+    }
+
+
 }

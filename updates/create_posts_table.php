@@ -21,8 +21,7 @@ class CreatePostsTable extends Migration
             $table->integer('edit_user_id');
             $table->integer('delete_user_id');
             $table->integer('delete_time');
-            $table->index(['title', 'content']);
-            $table->index(['topic_id', 'time']);
+            $table->index(['topic_id', 'time'], 'topic_time');
             $table->timestamps();
         });
     }

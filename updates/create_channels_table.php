@@ -16,9 +16,9 @@ class CreateChannelsTable extends Migration
             $table->string('title', 31);
             $table->string('slug', 31)->index()->unique();
             $table->string('description');
-            $table->integer('category_left');
-            $table->integer('category_right');
-            $table->integer('category_depth');
+            $table->integer('nest_left');
+            $table->integer('nest_right');
+            $table->integer('nest_depth');
             $table->integer('count_topics');
             $table->integer('count_posts');
             $table->timestamps();
