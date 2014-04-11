@@ -1,5 +1,6 @@
 <?php namespace RainLab\Forum;
 
+use Backend;
 use System\Classes\PluginBase;
 
 /**
@@ -32,5 +33,33 @@ class Plugin extends PluginBase
         ];
     }
 
+    public function registerNavigation()
+    {
+        return [
+            'forum' => [
+                'label'       => 'Forum',
+                'url'         => Backend::url('rainlab/forum/topics'),
+                'icon'        => 'icon-comments-alt',
+                'permissions' => ['forum.*'],
+                'order'       => 800,
+
+                'sideMenu' => [
+                    'topics' => [
+                        'label'       => 'Topics',
+                        'icon'        => 'icon-comments',
+                        'url'         => Backend::url('rainlab/forum/topics'),
+                        'permissions' => ['forum.access_topics'],
+                    ],
+                    'channels' => [
+                        'label'       => 'Channels',
+                        'icon'        => 'icon-list-ul',
+                        'url'         => Backend::url('rainlab/forum/channels'),
+                        'permissions' => ['forum.access_channels'],
+                    ],
+                ]
+
+            ]
+        ];
+    }
 
 }

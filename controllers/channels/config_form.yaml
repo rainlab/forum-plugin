@@ -1,0 +1,31 @@
+# ===================================
+#  Form Behavior Config
+# ===================================
+
+# Record name
+name: Channel
+
+# Model Form Field configuration
+form: @/plugins/rainlab/forum/models/channel/fields.yaml
+
+# Model Class name
+model-class: RainLab\Forum\Models\Channel
+
+# Default redirect location
+default-redirect: rainlab/forum/channels
+
+# Create page
+create:
+    title: Create Channels
+    redirect: rainlab/forum/channels/update/:id
+    redirect-close: rainlab/forum/channels
+
+# Update page
+update:
+    title: Edit Channels
+    redirect: rainlab/forum/channels
+    redirect-close: rainlab/forum/channels
+
+# Preview page
+preview:
+    title: Preview Channels

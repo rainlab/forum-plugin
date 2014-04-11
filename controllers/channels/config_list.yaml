@@ -1,0 +1,33 @@
+# ===================================
+#  List Behavior Config
+# ===================================
+
+# Model List Column configuration
+list: @/plugins/rainlab/forum/models/channel/columns.yaml
+
+# Model Class name
+model-class: RainLab\Forum\Models\Channel
+
+# List Title
+title: Manage Channels
+
+# Link URL for each record
+record-url: rainlab/forum/channels/update/:id
+
+# Message to display if the list is empty
+no-records-message: backend::lang.list.no_records
+
+# Records to display per page
+records-per-page: 20
+
+# Display checkboxes next to each record
+show-checkboxes: false
+
+# Toolbar widget configuration
+toolbar:
+    # Partial for toolbar buttons
+    buttons: list_toolbar
+
+    # Search widget configuration
+    search:
+        prompt: backend::lang.list.search_prompt
