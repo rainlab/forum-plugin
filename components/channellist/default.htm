@@ -3,7 +3,11 @@
     {% for channel in channels %}
 
         <tr>
-            <th colspan="2">{{ channel.title }}</th>
+            <th colspan="2">
+                <a href="{{ forumLink.channel|page({ slug: channel.slug }) }}" title="{{ channel.description }}">
+                    {{ channel.title }}
+                </a>
+            </th>
             <th>Topics</th>
             <th>Posts</th>
             <th>Last post</th>
@@ -18,14 +22,22 @@
                         <img src="http://placehold.it/32x32" alt="" class="pull-left" />
                     </td>
                     <td>
-                        <h5><a href="#channel">{{ channel.title }}</a></h5>
+                        <h5>
+                            <a href="{{ forumLink.channel|page({ slug: channel.slug }) }}">
+                                {{ channel.title }}
+                            </a>
+                        </h5>
                         <p>{{ channel.description }}</p>
 
                         {% if channel.children.count %}
                             <ul class="list-inline">
                                 <li><em>Subforum</em></li>
                                 {% for channel in channel.children %}
-                                    <li><a href="#">{{ channel.title }}</a></li>
+                                    <li>
+                                        <a href="{{ forumLink.channel|page({ slug: channel.slug }) }}" title="{{ channel.description }}">
+                                            {{ channel.title }}
+                                        </a>
+                                    </li>
                                 {% endfor %}
                             </ul>
                         {% endif %}

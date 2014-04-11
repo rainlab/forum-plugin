@@ -18,12 +18,29 @@ class ChannelList extends ComponentBase
 
     public function defineProperties()
     {
-        return [];
+        return [
+            'memberPage' => [
+                'title'       => 'Member Page',
+                'description' => 'Page name to use for clicking on a member.',
+                'type'        => 'string' // @todo Page picker
+            ],
+            'channelPage' => [
+                'title'       => 'Channel Page',
+                'description' => 'Page name to use for clicking on a channel.',
+                'type'        => 'string' // @todo Page picker
+            ],
+            'topicPage' => [
+                'title'       => 'Topic Page',
+                'description' => 'Page name to use for clicking on a conversation topic.',
+                'type'        => 'string' // @todo Page picker
+            ],
+        ];
     }
 
     public function onRun()
     {
         $this->page['channels'] = $this->listChannels();
+        $this->prepareChannelList();
     }
 
     protected function listChannels()
@@ -32,6 +49,20 @@ class ChannelList extends ComponentBase
             return $this->channels;
 
         return $this->channels = Channel::make()->getRootChildren();
+    }
+
+    protected function prepareChannelList()
+    {
+        /*
+         * Load the page links
+         */
+        $links = [
+            'member' => $this->property('memberPage'),
+            'channel' => $this->property('channelPage'),
+            'topic' => $this->property('topicPage'),
+        ];
+
+        $this->page['forumLink'] = $links;
     }
 
 }
