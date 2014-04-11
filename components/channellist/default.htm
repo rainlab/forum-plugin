@@ -13,7 +13,7 @@
             <th>Last post</th>
         </tr>
 
-        {% if channel.children.count %}
+        {% if channel.relations.children %}
 
             {% for channel in channel.children %}
 
@@ -29,7 +29,7 @@
                         </h5>
                         <p>{{ channel.description }}</p>
 
-                        {% if channel.children.count %}
+                        {% if channel.relations.children %}
                             <ul class="list-inline">
                                 <li><em>Subforum</em></li>
                                 {% for channel in channel.children %}

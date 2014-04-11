@@ -51,7 +51,7 @@ class Channel extends ComponentBase
         if (!$slug = $this->param(static::PARAM_SLUG))
             return null;
 
-        return $this->channel = ChannelModel::whereSlug($slug)->get();
+        return $this->channel = ChannelModel::whereSlug($slug)->first();
     }
 
     public function listTopics()
@@ -62,10 +62,9 @@ class Channel extends ComponentBase
         if (!$channel = $this->getChannel())
             return null;
 
-        $applicableIds = $channel->children()->lists('id');
-        \Log::info(print_r($applicableIds, true));
+        $channelIds = $channel->children()->lists('id');
 
-        return $this->topics = Topic::make()->getRootChildren();
+        return $this->topics = Topic::make()->listFrontEnd();
     }
 
     protected function prepareTopicList()
