@@ -43,7 +43,7 @@ class ChannelList extends ComponentBase
         $this->prepareChannelList();
     }
 
-    protected function listChannels()
+    public function listChannels()
     {
         if ($this->channels !== null)
             return $this->channels;
