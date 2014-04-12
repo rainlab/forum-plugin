@@ -18,7 +18,7 @@ class Plugin extends PluginBase
     {
         return [
             'name'        => 'Forum',
-            'description' => 'No description provided yet...',
+            'description' => 'A simple embeddable forum',
             'author'      => 'RainLab',
             'icon'        => 'icon-leaf'
         ];

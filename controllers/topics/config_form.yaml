@@ -9,22 +9,22 @@ name: Topic
 form: @/plugins/rainlab/forum/models/topic/fields.yaml
 
 # Model Class name
-model-class: RainLab\Forum\Models\Topic
+modelClass: RainLab\Forum\Models\Topic
 
 # Default redirect location
-default-redirect: rainlab/forum/topics
+defaultRedirect: rainlab/forum/topics
 
 # Create page
 create:
     title: Create Topics
     redirect: rainlab/forum/topics/update/:id
-    redirect-close: rainlab/forum/topics
+    redirectClose: rainlab/forum/topics
 
 # Update page
 update:
     title: Edit Topics
     redirect: rainlab/forum/topics
-    redirect-close: rainlab/forum/topics
+    redirectClose: rainlab/forum/topics
 
 # Preview page
 preview:

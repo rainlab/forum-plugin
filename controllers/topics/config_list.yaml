@@ -6,22 +6,22 @@
 list: @/plugins/rainlab/forum/models/topic/columns.yaml
 
 # Model Class name
-model-class: RainLab\Forum\Models\Topic
+modelClass: RainLab\Forum\Models\Topic
 
 # List Title
 title: Manage Topics
 
 # Link URL for each record
-record-url: rainlab/forum/topics/update/:id
+recordUrl: rainlab/forum/topics/update/:id
 
 # Message to display if the list is empty
-no-records-message: backend::lang.list.no_records
+noRecordsMessage: backend::lang.list.no_records
 
 # Records to display per page
-records-per-page: 20
+recordsPerPage: 20
 
 # Display checkboxes next to each record
-show-checkboxes: false
+showCheckboxes: false
 
 # Toolbar widget configuration
 toolbar:
