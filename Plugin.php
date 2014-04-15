@@ -39,14 +39,14 @@ class Plugin extends PluginBase
             'forum' => [
                 'label'       => 'Forum',
                 'url'         => Backend::url('rainlab/forum/topics'),
-                'icon'        => 'icon-comments-alt',
+                'icon'        => 'icon-comments',
                 'permissions' => ['forum.*'],
                 'order'       => 800,
 
                 'sideMenu' => [
                     'topics' => [
                         'label'       => 'Topics',
-                        'icon'        => 'icon-comments',
+                        'icon'        => 'icon-comments-o',
                         'url'         => Backend::url('rainlab/forum/topics'),
                         'permissions' => ['forum.access_topics'],
                     ],

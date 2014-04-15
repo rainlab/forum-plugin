@@ -1,0 +1,11 @@
+<?php foreach ($records as $record): ?>
+
+    <li><?= $record->title ?></li>
+
+    <ol>
+        <?php if ($record->children): ?>
+            <?= $this->makePartial('reorder_records', ['records' => $record->children]) ?>
+        <?php endif ?>
+    </ol>
+
+<?php endforeach ?>

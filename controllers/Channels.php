@@ -2,6 +2,7 @@
 
 use BackendMenu;
 use Backend\Classes\Controller;
+use RainLab\Forum\Models\Channel;
 
 /**
  * Channels Back-end Controller
@@ -21,5 +22,16 @@ class Channels extends Controller
         parent::__construct();
 
         BackendMenu::setContext('RainLab.Forum', 'forum', 'channels');
+    }
+
+    public function reorder()
+    {
+        $this->pageTitle = 'Reorder Channels';
+
+        $toolbarConfig = $this->makeConfig();
+        $toolbarConfig->buttons = '@/plugins/rainlab/forum/controllers/channels/_reorder_toolbar.htm';
+
+        $this->vars['toolbar'] = $this->makeWidget('Backend\Widgets\Toolbar', $toolbarConfig);
+        $this->vars['records'] = Channel::make()->getEagerRoot();
     }
 }
