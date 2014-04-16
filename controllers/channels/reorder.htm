@@ -7,8 +7,16 @@
 
 <?= $toolbar->render() ?>
 
-<div class="control-nestedset">
+<div class="control-treelist">
     <ol>
         <?= $this->makePartial('reorder_records', ['records' => $records]) ?>
     </ol>
 </div>
+
+<script>
+    $(function () {
+        $('.control-treelist > ol').sortable({
+            handle: 'a.move'
+        })
+    })
+</script>
