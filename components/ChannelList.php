@@ -48,7 +48,7 @@ class ChannelList extends ComponentBase
         if ($this->channels !== null)
             return $this->channels;
 
-        return $this->channels = Channel::make()->getRootChildren();
+        return $this->channels = Channel::make()->getEagerRoot();
     }
 
     protected function prepareChannelList()

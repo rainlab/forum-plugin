@@ -17,23 +17,26 @@ class Topic extends Model
     /**
      * @var array Guarded fields
      */
-    protected $guarded = ['*'];
+    protected $guarded = [];
 
     /**
      * @var array Fillable fields
      */
-    protected $fillable = [];
+    protected $fillable = ['subject'];
 
     /**
      * @var array Validation rules
      */
-    public $rules = [];
+    public $rules = ['subject' => 'required'];
+
+    /**
+     * @var array Auto generated slug
+     */
+    public $sluggable = ['slug' => 'subject'];
 
     /**
      * @var array Relations
      */
-    public $hasOne = [];
-
     public $hasMany = [
         'posts' => ['RainLab\Forum\Models\Post']
     ];
@@ -41,14 +44,6 @@ class Topic extends Model
     public $belongsTo = [
         'channel' => ['RainLab\Forum\Models\Channel']
     ];
-
-    public $belongsToMany = [];
-    public $morphTo = [];
-    public $morphOne = [];
-    public $morphMany = [];
-    public $attachOne = [];
-    public $attachMany = [];
-
 
     public function listFrontEnd($page = 1, $sort = 'created_at', $channels = [], $search = '')
     {
@@ -64,7 +59,7 @@ class Topic extends Model
         ;
 
         if (strlen($search)) {
-            $obj->searchWhere($search, ['title', 'count_posts']);
+            $obj->searchWhere($search, ['subject', 'count_posts']);
         }
 
         if ($channels) {

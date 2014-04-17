@@ -32,23 +32,17 @@ class Channel extends Model
         'title' => 'required'
     ];
 
+    /**
+     * @var array Auto generated slug
+     */
     public $sluggable = ['slug' => 'title'];
 
     /**
      * @var array Relations
      */
-    public $hasOne = [];
-
     public $hasMany = [
         'topics' => ['RainLab\Forum\Models\Topic']
     ];
 
-    public $belongsTo = [];
-    public $belongsToMany = [];
-    public $morphTo = [];
-    public $morphOne = [];
-    public $morphMany = [];
-    public $attachOne = [];
-    public $attachMany = [];
 
 }

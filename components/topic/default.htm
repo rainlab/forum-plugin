@@ -1,3 +1,8 @@
-<p>This is the default markup for component Topic</p>
+{% if topic %}
+    <p>topic</p>
+{% elseif channel %}
+    {% partial __SELF__ ~ "::postform" %}
+{% else %}
+    <p>Topic not found</p>
+{% endif %}
 
-<small>You can delete this file if you want</small>

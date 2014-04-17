@@ -16,12 +16,12 @@ class Post extends Model
     /**
      * @var array Guarded fields
      */
-    protected $guarded = ['*'];
+    protected $guarded = [];
 
     /**
      * @var array Fillable fields
      */
-    protected $fillable = [];
+    protected $fillable = ['subject', 'content'];
 
     /**
      * @var array Validation rules
@@ -31,18 +31,8 @@ class Post extends Model
     /**
      * @var array Relations
      */
-    public $hasOne = [];
-    public $hasMany = [];
-
     public $belongsTo = [
-        'post' => ['RainLab\Forum\Models\Topic']
+        'topic' => ['RainLab\Forum\Models\Topic']
     ];
-
-    public $belongsToMany = [];
-    public $morphTo = [];
-    public $morphOne = [];
-    public $morphMany = [];
-    public $attachOne = [];
-    public $attachMany = [];
 
 }

@@ -93,11 +93,11 @@ class Topic extends ComponentBase
     {
         try {
 
-            $topic = TopicModel::make();
+            $topic = new TopicModel;
             $topic->subject = post('subject');
             $topic->channel = $this->getChannel();
 
-            $post = Post::make();
+            $post = new Post;
             $post->topic = $topic;
             $post->content = post('content');
 

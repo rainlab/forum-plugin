@@ -34,4 +34,23 @@ class Channels extends Controller
         $this->vars['toolbar'] = $this->makeWidget('Backend\Widgets\Toolbar', $toolbarConfig);
         $this->vars['records'] = Channel::make()->getEagerRoot();
     }
+
+    public function reorder_onMove()
+    {
+        $sourceNode = Channel::find(post('sourceNode'));
+        $targetNode = post('targetNode') ? Channel::find(post('targetNode')) : null;
+
+        if ($sourceNode == $targetNode)
+            return;
+
+        switch (post('position')) {
+            case 'before': $sourceNode->moveBefore($targetNode); break;
+            case 'after': $sourceNode->moveAfter($targetNode); break;
+            case 'child': $sourceNode->makeChildOf($targetNode); break;
+            default: $sourceNode->makeRoot(); break;
+        }
+
+        // $this->vars['records'] = Channel::make()->getEagerRoot();
+        // return ['#reorderRecords' => $this->makePartial('reorder_records')];
+    }
 }

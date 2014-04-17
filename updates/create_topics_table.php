@@ -12,7 +12,8 @@ class CreateTopicsTable extends Migration
         {
             $table->engine = 'InnoDB';
             $table->increments('id');
-            $table->string('title', 63);
+            $table->string('subject');
+            $table->string('slug')->index()->unique();
             $table->integer('channel_id')->unsigned()->index();
             $table->integer('start_member_id')->index();
             $table->integer('last_post_member_id');
