@@ -44,7 +44,8 @@ class Topic extends ComponentBase
     public function onRun()
     {
         $this->page['channel'] = $this->getChannel();
-        $this->page['topic'] = $this->getTopic();
+        $this->page['topic'] = $topic = $this->getTopic();
+        $this->page['posts'] = $topic->posts()->paginate(20);
         $this->preparePostList();
     }
 
@@ -92,7 +93,6 @@ class Topic extends ComponentBase
     public function onCreate()
     {
         try {
-
             $topic = new TopicModel;
             $topic->subject = post('subject');
             $topic->channel = $this->getChannel();
@@ -114,7 +114,23 @@ class Topic extends ComponentBase
             $redirectUrl = post('redirect', $this->currentPageUrl([
                 'slug' => $topic->slug
             ]));
+
             return Redirect::to($redirectUrl);
+        }
+        catch (\Exception $ex) {
+            Flash::error($ex->getMessage());
+        }
+    }
+
+    public function onPost()
+    {
+        try {
+            $topic = $this->getTopic();
+
+            $post = new Post;
+            $post->topic = $topic;
+            $post->content = post('content');
+            $post->save();
 
         }
         catch (\Exception $ex) {

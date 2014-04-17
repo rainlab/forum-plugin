@@ -1,7 +1,7 @@
 {% if topic %}
-    <p>topic</p>
+    {% partial __SELF__ ~ "::posts" %}
 {% elseif channel %}
-    {% partial __SELF__ ~ "::postform" %}
+    {% partial __SELF__ ~ "::createform" %}
 {% else %}
     <p>Topic not found</p>
 {% endif %}

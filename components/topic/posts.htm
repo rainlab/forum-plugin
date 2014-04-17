@@ -1,0 +1,14 @@
+<h4>{{ topic.subject }}</h4>
+
+{% for post in posts %}
+    <div class="row">
+        <div class="col-md-8">
+            {{ post.content }}
+        </div>
+        <div class="col-md-4">
+            {% partial __SELF__ ~ "::member" %}
+        </div>
+    </div>
+{% endfor %}
+
+{% partial __SELF__ ~ "::postform" %}
