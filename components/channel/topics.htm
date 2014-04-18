@@ -24,7 +24,7 @@
             <td>
                 <a href="{{ forumLink.member|page({ username: topic.slug }) }}">Username</a>
                 posted
-                <a href="#">{{ topic.last_post_time.diffForHumans }}</a>
+                <a href="#">{{ topic.last_post_at.diffForHumans }}</a>
             </td>
         </tr>
     {% endfor %}

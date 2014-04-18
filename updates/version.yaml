@@ -3,4 +3,5 @@
     - create_channels_table.php
     - create_posts_table.php
     - create_topics_table.php
+    - create_members_table.php
     - seed_all_tables.php

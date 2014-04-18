@@ -32,7 +32,7 @@ class Topic extends Model
     /**
      * @var array Date fields
      */
-    public $dates = ['last_post_time'];
+    public $dates = ['last_post_at'];
 
     /**
      * @var array Auto generated slug

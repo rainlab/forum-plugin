@@ -48,7 +48,7 @@
                         {% if channel.firstTopic %}
                             <a href="{{ forumLink.member|page({ username: topic.slug }) }}">Username</a>
                             posted
-                            <a href="#">{{ channel.firstTopic.last_post_time.diffForHumans }}</a>
+                            <a href="#">{{ channel.firstTopic.last_post_at.diffForHumans }}</a>
                         {% endif %}
                     </td>
                 </tr>

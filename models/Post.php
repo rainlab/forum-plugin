@@ -39,7 +39,7 @@ class Post extends Model
     public function afterCreate()
     {
         $this->topic->count_posts++;
-        $this->topic->last_post_time = new Carbon;
+        $this->topic->last_post_at = new Carbon;
         $this->topic->save();
 
         $this->topic->channel()->increment('count_posts');

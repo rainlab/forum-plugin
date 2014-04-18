@@ -1,6 +1,7 @@
 <?php namespace RainLab\Forum;
 
 use Backend;
+use RainLab\User\Models\User;
 use System\Classes\PluginBase;
 
 /**
@@ -22,6 +23,13 @@ class Plugin extends PluginBase
             'author'      => 'RainLab',
             'icon'        => 'icon-leaf'
         ];
+    }
+
+    public function boot()
+    {
+        User::extend(function($model) {
+            $model->hasOne['forum_member'] = ['RainLab\Forum\Models\Member'];
+        });
     }
 
     public function registerComponents()
