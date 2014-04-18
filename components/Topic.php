@@ -1,6 +1,5 @@
 <?php namespace RainLab\Forum\Components;
 
-use DB as Db;
 use Flash;
 use Redirect;
 use Cms\Classes\ComponentBase;
@@ -102,18 +101,9 @@ class Topic extends ComponentBase
     public function onCreate()
     {
         try {
-            $topic = new TopicModel;
-            $topic->subject = post('subject');
-            $topic->channel = $this->getChannel();
+            $member = null;
 
-            $post = new Post;
-            $post->topic = $topic;
-            $post->content = post('content');
-
-            Db::transaction(function() use ($topic, $post) {
-                $topic->save();
-                $post->save();
-            });
+            $topic = TopicModel::createInChannel($this->getChannel(), $member, post());
 
             Flash::success(post('flash', 'Topic created successfully!'));
 

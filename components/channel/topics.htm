@@ -22,7 +22,7 @@
             <td>{{ topic.count_posts }}</td>
             <td>{{ topic.count_views }}</td>
             <td>
-                <a href="{{ forumLink.member|page({ username: topic.slug }) }}">Username</a>
+                <a href="{{ forumLink.member|page({ slug: topic.start_member.slug }) }}">{{ topic.start_member.username }}</a>
                 posted
                 <a href="#">{{ topic.last_post_at.diffForHumans }}</a>
             </td>

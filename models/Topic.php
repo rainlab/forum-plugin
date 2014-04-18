@@ -2,6 +2,7 @@
 
 use App;
 use Model;
+use DB as Db;
 
 /**
  * Topic Model
@@ -27,7 +28,11 @@ class Topic extends Model
     /**
      * @var array Validation rules
      */
-    public $rules = ['subject' => 'required'];
+    public $rules = [
+        'subject' => 'required',
+        'channel_id' => 'required',
+        'start_member_id' => 'required',
+    ];
 
     /**
      * @var array Date fields
@@ -47,9 +52,44 @@ class Topic extends Model
     ];
 
     public $belongsTo = [
-        'channel' => ['RainLab\Forum\Models\Channel']
+        'channel' => ['RainLab\Forum\Models\Channel'],
+        'start_member' => ['RainLab\Forum\Models\Member'],
+        'last_post_member' => ['RainLab\Forum\Models\Member'],
     ];
 
+    /**
+     * Creates a topic and a post inside a channel
+     * @param  Channel $channel
+     * @param  Member $member
+     * @param  array $data Topic and post data: subject, content.
+     * @return self
+     */
+    public static function createInChannel($channel, $member, $data)
+    {
+        $topic = new static;
+        $topic->subject = array_get($data, 'subject');
+        $topic->channel = $channel;
+        $topic->start_member = $member;
+
+        $post = new Post;
+        $post->topic = $topic;
+        $post->member = $member;
+        $post->content = array_get($data, 'content');
+
+        Db::transaction(function() use ($topic, $post) {
+            $topic->save();
+            $post->save();
+        });
+    }
+
+    /**
+     * Lists topics for the front end
+     * @param  integer $page      Page number
+     * @param  string  $sort      Sorting field
+     * @param  Channel  $channels Topics in channels
+     * @param  string  $search    Search query
+     * @return self
+     */
     public function listFrontEnd($page = 1, $sort = 'created_at', $channels = [], $search = '')
     {
         App::make('paginator')->setCurrentPage($page);

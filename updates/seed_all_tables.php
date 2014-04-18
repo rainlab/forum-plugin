@@ -53,79 +53,89 @@ class SeedAllTables extends Seeder
             'description' => 'Disccusion about the blooming gardens.'
         ]);
 
-        $autumn->topics()->create(['subject' => 'First post!'])->posts()->create(['content' => 'Welcome to the forum!']);
+        $user = \RainLab\User\Models\User::first();
+        if (!$user) return;
+
+        $member = \RainLab\Forum\Models\Member::getFromUser($user);
+
+        \RainLab\Forum\Models\Topic::createInChannel($autumn, $member, [
+            'subject' => 'First post!',
+            'content' => 'Welcome to the forum!',
+        ]);
+
+        // $autumn->topics()->create(['subject' => 'First post!'])->posts()->create(['content' => 'Welcome to the forum!']);
 
         //
         // Code for the developing
         //
-        $topic = $autumn->topics()->create(['subject' => 'Lots of posts in here!']);
-        $topic->posts()->create(['subject' => 'First post', 'content' => 'This is a first post']);
-        $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
-        $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
-        $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
-        $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
-        $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
-        $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
-        $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
-        $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
-        $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
-        $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
-        $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
-        $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
-        $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
-        $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
-        $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
-        $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
-        $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
-        $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
-        $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
-        $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
-        $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
-        $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
-        $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
-        $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
-        $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
-        $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
-        $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
-        $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
-        $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
-        $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
-        $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
-        $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
-        $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
-        $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
-        $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
-        $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
-        $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
-        $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
-        $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
-        $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
-        $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
-        $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
-        $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
-        $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
-        $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
-        $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
-        $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
-        $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
-        $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
-        $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
-        $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
-        $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
+        // $topic = $autumn->topics()->create(['subject' => 'Lots of posts in here!']);
+        // $topic->posts()->create(['subject' => 'First post', 'content' => 'This is a first post']);
+        // $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
+        // $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
+        // $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
+        // $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
+        // $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
+        // $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
+        // $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
+        // $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
+        // $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
+        // $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
+        // $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
+        // $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
+        // $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
+        // $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
+        // $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
+        // $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
+        // $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
+        // $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
+        // $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
+        // $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
+        // $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
+        // $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
+        // $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
+        // $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
+        // $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
+        // $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
+        // $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
+        // $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
+        // $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
+        // $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
+        // $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
+        // $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
+        // $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
+        // $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
+        // $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
+        // $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
+        // $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
+        // $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
+        // $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
+        // $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
+        // $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
+        // $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
+        // $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
+        // $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
+        // $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
+        // $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
+        // $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
+        // $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
+        // $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
+        // $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
+        // $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
+        // $topic->posts()->create(['subject' => 'Another post', 'content' => 'This is a another post']);
 
-        $autumn->topics()->create(['subject' => 'Another post!'])->posts()->create(['content' => 'Another post']);
-        $autumn->topics()->create(['subject' => 'Another post!'])->posts()->create(['content' => 'Another post']);
-        $autumn->topics()->create(['subject' => 'Another post!'])->posts()->create(['content' => 'Another post']);
-        $autumn->topics()->create(['subject' => 'Another post!'])->posts()->create(['content' => 'Another post']);
-        $autumn->topics()->create(['subject' => 'Another post!'])->posts()->create(['content' => 'Another post']);
-        $autumn->topics()->create(['subject' => 'Another post!'])->posts()->create(['content' => 'Another post']);
-        $autumn->topics()->create(['subject' => 'Another post!'])->posts()->create(['content' => 'Another post']);
-        $autumn->topics()->create(['subject' => 'Another post!'])->posts()->create(['content' => 'Another post']);
-        $autumn->topics()->create(['subject' => 'Another post!'])->posts()->create(['content' => 'Another post']);
-        $autumn->topics()->create(['subject' => 'Another post!'])->posts()->create(['content' => 'Another post']);
-        $autumn->topics()->create(['subject' => 'Another post!'])->posts()->create(['content' => 'Another post']);
-        $autumn->topics()->create(['subject' => 'Another post!'])->posts()->create(['content' => 'Another post']);
-        $autumn->topics()->create(['subject' => 'Another post!'])->posts()->create(['content' => 'Another post']);
+        // $autumn->topics()->create(['subject' => 'Another post!'])->posts()->create(['content' => 'Another post']);
+        // $autumn->topics()->create(['subject' => 'Another post!'])->posts()->create(['content' => 'Another post']);
+        // $autumn->topics()->create(['subject' => 'Another post!'])->posts()->create(['content' => 'Another post']);
+        // $autumn->topics()->create(['subject' => 'Another post!'])->posts()->create(['content' => 'Another post']);
+        // $autumn->topics()->create(['subject' => 'Another post!'])->posts()->create(['content' => 'Another post']);
+        // $autumn->topics()->create(['subject' => 'Another post!'])->posts()->create(['content' => 'Another post']);
+        // $autumn->topics()->create(['subject' => 'Another post!'])->posts()->create(['content' => 'Another post']);
+        // $autumn->topics()->create(['subject' => 'Another post!'])->posts()->create(['content' => 'Another post']);
+        // $autumn->topics()->create(['subject' => 'Another post!'])->posts()->create(['content' => 'Another post']);
+        // $autumn->topics()->create(['subject' => 'Another post!'])->posts()->create(['content' => 'Another post']);
+        // $autumn->topics()->create(['subject' => 'Another post!'])->posts()->create(['content' => 'Another post']);
+        // $autumn->topics()->create(['subject' => 'Another post!'])->posts()->create(['content' => 'Another post']);
+        // $autumn->topics()->create(['subject' => 'Another post!'])->posts()->create(['content' => 'Another post']);
 
     }
 

@@ -1,1 +1,6 @@
-[AVATAR]
+<h5>{{ member.username }}</h5>
+
+<p>[AVATAR]</p>
+
+<p>Member since: {{ member.created_at|date('Y-m-d') }}</p>
+<p>Posts: {{ member.count_posts }}</p>

@@ -33,7 +33,8 @@ class Post extends Model
      * @var array Relations
      */
     public $belongsTo = [
-        'topic' => ['RainLab\Forum\Models\Topic']
+        'topic' => ['RainLab\Forum\Models\Topic'],
+        'member' => ['RainLab\Forum\Models\Member'],
     ];
 
     public function afterCreate()
