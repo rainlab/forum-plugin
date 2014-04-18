@@ -1,6 +1,7 @@
 <?php namespace RainLab\Forum\Models;
 
 use Model;
+use Carbon\Carbon;
 
 /**
  * Post Model
@@ -37,7 +38,10 @@ class Post extends Model
 
     public function afterCreate()
     {
-        $this->topic()->increment('count_posts');
+        $this->topic->count_posts++;
+        $this->topic->last_post_time = new Carbon;
+        $this->topic->save();
+
         $this->topic->channel()->increment('count_posts');
     }
 

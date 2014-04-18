@@ -8,6 +8,8 @@ use Model;
 class Channel extends Model
 {
 
+    private $firstTopic;
+
     /**
      * @var string The database table used by the model.
      */
@@ -35,7 +37,7 @@ class Channel extends Model
     /**
      * @var array Auto generated slug
      */
-    public $sluggable = ['slug' => 'title'];
+    public $slugs = ['slug' => 'title'];
 
     /**
      * @var array Relations
@@ -44,5 +46,16 @@ class Channel extends Model
         'topics' => ['RainLab\Forum\Models\Topic']
     ];
 
+    /**
+     * Returns the last updated topic in this channel.
+     * @return Model
+     */
+    public function firstTopic()
+    {
+        if ($this->firstTopic !== null)
+            return $this->firstTopic;
+
+        return $this->firstTopic = $this->topics()->first();
+    }
 
 }

@@ -45,7 +45,11 @@
                     <td>{{ channel.count_topics }}</td>
                     <td>{{ channel.count_posts }}</td>
                     <td>
-                        <a href="#profile">Username</a> posted <a href="#post">5 hours ago</a>
+                        {% if channel.firstTopic %}
+                            <a href="{{ forumLink.member|page({ username: topic.slug }) }}">Username</a>
+                            posted
+                            <a href="#">{{ channel.firstTopic.last_post_time.diffForHumans }}</a>
+                        {% endif %}
                     </td>
                 </tr>
             {% endfor %}

@@ -14,7 +14,8 @@
             </td>
             <td>
                 <h5>
-                    <strong>Sticky:</strong>
+                    {% if topic.sticky %}<strong>Sticky:</strong>{% endif %}
+                    {% if topic.locked %}<strong>Locked:</strong>{% endif %}
                     <a href="{{ forumLink.topic|page({ slug: topic.slug }) }}">{{ topic.subject }}</a>
                 </h5>
             </td>
@@ -23,7 +24,7 @@
             <td>
                 <a href="{{ forumLink.member|page({ username: topic.slug }) }}">Username</a>
                 posted
-                <a href="#">6 hours ago</a>
+                <a href="#">{{ topic.last_post_time.diffForHumans }}</a>
             </td>
         </tr>
     {% endfor %}

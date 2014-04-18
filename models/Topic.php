@@ -30,9 +30,14 @@ class Topic extends Model
     public $rules = ['subject' => 'required'];
 
     /**
+     * @var array Date fields
+     */
+    public $dates = ['last_post_time'];
+
+    /**
      * @var array Auto generated slug
      */
-    public $sluggable = ['slug' => 'subject'];
+    public $slugs = ['slug' => 'subject'];
 
     /**
      * @var array Relations
