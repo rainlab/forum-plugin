@@ -1,8 +1,12 @@
 {% if topic %}
+
     {% partial __SELF__ ~ "::posts" %}
+
 {% elseif channel %}
+
+    <h4>Create a new discussion topic</h4>
     {% partial __SELF__ ~ "::createform" %}
+
 {% else %}
     <p>Topic not found</p>
 {% endif %}
-

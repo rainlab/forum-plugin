@@ -5,7 +5,7 @@ use Flash;
 use Redirect;
 use Cms\Classes\ComponentBase;
 use RainLab\Forum\Models\Topic as TopicModel;
-use RainLab\Forum\Models\Channel;
+use RainLab\Forum\Models\Channel as ChannelModel;
 use RainLab\Forum\Models\Post;
 
 class Topic extends ComponentBase
@@ -37,7 +37,6 @@ class Topic extends ComponentBase
                 'description' => 'Page name to use for clicking on a channel.',
                 'type'        => 'string' // @todo Page picker
             ],
-
         ];
     }
 
@@ -45,7 +44,6 @@ class Topic extends ComponentBase
     {
         $this->page['channel'] = $this->getChannel();
         $this->page['topic'] = $topic = $this->getTopic();
-        $this->page['posts'] = $topic->posts()->paginate(20);
         $this->preparePostList();
     }
 
@@ -57,7 +55,11 @@ class Topic extends ComponentBase
         if (!$slug = $this->param(static::PARAM_SLUG))
             return null;
 
-        return $this->topic = TopicModel::whereSlug($slug)->first();
+        $topic = TopicModel::whereSlug($slug)->first();
+
+        $topic->increment('count_views');
+
+        return $this->topic = $topic;
     }
 
     public function getChannel()
@@ -69,7 +71,7 @@ class Topic extends ComponentBase
             $channel = $topic->channel;
 
         elseif ($channelId = post('channel'))
-            $channel = Channel::find($channelId);
+            $channel = ChannelModel::find($channelId);
 
         else
             $channel = null;
@@ -79,6 +81,13 @@ class Topic extends ComponentBase
 
     protected function preparePostList()
     {
+        /*
+         * If topic exists, prepare the posts
+         */
+        if ($topic = $this->getTopic()) {
+            $this->page['posts'] = $topic->posts()->paginate(20);
+        }
+
         /*
          * Load the page links
          */

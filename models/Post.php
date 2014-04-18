@@ -35,4 +35,16 @@ class Post extends Model
         'topic' => ['RainLab\Forum\Models\Topic']
     ];
 
+    public function afterCreate()
+    {
+        $this->topic()->increment('count_posts');
+        $this->topic->channel()->increment('count_posts');
+    }
+
+    public function afterDelete()
+    {
+        $this->topic()->decrement('count_posts');
+        $this->topic->channel()->decrement('count_posts');
+    }
+
 }

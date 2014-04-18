@@ -30,6 +30,7 @@ class Plugin extends PluginBase
            '\RainLab\Forum\Components\ChannelList' => 'channelList',
            '\RainLab\Forum\Components\Channel'     => 'channel',
            '\RainLab\Forum\Components\Topic'       => 'topic',
+           '\RainLab\Forum\Components\Member'      => 'member',
         ];
     }
 

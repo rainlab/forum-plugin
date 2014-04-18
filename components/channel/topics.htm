@@ -1,0 +1,36 @@
+<table class="table">
+
+    <tr>
+        <th colspan="2">Topic</th>
+        <th>Replies</th>
+        <th>Views</th>
+        <th>Last post</th>
+    </tr>
+
+    {% for topic in topics %}
+        <tr>
+            <td>
+                <img src="http://placehold.it/32x32" alt="" class="pull-left" />
+            </td>
+            <td>
+                <h5>
+                    <strong>Sticky:</strong>
+                    <a href="{{ forumLink.topic|page({ slug: topic.slug }) }}">{{ topic.subject }}</a>
+                </h5>
+            </td>
+            <td>{{ topic.count_posts }}</td>
+            <td>{{ topic.count_views }}</td>
+            <td>
+                <a href="{{ forumLink.member|page({ username: topic.slug }) }}">Username</a>
+                posted
+                <a href="#">6 hours ago</a>
+            </td>
+        </tr>
+    {% endfor %}
+
+    {% if not topics|length %}
+        <tr>
+            <td colspan="100">There are no topics in this channel.</td>
+        </tr>
+    {% endif %}
+</table>

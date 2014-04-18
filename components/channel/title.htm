@@ -1,0 +1,12 @@
+<div class="row">
+
+    <div class="col-md-9">
+        <h3>{{ channel.title }}</h3>
+    </div>
+    <div class="col-md-3 text-right">
+        <a href="{{ forumLink.topic|page(false) }}?channel={{ channel.id }}" class="btn btn-primary btn-block">
+            Create a new post
+        </a>
+    </div>
+
+</div>

@@ -68,4 +68,17 @@ class Topic extends Model
 
         return $obj->paginate(20);
     }
+
+    public function afterCreate()
+    {
+        $this->channel()->increment('count_topics');
+    }
+
+    public function afterDelete()
+    {
+        $this->channel()->decrement('count_topics');
+
+        $this->channel()->decrement('count_posts', $this->posts()->count());
+        $this->posts()->delete();
+    }
 }

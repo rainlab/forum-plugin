@@ -53,6 +53,7 @@ class SeedAllTables extends Seeder
             'description' => 'Disccusion about the blooming gardens.'
         ]);
 
+        $autumn->topics()->create(['subject' => 'First post!'])->posts()->create(['content' => 'Welcome to the forum!']);
     }
 
 }
