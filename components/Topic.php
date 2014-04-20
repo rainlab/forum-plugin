@@ -1,11 +1,13 @@
 <?php namespace RainLab\Forum\Components;
 
+use Auth;
 use Flash;
 use Redirect;
 use Cms\Classes\ComponentBase;
 use RainLab\Forum\Models\Topic as TopicModel;
 use RainLab\Forum\Models\Channel as ChannelModel;
-use RainLab\Forum\Models\Post;
+use RainLab\Forum\Models\Member as MemberModel;
+use RainLab\Forum\Models\Post as PostModel;
 
 class Topic extends ComponentBase
 {
@@ -101,9 +103,13 @@ class Topic extends ComponentBase
     public function onCreate()
     {
         try {
-            $member = null;
+            if (!$user = Auth::getUser())
+                throw new ApplicationException('You should be logged in.');
 
-            $topic = TopicModel::createInChannel($this->getChannel(), $member, post());
+            $member = MemberModel::getFromUser($user);
+            $channel = $this->getChannel();
+
+            $topic = TopicModel::createInChannel($channel, $member, post());
 
             Flash::success(post('flash', 'Topic created successfully!'));
 
@@ -124,13 +130,13 @@ class Topic extends ComponentBase
     public function onPost()
     {
         try {
+            if (!$user = Auth::getUser())
+                throw new ApplicationException('You should be logged in.');
+
+            $member = MemberModel::getFromUser($user);
             $topic = $this->getTopic();
 
-            $post = new Post;
-            $post->topic = $topic;
-            $post->content = post('content');
-            $post->save();
-
+            $post = PostModel::createInTopic($topic, $member, post());
         }
         catch (\Exception $ex) {
             Flash::error($ex->getMessage());

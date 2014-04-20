@@ -80,6 +80,8 @@ class Topic extends Model
             $topic->save();
             $post->save();
         });
+
+        return $topic;
     }
 
     /**
@@ -116,13 +118,14 @@ class Topic extends Model
 
     public function afterCreate()
     {
+        $this->start_member()->increment('count_topics');
         $this->channel()->increment('count_topics');
     }
 
     public function afterDelete()
     {
+        $this->start_member()->decrement('count_topics');
         $this->channel()->decrement('count_topics');
-
         $this->channel()->decrement('count_posts', $this->posts()->count());
         $this->posts()->delete();
     }
