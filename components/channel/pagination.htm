@@ -14,11 +14,13 @@
                     </span>
                 </li>
             {% endif %}
-            {% for page in 1..topics.lastPage %}
-                <li class="{{ page == topics.currentPage ? 'active' }}">
-                    <a href="{{ paginationUrl ~ page }}">{{ page }}</a>
-                </li>
-            {% endfor %}
+            {% if topics.lastPage > 1 %}
+                {% for page in 1..topics.lastPage %}
+                    <li class="{{ page == topics.currentPage ? 'active' }}">
+                        <a href="{{ paginationUrl ~ page }}">{{ page }}</a>
+                    </li>
+                {% endfor %}
+            {% endif %}
             {% if topics.lastPage > topics.currentPage %}
                 <li>
                     <a href="{{ paginationUrl ~ (topics.currentPage + 1) }}">
