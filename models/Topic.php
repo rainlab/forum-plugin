@@ -92,7 +92,7 @@ class Topic extends Model
      * @param  string  $search    Search query
      * @return self
      */
-    public function listFrontEnd($page = 1, $sort = 'created_at', $channels = [], $search = '')
+    public function listFrontEnd($channels = [], $page = 1, $sort = 'created_at', $search = '')
     {
         App::make('paginator')->setCurrentPage($page);
         $search = trim($search);
@@ -101,19 +101,28 @@ class Topic extends Model
         if (!in_array($sort, $allowedSortingOptions))
             $sort = $allowedSortingOptions[0];
 
-        $obj = $this
-            ->orderBy($sort, $sort != 'created_at' ? 'asc' : 'desc')
-        ;
+        $obj = $this->newQuery();
+        $obj->orderBy('rainlab_forum_topics.'.$sort, $sort != 'created_at' ? 'asc' : 'desc');
 
         if (strlen($search)) {
             $obj->searchWhere($search, ['subject', 'count_posts']);
         }
 
         if ($channels) {
-            $obj->whereIn('channel_id', $channels);
+            if (!is_array($channels))
+                $channels = [$channels];
+
+            $obj = $obj->joinWith('channel');
+
+            foreach ($channels as $channel) {
+                $obj->where(function($query) use ($channel) {
+                    $query->where('rainlab_forum_channels.id', $channel->id);
+                    $query->orWhereBetween('rainlab_forum_channels.id', [$channel->getLeft(), $channel->getRight()]);
+                });
+            }
         }
 
-        return $obj->paginate(20);
+        return $obj->get();
     }
 
     public function afterCreate()

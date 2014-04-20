@@ -62,9 +62,7 @@ class Channel extends ComponentBase
         if (!$channel = $this->getChannel())
             return null;
 
-        $channelIds = $channel->children()->lists('id');
-
-        return $this->topics = Topic::make()->listFrontEnd();
+        return $this->topics = Topic::make()->listFrontEnd($channel);
     }
 
     protected function prepareTopicList()
