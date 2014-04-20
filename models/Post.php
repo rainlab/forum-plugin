@@ -1,5 +1,6 @@
 <?php namespace RainLab\Forum\Models;
 
+use App;
 use Model;
 use Carbon\Carbon;
 
@@ -56,6 +57,38 @@ class Post extends Model
         $post->content = array_get($data, 'content');
         return $post->save();
     }
+
+    /**
+     * Lists topics for the front end
+     * @param  integer $page      Page number
+     * @param  string  $sort      Sorting field
+     * @param  Channel  $channels Topics in channels
+     * @param  string  $search    Search query
+     * @return self
+     */
+    public function listFrontEnd($page = 1, $sort = 'created_at', $topic, $search = '')
+    {
+        App::make('paginator')->setCurrentPage($page);
+        $search = trim($search);
+
+        $allowedSortingOptions = ['created_at', 'updated_at'];
+        if (!in_array($sort, $allowedSortingOptions))
+            $sort = $allowedSortingOptions[0];
+
+        $obj = $this->newQuery();
+        $obj->orderBy($sort, in_array($sort, ['created_at', 'updated_at']) ? 'desc' : 'asc');
+
+        if (strlen($search)) {
+            $obj->searchWhere($search, ['subject', 'content']);
+        }
+
+        if ($topic) {
+            $obj->where('topic_id', $topic->id);
+        }
+
+        return $obj->paginate(5);
+    }
+
 
     public function afterCreate()
     {

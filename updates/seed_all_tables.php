@@ -67,60 +67,34 @@ class SeedAllTables extends Seeder
         $topic = Topic::createInChannel($october, $member, ['subject' => 'Lots of posts in here!', 'content' => 'Another post!']);
 
         Post::createInTopic($topic, $member, ['content' => 'Test content']);
-        Post::createInTopic($topic, $member, ['content' => 'Test content']);
-        Post::createInTopic($topic, $member, ['content' => 'Test content']);
-        Post::createInTopic($topic, $member, ['content' => 'Test content']);
-        Post::createInTopic($topic, $member, ['content' => 'Test content']);
-        Post::createInTopic($topic, $member, ['content' => 'Test content']);
-        Post::createInTopic($topic, $member, ['content' => 'Test content']);
-        Post::createInTopic($topic, $member, ['content' => 'Test content']);
-        Post::createInTopic($topic, $member, ['content' => 'Test content']);
-        Post::createInTopic($topic, $member, ['content' => 'Test content']);
-        Post::createInTopic($topic, $member, ['content' => 'Test content']);
-        Post::createInTopic($topic, $member, ['content' => 'Test content']);
-        Post::createInTopic($topic, $member, ['content' => 'Test content']);
-        Post::createInTopic($topic, $member, ['content' => 'Test content']);
-        Post::createInTopic($topic, $member, ['content' => 'Test content']);
-        Post::createInTopic($topic, $member, ['content' => 'Test content']);
-        Post::createInTopic($topic, $member, ['content' => 'Test content']);
-        Post::createInTopic($topic, $member, ['content' => 'Test content']);
-        Post::createInTopic($topic, $member, ['content' => 'Test content']);
-        Post::createInTopic($topic, $member, ['content' => 'Test content']);
-        Post::createInTopic($topic, $member, ['content' => 'Test content']);
-        Post::createInTopic($topic, $member, ['content' => 'Test content']);
-        Post::createInTopic($topic, $member, ['content' => 'Test content']);
-        Post::createInTopic($topic, $member, ['content' => 'Test content']);
-        Post::createInTopic($topic, $member, ['content' => 'Test content']);
-        Post::createInTopic($topic, $member, ['content' => 'Test content']);
-        Post::createInTopic($topic, $member, ['content' => 'Test content']);
-        Post::createInTopic($topic, $member, ['content' => 'Test content']);
-        Post::createInTopic($topic, $member, ['content' => 'Test content']);
-        Post::createInTopic($topic, $member, ['content' => 'Test content']);
-        Post::createInTopic($topic, $member, ['content' => 'Test content']);
-        Post::createInTopic($topic, $member, ['content' => 'Test content']);
-        Post::createInTopic($topic, $member, ['content' => 'Test content']);
-        Post::createInTopic($topic, $member, ['content' => 'Test content']);
-        Post::createInTopic($topic, $member, ['content' => 'Test content']);
-        Post::createInTopic($topic, $member, ['content' => 'Test content']);
-        Post::createInTopic($topic, $member, ['content' => 'Test content']);
-        Post::createInTopic($topic, $member, ['content' => 'Test content']);
-        Post::createInTopic($topic, $member, ['content' => 'Test content']);
-        Post::createInTopic($topic, $member, ['content' => 'Test content']);
-        Post::createInTopic($topic, $member, ['content' => 'Test content']);
-        Post::createInTopic($topic, $member, ['content' => 'Test content']);
-        Post::createInTopic($topic, $member, ['content' => 'Test content']);
-        Post::createInTopic($topic, $member, ['content' => 'Test content']);
-        Post::createInTopic($topic, $member, ['content' => 'Test content']);
-        Post::createInTopic($topic, $member, ['content' => 'Test content']);
-        Post::createInTopic($topic, $member, ['content' => 'Test content']);
-        Post::createInTopic($topic, $member, ['content' => 'Test content']);
-        Post::createInTopic($topic, $member, ['content' => 'Test content']);
-        Post::createInTopic($topic, $member, ['content' => 'Test content']);
-        Post::createInTopic($topic, $member, ['content' => 'Test content']);
-        Post::createInTopic($topic, $member, ['content' => 'Test content']);
-        Post::createInTopic($topic, $member, ['content' => 'Test content']);
+        Post::createInTopic($topic, $member, ['content' => 'Plugins are the foundation for adding new features to the CMS by extending it']);
+        Post::createInTopic($topic, $member, ['content' => 'Define components']);
+        Post::createInTopic($topic, $member, ['content' => 'Define user permissions']);
+        Post::createInTopic($topic, $member, ['content' => 'Add back-end pages, menu items, and forms']);
+        Post::createInTopic($topic, $member, ['content' => 'Create database table structures and seed data']);
+        Post::createInTopic($topic, $member, ['content' => 'Alter functionality of the core or other plugins']);
+        Post::createInTopic($topic, $member, ['content' => 'Provide classes, back-end controllers, views, assets, and other files']);
+        Post::createInTopic($topic, $member, ['content' => 'Information about the plugin, its name, and author']);
+        Post::createInTopic($topic, $member, ['content' => 'Registration methods for extending the CMS']);
+        Post::createInTopic($topic, $member, ['content' => 'Injecting variables by participating in the page execution cycle']);
+        Post::createInTopic($topic, $member, ['content' => 'Handling AJAX events triggered by the page']);
+        Post::createInTopic($topic, $member, ['content' => 'Providing basic markup using partials']);
+        Post::createInTopic($topic, $member, ['content' => 'Pages - hold the content for each URL.']);
+        Post::createInTopic($topic, $member, ['content' => 'Partials - contain reusable chunks of HTML markup.']);
+        Post::createInTopic($topic, $member, ['content' => 'Layouts - define the page scaffold.']);
+        Post::createInTopic($topic, $member, ['content' => 'Content files - text or HTML blocks that can be edited separately from the page or layout.']);
+        Post::createInTopic($topic, $member, ['content' => 'Asset files - are resource files like images and stylesheets.']);
+        Post::createInTopic($topic, $member, ['content' => 'url - the page URL (required)']);
+        Post::createInTopic($topic, $member, ['content' => 'layout - the page layout, optional. If specified, should contain the name of the layout file, without extension. For example: "default".']);
+        Post::createInTopic($topic, $member, ['content' => 'description - the page description for the back-end interface']);
+        Post::createInTopic($topic, $member, ['content' => 'description - the partial description, for the back-end UI (optional)']);
+        Post::createInTopic($topic, $member, ['content' => 'description - the layout description, for the back-end UI (optional)']);
+        Post::createInTopic($topic, $member, ['content' => 'name - the layout name, for the back-end UI (optional)']);
+        Post::createInTopic($topic, $member, ['content' => 'htm - for HTML markup']);
+        Post::createInTopic($topic, $member, ['content' => 'txt - for plain text']);
+        Post::createInTopic($topic, $member, ['content' => 'md - for Markdown syntax']);
 
-
+        Topic::createInChannel($october, $member, ['subject' => 'Moar posts!', 'content' => 'Another post content!']);
         Topic::createInChannel($october, $member, ['subject' => 'Plugins are the foundation for adding new features to the CMS by extending it', 'content' => 'Another post content']);
         Topic::createInChannel($october, $member, ['subject' => 'Define components', 'content' => 'Another post content']);
         Topic::createInChannel($october, $member, ['subject' => 'Define user permissions', 'content' => 'Another post content']);
@@ -147,8 +121,6 @@ class SeedAllTables extends Seeder
         Topic::createInChannel($october, $member, ['subject' => 'htm - for HTML markup', 'content' => 'Another post content']);
         Topic::createInChannel($october, $member, ['subject' => 'txt - for plain text', 'content' => 'Another post content']);
         Topic::createInChannel($october, $member, ['subject' => 'md - for Markdown syntax', 'content' => 'Another post content']);
-
-        Topic::createInChannel($october, $member, ['subject' => 'Moar posts!', 'content' => 'Another post content!']);
 
     }
 

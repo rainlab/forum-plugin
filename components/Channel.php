@@ -62,26 +62,28 @@ class Channel extends ComponentBase
     protected function prepareTopicList()
     {
         /*
-         * Load the topics list
+         * If channel exists, load the topics
          */
-        $channel = $this->getChannel() ?: ChannelModel::first();
-        $searchString = trim(post('search'));
-        $currentPage = post('page');
-        $topics = TopicModel::make()->listFrontEnd($currentPage, 'updated_at', $channel, $searchString);
-        $this->page['topics'] = $this->topics = $topics;
+        if ($channel = $this->getChannel()) {
 
-        /*
-         * Pagination
-         */
-        $queryArr = [];
-        if ($searchString) $queryArr['search'] = $searchString;
-        $queryArr['page'] = '';
-        $paginationUrl = Request::url() . '?' . http_build_query($queryArr);
+            $currentPage = post('page');
+            $searchString = trim(post('search'));
+            $topics = TopicModel::make()->listFrontEnd($currentPage, 'updated_at', $channel, $searchString);
+            $this->page['topics'] = $this->topics = $topics;
 
-        if ($currentPage > ($lastPage = $topics->getLastPage()) && $currentPage > 1)
-            return Redirect::to($paginationUrl . $lastPage);
+            /*
+             * Pagination
+             */
+            $queryArr = [];
+            if ($searchString) $queryArr['search'] = $searchString;
+            $queryArr['page'] = '';
+            $paginationUrl = Request::url() . '?' . http_build_query($queryArr);
 
-        $this->page['paginationUrl'] = $paginationUrl;
+            if ($currentPage > ($lastPage = $topics->getLastPage()) && $currentPage > 1)
+                return Redirect::to($paginationUrl . $lastPage);
+
+            $this->page['paginationUrl'] = $paginationUrl;
+        }
 
         /*
          * Load the page links

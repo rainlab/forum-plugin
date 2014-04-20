@@ -97,7 +97,7 @@ class Topic extends Model
         App::make('paginator')->setCurrentPage($page);
         $search = trim($search);
 
-        $allowedSortingOptions = ['created_at', 'updated_at', 'name'];
+        $allowedSortingOptions = ['created_at', 'updated_at', 'subject'];
         if (!in_array($sort, $allowedSortingOptions))
             $sort = $allowedSortingOptions[0];
 
@@ -105,7 +105,7 @@ class Topic extends Model
         $obj->orderBy('rainlab_forum_topics.' . $sort, in_array($sort, ['created_at', 'updated_at']) ? 'desc' : 'asc');
 
         if (strlen($search)) {
-            $obj->searchWhere($search, ['subject', 'count_posts']);
+            $obj->searchWhere($search, ['subject', 'content']);
         }
 
         if ($channels) {

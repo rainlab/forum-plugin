@@ -2,6 +2,7 @@
 
 use Auth;
 use Flash;
+use Request;
 use Redirect;
 use Cms\Classes\ComponentBase;
 use RainLab\Forum\Models\Topic as TopicModel;
@@ -14,6 +15,11 @@ class Topic extends ComponentBase
 
     private $topic = null;
     private $channel = null;
+
+    /**
+     * @var Collection Posts cache for Twig access.
+     */
+    public $posts = null;
 
     const PARAM_SLUG = 'slug';
 
@@ -83,10 +89,27 @@ class Topic extends ComponentBase
     protected function preparePostList()
     {
         /*
-         * If topic exists, prepare the posts
+         * If topic exists, loads the posts
          */
         if ($topic = $this->getTopic()) {
-            $this->page['posts'] = $topic->posts()->paginate(20);
+
+            $currentPage = post('page');
+            $searchString = trim(post('search'));
+            $posts = PostModel::make()->listFrontEnd($currentPage, 'created_at', $topic, $searchString);
+            $this->page['posts'] = $this->posts = $posts;
+
+            /*
+             * Pagination
+             */
+            $queryArr = [];
+            if ($searchString) $queryArr['search'] = $searchString;
+            $queryArr['page'] = '';
+            $paginationUrl = Request::url() . '?' . http_build_query($queryArr);
+
+            if ($currentPage > ($lastPage = $posts->getLastPage()) && $currentPage > 1)
+                return Redirect::to($paginationUrl . $lastPage);
+
+            $this->page['paginationUrl'] = $paginationUrl;
         }
 
         /*

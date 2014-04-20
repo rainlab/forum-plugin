@@ -1,5 +1,3 @@
-<h4>{{ topic.subject }}</h4>
-
 {% for post in posts %}
     <div class="row">
         <div class="col-md-8">
@@ -12,5 +10,3 @@
         </div>
     </div>
 {% endfor %}
-
-{% partial __SELF__ ~ "::postform" %}
