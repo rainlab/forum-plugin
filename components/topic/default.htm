@@ -1,11 +1,10 @@
 {% if topic %}
 
     <h4>{{ topic.subject }}</h4>
-
     {% partial __SELF__ ~ "::posts" %}
-
     {% partial __SELF__ ~ "::pagination" %}
 
+    <h4>Reply to this discussion</h4>
     {% partial __SELF__ ~ "::postform" %}
 
 {% elseif channel %}
