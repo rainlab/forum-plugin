@@ -1,3 +1,7 @@
+{% if channel %}
+    <p>&larr; <a href="{{ forumLink.channel|page({ slug: channel.slug }) }}">Back to {{ channel.title }}</a></p>
+{% endif %}
+
 {% if topic %}
 
     <h4>{{ topic.subject }}</h4>
@@ -13,5 +17,7 @@
     {% partial __SELF__ ~ "::createform" %}
 
 {% else %}
+
     <p>Topic not found</p>
+
 {% endif %}
