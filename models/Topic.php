@@ -92,7 +92,7 @@ class Topic extends Model
      * @param  string  $search    Search query
      * @return self
      */
-    public function listFrontEnd($channels = [], $page = 1, $sort = 'created_at', $search = '')
+    public function listFrontEnd($page = 1, $sort = 'created_at', $channels = [], $search = '')
     {
         App::make('paginator')->setCurrentPage($page);
         $search = trim($search);
@@ -122,7 +122,9 @@ class Topic extends Model
             }
         }
 
-        return $obj->get();
+\Log::info($obj->toSql());
+
+        return $obj->paginate(10);
     }
 
     public function afterCreate()

@@ -1,5 +1,7 @@
 <?php namespace RainLab\Forum\Components;
 
+use Request;
+use Redirect;
 use Cms\Classes\ComponentBase;
 use RainLab\Forum\Models\Topic;
 use RainLab\Forum\Models\Channel as ChannelModel;
@@ -7,8 +9,12 @@ use RainLab\Forum\Models\Channel as ChannelModel;
 class Channel extends ComponentBase
 {
 
-    private $topics = null;
     private $channel = null;
+    
+    /**
+     * @var Collection Topics cache for Twig access.
+     */
+    public $topics = null;
 
     const PARAM_SLUG = 'slug';
 
@@ -39,8 +45,7 @@ class Channel extends ComponentBase
     public function onRun()
     {
         $this->page['channel'] = $this->getChannel();
-        $this->page['topics'] = $this->listTopics();
-        $this->prepareTopicList();
+        return $this->prepareTopicList();
     }
 
     public function getChannel()
@@ -54,19 +59,30 @@ class Channel extends ComponentBase
         return $this->channel = ChannelModel::whereSlug($slug)->first();
     }
 
-    public function listTopics()
-    {
-        if ($this->topics !== null)
-            return $this->topics;
-
-        if (!$channel = $this->getChannel())
-            return null;
-
-        return $this->topics = Topic::make()->listFrontEnd($channel);
-    }
-
     protected function prepareTopicList()
     {
+        /*
+         * Load the topics list
+         */
+        $channel = $this->getChannel() ?: ChannelModel::first();
+        $searchString = trim(post('search'));
+        $currentPage = post('page');
+        $topics = Topic::make()->listFrontEnd($currentPage, 'updated_at', $channel, $searchString);
+        $this->page['topics'] = $this->topics = $topics;
+
+        /*
+         * Pagination
+         */
+        $queryArr = [];
+        if ($searchString) $queryArr['search'] = $searchString;
+        $queryArr['page'] = '';
+        $paginationUrl = Request::url() . '?' . http_build_query($queryArr);
+
+        if ($currentPage > ($lastPage = $topics->getLastPage()) && $currentPage > 1)
+            return Redirect::to($paginationUrl . $lastPage);
+
+        $this->page['paginationUrl'] = $paginationUrl;
+
         /*
          * Load the page links
          */

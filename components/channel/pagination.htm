@@ -1,23 +1,40 @@
-<div class="control-pagination">
-    <span class="page-iteration"><?= $pageFrom ?>-<?= $pageTo ?> of <?= $recordTotal ?></span>
-    <?php if ($pageCurrent > 1): ?>
-        <a
-            href="javascript:;"
-            class="page-back"
-            data-request="onPaginate"
-            data-request-data="page: <?= $pageCurrent-1 ?>"
-            title="Previous page"></a>
-    <?php else: ?>
-        <span class="page-back"></span>
-    <?php endif ?>
-    <?php if ($pageLast > $pageCurrent): ?>
-    <a
-        href="javascript:;"
-        class="page-next"
-        data-request-data="page: <?= $pageCurrent+1 ?>"
-        data-request="onPaginate"
-        title="Next page"></a>
-    <?php else: ?>
-        <span class="page-next"></span>
-    <?php endif ?>
+<div class="row">
+    <div class="col-md-8">
+        <ul class="pagination">
+            {% if topics.currentPage > 1 %}
+                <li>
+                    <a href="{{ paginationUrl ~ (topics.currentPage - 1) }}">
+                        &larr; Previous
+                    </a>
+                </li>
+            {% else %}
+                <li class="disabled">
+                    <span>
+                        &larr; Previous
+                    </span>
+                </li>
+            {% endif %}
+            {% for page in 1..topics.lastPage %}
+                <li class="{{ page == topics.currentPage ? 'active' }}">
+                    <a href="{{ paginationUrl ~ page }}">{{ page }}</a>
+                </li>
+            {% endfor %}
+            {% if topics.lastPage > topics.currentPage %}
+                <li>
+                    <a href="{{ paginationUrl ~ (topics.currentPage + 1) }}">
+                        Next &rarr;
+                    </a>
+                </li>
+            {% else %}
+                <li class="disabled">
+                    <span>
+                        Next &rarr;
+                    </span>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+    <div class="col-md-4 text-right">
+        <p>{{ topics.from }}-{{ topics.to }} of {{ topics.total }}</p>
+    </div>
 </div>
