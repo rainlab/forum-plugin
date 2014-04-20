@@ -1,2 +1,9 @@
+<?php Block::put('breadcrumb') ?>
+    <ul>
+        <li><a href="<?= Backend::url('backend/system/settings') ?>">Settings</a></li>
+        <li><?= e($this->pageTitle) ?></li>
+    </ul>
+<?php Block::endPut() ?>
+
 
 <?= $this->listRender() ?>
