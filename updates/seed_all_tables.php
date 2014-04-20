@@ -1,5 +1,6 @@
 <?php namespace RainLab\Forum\Updates;
 
+use Schema;
 use RainLab\Forum\Models\Post;
 use RainLab\Forum\Models\Topic;
 use RainLab\Forum\Models\Member;
@@ -55,6 +56,9 @@ class SeedAllTables extends Seeder
             'title' => 'Spring Trees',
             'description' => 'Disccusion about the blooming gardens.'
         ]);
+
+        if (!Schema::hasTable('users'))
+            return;
 
         $user = \RainLab\User\Models\User::first();
         if (!$user) return;
