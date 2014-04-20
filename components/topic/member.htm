@@ -1,6 +1,4 @@
 <h5>{{ member.username }}</h5>
-
-<p>[AVATAR]</p>
-
+<p><img src="{{ member.user.avatarThumb(50, 'http://placehold.it/50x50') }}" /></p>
 <p>Member since: {{ member.created_at|date('Y-m-d') }}</p>
 <p>Posts: {{ member.count_posts }}</p>
