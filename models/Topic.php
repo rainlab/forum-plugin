@@ -102,7 +102,7 @@ class Topic extends Model
             $sort = $allowedSortingOptions[0];
 
         $obj = $this->newQuery();
-        $obj->orderBy('rainlab_forum_topics.'.$sort, $sort != 'created_at' ? 'asc' : 'desc');
+        $obj->orderBy('rainlab_forum_topics.' . $sort, in_array($sort, ['created_at', 'updated_at']) ? 'desc' : 'asc');
 
         if (strlen($search)) {
             $obj->searchWhere($search, ['subject', 'count_posts']);
@@ -121,8 +121,6 @@ class Topic extends Model
                 });
             }
         }
-
-\Log::info($obj->toSql());
 
         return $obj->paginate(10);
     }

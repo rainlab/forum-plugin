@@ -3,7 +3,7 @@
 use Request;
 use Redirect;
 use Cms\Classes\ComponentBase;
-use RainLab\Forum\Models\Topic;
+use RainLab\Forum\Models\Topic as TopicModel;
 use RainLab\Forum\Models\Channel as ChannelModel;
 
 class Channel extends ComponentBase
@@ -67,7 +67,7 @@ class Channel extends ComponentBase
         $channel = $this->getChannel() ?: ChannelModel::first();
         $searchString = trim(post('search'));
         $currentPage = post('page');
-        $topics = Topic::make()->listFrontEnd($currentPage, 'updated_at', $channel, $searchString);
+        $topics = TopicModel::make()->listFrontEnd($currentPage, 'updated_at', $channel, $searchString);
         $this->page['topics'] = $this->topics = $topics;
 
         /*
