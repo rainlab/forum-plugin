@@ -97,7 +97,7 @@ class Post extends Model
         $this->topic->count_posts++;
         $this->topic->last_post_at = new Carbon;
         $this->topic->save();
-        $this->topic->channel()->increment('count_posts');
+        $this->topic->channel->parents(true)->increment('count_posts');
     }
 
     public function afterDelete()
@@ -105,7 +105,7 @@ class Post extends Model
         $this->member()->decrement('count_posts');
 
         $this->topic()->decrement('count_posts');
-        $this->topic->channel()->decrement('count_posts');
+        $this->topic->channel->parents(true)->decrement('count_posts');
     }
 
 }

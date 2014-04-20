@@ -46,7 +46,7 @@ topicPage = "forum/topic"
 
 ```
 title = "Forum"
-url = "/forum/chan/:slug"
+url = "/forum/channel/:slug"
 layout = "default"
 
 [channel]

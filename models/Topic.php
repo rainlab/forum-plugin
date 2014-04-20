@@ -115,10 +115,8 @@ class Topic extends Model
             $obj = $obj->joinWith('channel');
 
             foreach ($channels as $channel) {
-                $obj->where(function($query) use ($channel) {
-                    $query->where('rainlab_forum_channels.id', $channel->id);
-                    $query->orWhereBetween('rainlab_forum_channels.id', [$channel->getLeft(), $channel->getRight()]);
-                });
+                $obj->orWhere('rainlab_forum_channels.id', $channel->id);
+                $obj->orWhereBetween($channel->getQualifiedLeftColumnName(), [$channel->getLeft(), $channel->getRight()]);
             }
         }
 
@@ -128,14 +126,14 @@ class Topic extends Model
     public function afterCreate()
     {
         $this->start_member()->increment('count_topics');
-        $this->channel()->increment('count_topics');
+        $this->channel->parents(true)->increment('count_topics');
     }
 
     public function afterDelete()
     {
         $this->start_member()->decrement('count_topics');
-        $this->channel()->decrement('count_topics');
-        $this->channel()->decrement('count_posts', $this->posts()->count());
+        $this->channel->parents(true)->decrement('count_topics');
+        $this->channel->parents(true)->decrement('count_posts', $this->posts()->count());
         $this->posts()->delete();
     }
 }
