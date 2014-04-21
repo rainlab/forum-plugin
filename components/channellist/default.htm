@@ -56,7 +56,7 @@
                                     <img src="{{ channel.firstTopic.last_post_member.user.avatarThumb(24, 'http://placehold.it/50x50') }}" class="member-avatar" />
                                     <a href="{{ forumLink.member|page({ slug: channel.firstTopic.last_post_member.slug }) }}">{{ channel.firstTopic.last_post_member.username }}</a>
                                     posted
-                                    <a href="#">{{ channel.firstTopic.last_post_at.diffForHumans }}</a>
+                                    <a href="{{ forumLink.topic|page({ slug: channel.firstTopic.slug }) }}?page=last#post-{{ channel.firstTopic.last_post_id }}">{{ channel.firstTopic.last_post_at.diffForHumans }}</a>
                                 </p>
                             {% endif %}
                         </td>
