@@ -1,10 +1,12 @@
-<h5>
-    <a href="{{ forumLink.member|page({ slug: member.slug }) }}">{{ member.username }}</a>
-</h5>
-<p>
-    <a href="{{ forumLink.member|page({ slug: member.slug }) }}">
-        <img src="{{ member.user.avatarThumb(50, 'http://placehold.it/50x50') }}" />
-    </a>
-</p>
-<p>Member since: {{ member.created_at|date('Y-m-d') }}</p>
-<p>Posts: {{ member.count_posts }}</p>
+<div class="rainlab-forum">
+    <h5>
+        <a href="{{ forumLink.member|page({ slug: member.slug }) }}">{{ member.username }}</a>
+    </h5>
+    <p>
+        <a href="{{ forumLink.member|page({ slug: member.slug }) }}">
+            <img src="{{ member.user.avatarThumb(50, 'http://placehold.it/50x50') }}" />
+        </a>
+    </p>
+    <p>Member since: {{ member.created_at|date('Y-m-d') }}</p>
+    <p>Posts: {{ member.count_posts }}</p>
+</div>

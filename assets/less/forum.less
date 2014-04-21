@@ -2,6 +2,7 @@
 @color-indicator-unread: #de6c26;
 @color-table-border: #ccc;
 @color-table-head-bg: #f0f0f0;
+@color-post-member-bg: #fcfcfc;
 
 .rainlab-forum {
 
@@ -83,6 +84,27 @@
                 border-radius: 999px;
                 margin: 0 3px;
             }
+        }
+
+        th.member-column,
+        td.member-column {
+            width: 256px;
+
+            img.member-avatar {
+                border-radius: 999px;
+                margin: 3px 0;
+            }
+        }
+
+        // Post specific
+        tr.forum-post {
+            td.member-column {
+                background-color: @color-post-member-bg;
+            }
+        }
+
+        .post-content {
+            padding: 10px 0;
         }
 
         // Topic specific

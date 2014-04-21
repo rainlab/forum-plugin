@@ -1,23 +1,25 @@
-{% if channel %}
-    <p>&larr; <a href="{{ forumLink.channel|page({ slug: channel.slug }) }}">Back to {{ channel.title }}</a></p>
-{% endif %}
+<div class="rainlab-forum">
+    {% if channel %}
+        <p>&larr; <a href="{{ forumLink.channel|page({ slug: channel.slug }) }}">Back to {{ channel.title }}</a></p>
+    {% endif %}
 
-{% if topic %}
+    {% if topic %}
 
-    <h4>{{ topic.subject }}</h4>
-    {% partial __SELF__ ~ "::posts" %}
-    {% partial __SELF__ ~ "::pagination" %}
+        <h4>{{ topic.subject }}</h4>
+        {% partial __SELF__ ~ "::posts" %}
+        {% partial __SELF__ ~ "::pagination" %}
 
-    <h4>Reply to this discussion</h4>
-    {% partial __SELF__ ~ "::postform" %}
+        <h4>Reply to this discussion</h4>
+        {% partial __SELF__ ~ "::postform" %}
 
-{% elseif channel %}
+    {% elseif channel %}
 
-    <h4>Create a new discussion topic</h4>
-    {% partial __SELF__ ~ "::createform" %}
+        <h4>Create a new discussion topic</h4>
+        {% partial __SELF__ ~ "::createform" %}
 
-{% else %}
+    {% else %}
 
-    <p>Topic not found</p>
+        <p>Topic not found</p>
 
-{% endif %}
+    {% endif %}
+</div>
