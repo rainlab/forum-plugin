@@ -1,11 +1,14 @@
 <?php namespace RainLab\Forum\Components;
 
 use Cms\Classes\ComponentBase;
+use RainLab\Forum\Models\Member as MemberModel;
 
 class Member extends ComponentBase
 {
 
-    const PARAM_USERNAME = 'username';
+    private $member = null;
+
+    const PARAM_SLUG = 'slug';
 
     public function componentDetails()
     {
@@ -35,11 +38,23 @@ class Member extends ComponentBase
     {
         $this->addCss('/plugins/rainlab/forum/assets/css/forum.css');
 
-        // $this->page['channels'] = $this->listChannels();
-        $this->prepareChannelList();
+        $this->page['member'] = $this->getMember();
+        $this->prepareVars();
     }
 
-    protected function prepareChannelList()
+    public function getMember()
+    {
+        if ($this->member !== null)
+            return $this->member;
+
+        if (!$slug = $this->param(static::PARAM_SLUG))
+            return null;
+
+        $member = MemberModel::whereSlug($slug)->first();
+        return $this->member = $member;
+    }
+
+    protected function prepareVars()
     {
         /*
          * Load the page links
