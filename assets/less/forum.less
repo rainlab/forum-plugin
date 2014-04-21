@@ -1,0 +1,129 @@
+@color-indicator-read: #999;
+@color-indicator-unread: #de6c26;
+@color-table-border: #ccc;
+@color-table-head-bg: #f0f0f0;
+
+.rainlab-forum {
+
+    .topic-indicator {
+        border-style: solid;
+        border-width: 10px;
+        float: left;
+        height: 0;
+        overflow: hidden;
+        width: 0;
+
+        border-top-color: lighten(@color-indicator-read, 20%);
+        border-right-color: @color-indicator-read;
+        border-bottom-color: lighten(@color-indicator-read, 10%);
+        border-left-color: lighten(@color-indicator-read, 30%);
+
+        &.with-new {
+            border-top-color: lighten(@color-indicator-unread, 20%);
+            border-right-color: @color-indicator-unread;
+            border-bottom-color: lighten(@color-indicator-unread, 10%);
+            border-left-color: lighten(@color-indicator-unread, 30%);
+        }
+    }
+
+    .forum-table {
+        width: 100%;
+        margin-bottom: 20px;
+        th, td {
+            padding: 8px;
+            line-height: 20px;
+            text-align: left;
+            vertical-align: top;
+            border-top: 1px solid @color-table-border;
+        }
+        th {
+            font-weight: bold;
+            background-color: @color-table-head-bg;
+        }
+        // Bottom align for column headings
+        thead th {
+            vertical-align: bottom;
+        }
+        // Remove top border from thead by default
+        caption + thead tr:first-child th,
+        caption + thead tr:first-child td,
+        colgroup + thead tr:first-child th,
+        colgroup + thead tr:first-child td,
+        thead:first-child tr:first-child th,
+        thead:first-child tr:first-child td {
+            border-top: 0;
+        }
+        // Account for multiple tbody instances
+        tbody + tbody {
+            border-top: 2px solid @color-table-border;
+        }
+
+        td.indicator-column {
+            width: 12px;
+            text-align: right;
+            .topic-indicator {
+                margin: 3px 0;
+                position: relative;
+                left: 3px;
+            }
+        }
+
+        th.counter-column,
+        td.counter-column {
+            width: 48px;
+            text-align: center;
+        }
+
+        th.activity-column,
+        td.activity-column {
+            text-align: right;
+            width: 256px;
+
+            img.member-avatar {
+                border-radius: 999px;
+                margin: 0 3px;
+            }
+        }
+
+        // Topic specific
+        tr.forum-topic {
+            h5 {
+                margin: 0;
+                padding: 5px 0;
+                font-size: 16px;
+            }
+        }
+
+        // Channel specific
+        tr.forum-channel {
+            h5 {
+                margin: 0;
+                padding: 5px 0;
+                font-size: 16px;
+            }
+
+            p {
+                margin: 0;
+                padding: 5px 0;
+            }
+
+            .forum-subchannel {
+                font-size: 12px;
+                ul {
+                    padding-left: 0;
+                    list-style: none;
+                    > li {
+                        margin-top: 0;
+                        padding-top: 0;
+                        display: inline-block;
+                        padding-left: 5px;
+                        padding-right: 5px;
+
+                        &:first-child { padding-left: 0; }
+                    }
+                }
+            }
+        }
+    }
+
+}

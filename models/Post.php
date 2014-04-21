@@ -96,6 +96,7 @@ class Post extends Model
 
         $this->topic->count_posts++;
         $this->topic->last_post_at = new Carbon;
+        $this->topic->last_post_member = $this->member;
         $this->topic->save();
         $this->topic->channel->parents(true)->increment('count_posts');
     }

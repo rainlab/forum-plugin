@@ -49,6 +49,8 @@ class Topic extends ComponentBase
 
     public function onRun()
     {
+        $this->addCss('/plugins/rainlab/forum/assets/css/forum.css');
+
         $this->page['channel'] = $this->getChannel();
         $this->page['topic'] = $topic = $this->getTopic();
         $this->preparePostList();

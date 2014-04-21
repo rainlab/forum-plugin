@@ -39,6 +39,8 @@ class ChannelList extends ComponentBase
 
     public function onRun()
     {
+        $this->addCss('/plugins/rainlab/forum/assets/css/forum.css');
+
         $this->page['channels'] = $this->listChannels();
         $this->prepareChannelList();
     }

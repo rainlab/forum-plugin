@@ -1,63 +1,70 @@
-<table class="table">
-    {% for channel in channels %}
+<div class="rainlab-forum">
 
-        <tr>
-            <th colspan="2">
-                <a href="{{ forumLink.channel|page({ slug: channel.slug }) }}" title="{{ channel.description }}">
+    <table class="forum-table">
+        {% for channel in channels %}
+
+            <tr class="root-channel">
+                <th colspan="2">
                     {{ channel.title }}
-                </a>
-            </th>
-            <th>Topics</th>
-            <th>Posts</th>
-            <th>Last post</th>
-        </tr>
-
-        {% if channel.relations.children %}
-
-            {% for channel in channel.children %}
-
-                <tr>
-                    <td>
-                        <img src="http://placehold.it/32x32" alt="" class="pull-left" />
-                    </td>
-                    <td>
-                        <h5>
-                            <a href="{{ forumLink.channel|page({ slug: channel.slug }) }}">
-                                {{ channel.title }}
-                            </a>
-                        </h5>
-                        <p>{{ channel.description }}</p>
-
-                        {% if channel.relations.children %}
-                            <ul class="list-inline">
-                                <li><em>Subforum</em></li>
-                                {% for channel in channel.children %}
-                                    <li>
-                                        <a href="{{ forumLink.channel|page({ slug: channel.slug }) }}" title="{{ channel.description }}">
-                                            {{ channel.title }}
-                                        </a>
-                                    </li>
-                                {% endfor %}
-                            </ul>
-                        {% endif %}
-                    </td>
-                    <td>{{ channel.count_topics }}</td>
-                    <td>{{ channel.count_posts }}</td>
-                    <td>
-                        {% if channel.firstTopic %}
-                            <a href="{{ forumLink.member|page({ username: topic.slug }) }}">Username</a>
-                            posted
-                            <a href="#">{{ channel.firstTopic.last_post_at.diffForHumans }}</a>
-                        {% endif %}
-                    </td>
-                </tr>
-            {% endfor %}
-
-        {% else %}
-            <tr>
-                <td colspan="100"><p>There are no channels to show.</p></td>
+                </th>
+                <th class="counter-column">Topics</th>
+                <th class="counter-column">Posts</th>
+                <th class="activity-column">Last post</th>
             </tr>
-        {% endif %}
 
-    {% endfor %}
-</table>
+            {% if channel.relations.children %}
+
+                {% for channel in channel.children %}
+
+                    <tr class="forum-channel">
+                        <td class="indicator-column">
+                            <div class="topic-indicator with-new"></div>
+                        </td>
+                        <td>
+                            <h5>
+                                <a href="{{ forumLink.channel|page({ slug: channel.slug }) }}">
+                                    {{ channel.title }}
+                                </a>
+                            </h5>
+                            <p>{{ channel.description }}</p>
+
+                            {% if channel.relations.children %}
+                                <div class="forum-subchannel">
+                                    <ul>
+                                        <li><span>Subforum</span></li>
+                                        {% for channel in channel.children %}
+                                            <li>
+                                                <a href="{{ forumLink.channel|page({ slug: channel.slug }) }}" title="{{ channel.description }}">
+                                                    {{ channel.title }}
+                                                </a>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            {% endif %}
+                        </td>
+                        <td class="counter-column">
+                            <p>{{ channel.count_topics }}</p>
+                        </td>
+                        <td class="counter-column">
+                            <p>{{ channel.count_posts }}</p>
+                        </td>
+                        <td class="activity-column">
+                            {% if channel.firstTopic %}
+                                <a href="{{ forumLink.member|page({ username: topic.slug }) }}">Username</a>
+                                posted
+                                <a href="#">{{ channel.firstTopic.last_post_at.diffForHumans }}</a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+
+            {% else %}
+                <tr>
+                    <td colspan="100"><p>There are no channels to show.</p></td>
+                </tr>
+            {% endif %}
+
+        {% endfor %}
+    </table>
+</div>

@@ -54,7 +54,7 @@ memberPage = "forum/member"
 topicPage = "forum/topic"
 ==
 
-<h1>Forum</h1>
+<h1>{{ channel.title }}</h1>
 {% component 'channel' %}
 ```
 
@@ -70,7 +70,7 @@ memberPage = "forum/member"
 channelPage = "forum/channel"
 ==
 
-<h1>Forum</h1>
+<h1>{{ topic.subject }}</h1>
 {% component 'topic' %}
 ```
 
