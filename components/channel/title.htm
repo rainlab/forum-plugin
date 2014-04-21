@@ -8,9 +8,13 @@
         {{ form_close() }}
     </div>
     <div class="col-md-3 text-right">
-        <a href="{{ forumLink.topic|page(false) }}?channel={{ channel.id }}" class="btn btn-primary btn-block">
-            Post a new topic
-        </a>
+        {% if isGuest %}
+            <p>Log in to Post a new topic</p>
+        {% else %}
+            <a href="{{ forumLink.topic|page(false) }}?channel={{ channel.id }}" class="btn btn-primary btn-block">
+                Post a new topic
+            </a>
+        {% endif %}
     </div>
 
 </div>

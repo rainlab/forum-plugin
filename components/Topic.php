@@ -54,7 +54,7 @@ class Topic extends ComponentBase
 
         $this->page['channel'] = $this->getChannel();
         $this->page['topic'] = $topic = $this->getTopic();
-        $this->preparePostList();
+        return $this->preparePostList();
     }
 
     public function getTopic()
@@ -109,7 +109,8 @@ class Topic extends ComponentBase
             $queryArr['page'] = '';
             $paginationUrl = Request::url() . '?' . http_build_query($queryArr);
 
-            if ($currentPage > ($lastPage = $posts->getLastPage()) && $currentPage > 1)
+            $lastPage = $posts->getLastPage();
+            if ($currentPage == 'last' || $currentPage > $lastPage && $currentPage > 1)
                 return Redirect::to($paginationUrl . $lastPage);
 
             $this->page['paginationUrl'] = $paginationUrl;

@@ -54,6 +54,7 @@ class Topic extends Model
     public $belongsTo = [
         'channel' => ['RainLab\Forum\Models\Channel'],
         'start_member' => ['RainLab\Forum\Models\Member'],
+        'last_post' => ['RainLab\Forum\Models\Post'],
         'last_post_member' => ['RainLab\Forum\Models\Member'],
     ];
 

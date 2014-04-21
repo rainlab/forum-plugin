@@ -1,5 +1,6 @@
 <?php namespace RainLab\Forum\Components;
 
+use Auth;
 use Request;
 use Redirect;
 use Cms\Classes\ComponentBase;
@@ -96,6 +97,7 @@ class Channel extends ComponentBase
         ];
 
         $this->page['forumLink'] = $links;
+        $this->page['isGuest'] = !Auth::check();
     }
 
 }

@@ -16,6 +16,7 @@ class CreateTopicsTable extends Migration
             $table->string('slug')->index()->unique();
             $table->integer('channel_id')->unsigned()->index();
             $table->integer('start_member_id')->index();
+            $table->integer('last_post_id');
             $table->integer('last_post_member_id');
             $table->dateTime('last_post_at')->index();
             $table->boolean('private')->index();
