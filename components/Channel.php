@@ -70,7 +70,7 @@ class Channel extends ComponentBase
 
             $currentPage = post('page');
             $searchString = trim(post('search'));
-            $topics = TopicModel::make()->listFrontEnd($currentPage, 'updated_at', $channel, $searchString);
+            $topics = TopicModel::make()->listFrontEnd($currentPage, 'updated_at', $channel->id, $searchString);
             $this->page['topics'] = $this->topics = $topics;
 
             /*

@@ -97,7 +97,7 @@ class Topic extends ComponentBase
 
             $currentPage = post('page');
             $searchString = trim(post('search'));
-            $posts = PostModel::make()->listFrontEnd($currentPage, 'created_at', $topic, $searchString);
+            $posts = PostModel::make()->listFrontEnd($currentPage, 'created_at', $topic->id, $searchString);
             $this->page['posts'] = $this->posts = $posts;
 
             /*

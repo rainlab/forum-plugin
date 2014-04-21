@@ -105,19 +105,16 @@ class Topic extends Model
         $obj->orderBy('rainlab_forum_topics.' . $sort, in_array($sort, ['created_at', 'updated_at']) ? 'desc' : 'asc');
 
         if (strlen($search)) {
-            $obj->searchWhere($search, ['subject', 'content']);
+            $obj->joinWith('posts', false);
+            $obj->searchWhere($search, ['rainlab_forum_topics.subject', 'content']);
+            $obj->groupBy($this->getQualifiedKeyName());
         }
 
         if ($channels) {
             if (!is_array($channels))
                 $channels = [$channels];
 
-            $obj = $obj->joinWith('channel');
-
-            foreach ($channels as $channel) {
-                $obj->orWhere('rainlab_forum_channels.id', $channel->id);
-                $obj->orWhereBetween($channel->getQualifiedLeftColumnName(), [$channel->getLeft(), $channel->getRight()]);
-            }
+            $obj->whereIn('channel_id', $channels);
         }
 
         return $obj->paginate(10);
@@ -126,14 +123,14 @@ class Topic extends Model
     public function afterCreate()
     {
         $this->start_member()->increment('count_topics');
-        $this->channel->parents(true)->increment('count_topics');
+        $this->channel()->increment('count_topics');
     }
 
     public function afterDelete()
     {
         $this->start_member()->decrement('count_topics');
-        $this->channel->parents(true)->decrement('count_topics');
-        $this->channel->parents(true)->decrement('count_posts', $this->posts()->count());
+        $this->channel()->decrement('count_topics');
+        $this->channel()->decrement('count_posts', $this->posts()->count());
         $this->posts()->delete();
     }
 }

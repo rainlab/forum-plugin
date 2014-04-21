@@ -83,7 +83,7 @@ class Post extends Model
         }
 
         if ($topic) {
-            $obj->where('topic_id', $topic->id);
+            $obj->where('topic_id', $topic);
         }
 
         return $obj->paginate(5);
@@ -98,15 +98,14 @@ class Post extends Model
         $this->topic->last_post_at = new Carbon;
         $this->topic->last_post_member = $this->member;
         $this->topic->save();
-        $this->topic->channel->parents(true)->increment('count_posts');
+        $this->topic->channel()->increment('count_posts');
     }
 
     public function afterDelete()
     {
         $this->member()->decrement('count_posts');
-
         $this->topic()->decrement('count_posts');
-        $this->topic->channel->parents(true)->decrement('count_posts');
+        $this->topic->channel()->decrement('count_posts');
     }
 
 }
