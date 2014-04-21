@@ -5,6 +5,7 @@ use Flash;
 use Request;
 use Redirect;
 use Cms\Classes\ComponentBase;
+use System\Classes\ApplicationException;
 use RainLab\Forum\Models\Topic as TopicModel;
 use RainLab\Forum\Models\Channel as ChannelModel;
 use RainLab\Forum\Models\Member as MemberModel;
@@ -123,6 +124,7 @@ class Topic extends ComponentBase
         ];
 
         $this->page['forumLink'] = $links;
+        $this->page['canPost'] = Auth::check();
     }
 
     public function onCreate()

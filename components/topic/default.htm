@@ -10,7 +10,11 @@
         {% partial __SELF__ ~ "::pagination" %}
 
         <h4>Reply to this discussion</h4>
-        {% partial __SELF__ ~ "::postform" %}
+        {% if canPost %}
+            {% partial __SELF__ ~ "::postform" %}
+        {% else %}
+            <p>You should be logged in before you can post.</p>
+        {% endif %}
 
     {% elseif channel %}
 
