@@ -18,12 +18,14 @@
         border-right-color: @color-indicator-read;
         border-bottom-color: lighten(@color-indicator-read, 10%);
         border-left-color: lighten(@color-indicator-read, 30%);
+        opacity: .5;
 
         &.with-new {
             border-top-color: lighten(@color-indicator-unread, 20%);
             border-right-color: @color-indicator-unread;
             border-bottom-color: lighten(@color-indicator-unread, 10%);
             border-left-color: lighten(@color-indicator-unread, 30%);
+            opacity: 1;
         }
     }
 

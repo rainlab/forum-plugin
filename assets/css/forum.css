@@ -9,12 +9,14 @@
   border-right-color: #999999;
   border-bottom-color: #b3b3b3;
   border-left-color: #e5e5e5;
+  opacity: .5;
 }
 .rainlab-forum .topic-indicator.with-new {
   border-top-color: #eba87f;
   border-right-color: #de6c26;
   border-bottom-color: #e58a52;
   border-left-color: #f2c6ab;
+  opacity: 1;
 }
 .rainlab-forum .forum-table {
   width: 100%;

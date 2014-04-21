@@ -3,6 +3,7 @@
 use App;
 use Model;
 use Carbon\Carbon;
+use October\Rain\Support\Markdown;
 
 /**
  * Post Model
@@ -76,7 +77,7 @@ class Post extends Model
             $sort = $allowedSortingOptions[0];
 
         $obj = $this->newQuery();
-        $obj->orderBy($sort, in_array($sort, ['created_at', 'updated_at']) ? 'desc' : 'asc');
+        $obj->orderBy($sort, 'asc');
 
         if (strlen($search)) {
             $obj->searchWhere($search, ['subject', 'content']);
@@ -89,6 +90,10 @@ class Post extends Model
         return $obj->paginate(5);
     }
 
+    public function beforeSave()
+    {
+        $this->content_html = Markdown::parse(trim($this->content));
+    }
 
     public function afterCreate()
     {

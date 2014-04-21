@@ -14,6 +14,7 @@ class CreatePostsTable extends Migration
             $table->increments('id');
             $table->string('subject');
             $table->text('content');
+            $table->text('content_html');
             $table->integer('topic_id')->unsigned()->index();
             $table->integer('member_id')->unsigned()->index();
             $table->integer('time');
