@@ -86,6 +86,6 @@ channelPage = "forum/channel"
 topicPage = "forum/topic"
 ==
 
-<h1>Member</h1>
+<h1>{{ member.username }}</h1>
 {% component 'member' %}
 ```
