@@ -106,7 +106,9 @@ class Topic extends Model
 
         if (strlen($search)) {
             $obj->joinWith('posts', false);
-            $obj->searchWhere($search, ['rainlab_forum_topics.subject', 'content']);
+            $obj->searchWhere($search, ['rainlab_forum_topics.subject', 'rainlab_forum_posts.subject', 'content']);
+
+            // Grouping due to the joinWith() call
             $obj->groupBy($this->getQualifiedKeyName());
         }
 
