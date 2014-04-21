@@ -124,7 +124,7 @@ class Topic extends ComponentBase
         ];
 
         $this->page['forumLink'] = $links;
-        $this->page['canPost'] = Auth::check();
+        $this->page['isGuest'] = !Auth::check();
     }
 
     public function onCreate()
