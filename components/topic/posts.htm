@@ -7,7 +7,7 @@
                 <em>{{ post.created_at.diffForHumans }}</em>
             </th>
             <th class="member-column">
-                <a href="{{ forumLink.member|page({ slug: member.slug }) }}">
+                <a href="{{ forumLink.member|page({ slug: post.member.slug }) }}">
                     {{ post.member.username }}
                 </a>
             </th>

@@ -42,7 +42,7 @@ class ChannelList extends ComponentBase
         $this->addCss('/plugins/rainlab/forum/assets/css/forum.css');
 
         $this->page['channels'] = $this->listChannels();
-        $this->prepareChannelList();
+        $this->prepareVars();
     }
 
     public function listChannels()
@@ -53,7 +53,7 @@ class ChannelList extends ComponentBase
         return $this->channels = Channel::make()->getEagerRoot();
     }
 
-    protected function prepareChannelList()
+    protected function prepareVars()
     {
         /*
          * Load the page links
