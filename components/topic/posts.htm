@@ -1,27 +1,9 @@
 <table class="forum-table">
 
     {% for post in posts %}
-        <tr class="forum-post-title" id="post-{{ post.id }}">
-            <th class="post-column">
-                <a href="#post-{{ post.id }}">#</a>
-                <em>{{ post.created_at.diffForHumans }}</em>
-            </th>
-            <th class="member-column">
-                <a href="{{ forumLink.member|page({ slug: post.member.slug }) }}">
-                    {{ post.member.username }}
-                </a>
-            </th>
-        </tr>
-        <tr class="forum-post">
-            <td class="post-column">
-                <div class="post-content">
-                    {{ post.content_html|raw }}
-                </div>
-            </td>
-            <td class="member-column">
-                {% partial __SELF__ ~ "::member" member=post.member %}
-            </td>
-        </tr>
+        <tbody id="post-{{ post.id }}">
+            {% partial __SELF__ ~ "::post" post=post %}
+        </tbody>
     {% endfor %}
 
 </table>

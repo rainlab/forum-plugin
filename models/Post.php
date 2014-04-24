@@ -61,10 +61,10 @@ class Post extends Model
 
     /**
      * Lists topics for the front end
-     * @param  integer $page      Page number
-     * @param  string  $sort      Sorting field
-     * @param  Channel  $channels Topics in channels
-     * @param  string  $search    Search query
+     * @param  integer  $page      Page number
+     * @param  string   $sort      Sorting field
+     * @param  Channel  $channels  Topics in channels
+     * @param  string   $search    Search query
      * @return self
      */
     public function listFrontEnd($page = 1, $sort = 'created_at', $topic, $search = '')
@@ -89,6 +89,23 @@ class Post extends Model
 
         return $obj->paginate(5);
     }
+
+    public function canEdit($member = null)
+    {
+        if ($member === null)
+            $member = Member::getFromUser();
+
+        if (!$member)
+            return false;
+
+        // @todo Moderators can also edit
+
+        return $this->member_id == $member->id;
+    }
+
+    //
+    // Events
+    //
 
     public function beforeSave()
     {

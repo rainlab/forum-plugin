@@ -125,7 +125,11 @@ class Topic extends ComponentBase
         ];
 
         $this->page['forumLink'] = $links;
-        $this->page['isGuest'] = !Auth::check();
+
+        /*
+         * Signed in member
+         */
+        $this->page['member'] = MemberModel::getFromUser();
     }
 
     public function onCreate()

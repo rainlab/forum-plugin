@@ -1,0 +1,24 @@
+<tr class="forum-post-title">
+    <th class="post-column">
+        <a href="#post-{{ post.id }}">#</a>
+        <em>{{ post.created_at.diffForHumans }}</em>
+        {% if post.canEdit %}
+            <a href="#">Edit post</a>
+        {% endif %}
+    </th>
+    <th class="member-column">
+        <a href="{{ forumLink.member|page({ slug: post.member.slug }) }}">
+            {{ post.member.username }}
+        </a>
+    </th>
+</tr>
+<tr class="forum-post">
+    <td class="post-column">
+        <div class="post-content">
+            {{ post.content_html|raw }}
+        </div>
+    </td>
+    <td class="member-column">
+        {% partial __SELF__ ~ "::member" member=post.member %}
+    </td>
+</tr>

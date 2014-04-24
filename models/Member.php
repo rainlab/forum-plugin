@@ -1,6 +1,7 @@
 <?php namespace RainLab\Forum\Models;
 
 use Str;
+use Auth;
 use Model;
 
 /**
@@ -46,8 +47,14 @@ class Member extends Model
      * @param  RainLab\User\Models\User $user
      * @return RainLab\Forum\Models\Member
      */
-    public static function getFromUser($user)
+    public static function getFromUser($user = null)
     {
+        if ($user === null)
+            $user = Auth::getUser();
+
+        if (!$user)
+            return null;
+
         if (!$user->forum_member) {
             $generatedUsername = explode('@', $user->email);
             $generatedUsername = array_shift($generatedUsername);
