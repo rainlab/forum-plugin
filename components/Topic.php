@@ -169,6 +169,8 @@ class Topic extends ComponentBase
             $topic = $this->getTopic();
 
             $post = PostModel::createInTopic($topic, $member, post());
+
+            Flash::success(post('flash', 'Response added successfully!'));
         }
         catch (\Exception $ex) {
             Flash::error($ex->getMessage());

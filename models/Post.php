@@ -32,6 +32,7 @@ class Post extends Model
     public $rules = [
         'topic_id' => 'required',
         'member_id' => 'required',
+        'content' => 'required'
     ];
 
     /**

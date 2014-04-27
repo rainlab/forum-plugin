@@ -31,7 +31,7 @@ class Topic extends Model
     public $rules = [
         'subject' => 'required',
         'channel_id' => 'required',
-        'start_member_id' => 'required',
+        'start_member_id' => 'required'
     ];
 
     /**
