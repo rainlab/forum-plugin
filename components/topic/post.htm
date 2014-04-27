@@ -1,10 +1,15 @@
 <tr class="forum-post-title">
     <th class="post-column">
+        {% if post.canEdit and mode != 'edit' %}
+            <button
+                class="btn btn-primary btn-sm"
+                data-request="onUpdate"
+                data-request-data="post: {{ post.id }}"
+                data-request-update="'{{ __SELF__ ~ '::post' }}': '#post-{{ post.id }}'"
+                >Edit post</button>
+        {% endif %}
         <a href="#post-{{ post.id }}">#</a>
         <em>{{ post.created_at.diffForHumans }}</em>
-        {% if post.canEdit %}
-            <a href="#">Edit post</a>
-        {% endif %}
     </th>
     <th class="member-column">
         <a href="{{ forumLink.member|page({ slug: post.member.slug }) }}">
@@ -15,7 +20,28 @@
 <tr class="forum-post">
     <td class="post-column">
         <div class="post-content">
-            {{ post.content_html|raw }}
+            {% if mode == 'edit' %}
+
+                {{ form_ajax('onUpdate', { 
+                    update: { __SELF__~'::post': '#post-' ~ post.id } 
+                }) }}
+                    <textarea
+                        rows="6"
+                        name="content"
+                        class="form-control"
+                        >{{ post.content|raw }}</textarea>
+
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary btn-sm">Save</button>
+                    </div>
+
+                    <input type="hidden" name="mode" value="save" />
+                    <input type="hidden" name="post" value="{{ post.id }}" />
+                {{ form_close() }}
+
+            {% else %}
+                {{ post.content_html|raw }}
+            {% endif %}
         </div>
     </td>
     <td class="member-column">

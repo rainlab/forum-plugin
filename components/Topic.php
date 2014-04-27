@@ -175,4 +175,18 @@ class Topic extends ComponentBase
         }
     }
 
+    public function onUpdate()
+    {
+        $post = PostModel::find(post('post'));
+
+        if (post('mode') == 'save') {
+            $post->save(post());
+        }
+        else {
+            $this->page['mode'] = 'edit';
+        }
+
+        $this->page['post'] = $post;
+    }
+
 }
