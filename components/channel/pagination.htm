@@ -1,4 +1,6 @@
-<div class="row">
+{% set paginationEnabled =  topics.currentPage > 1 or topics.lastPage > 1 or topics.lastPage > topics.currentPage %}
+
+<div class="row forum-pagination {{ paginationEnabled ? "enabled" : "disabled" }}">
     <div class="col-md-8">
         <ul class="pagination">
             {% if topics.currentPage > 1 %}
@@ -36,7 +38,7 @@
             {% endif %}
         </ul>
     </div>
-    <div class="col-md-4 text-right">
+    <div class="col-md-4 text-right posts-total-summary">
         <p>{{ topics.from }}-{{ topics.to }} of {{ topics.total }}</p>
     </div>
 </div>

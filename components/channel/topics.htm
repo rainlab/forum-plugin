@@ -27,7 +27,7 @@
             </td>
             <td class="activity-column">
                 <p>
-                    <img src="{{ topic.last_post_member.user.avatarThumb(24, 'http://placehold.it/50x50') }}" class="member-avatar" />
+                    <img src="{{ topic.last_post_member.user.avatarThumb(24, 'http://placehold.it/24x24.png') }}" class="member-avatar" />
                     <a href="{{ forumLink.member|page({ slug: topic.last_post_member.slug }) }}">{{ topic.last_post_member.username }}</a>
                     posted
                     <a href="{{ forumLink.topic|page({ slug: topic.slug }) }}?page=last#post-{{ topic.last_post_id }}">{{ topic.last_post_at.diffForHumans }}</a>
