@@ -22,8 +22,8 @@
         <div class="post-content">
             {% if mode == 'edit' %}
 
-                {{ form_ajax('onUpdate', { 
-                    update: { __SELF__~'::post': '#post-' ~ post.id } 
+                {{ form_ajax('onUpdate', {
+                    update: { '::post': '#post-' ~ post.id }
                 }) }}
                     <textarea
                         rows="6"
