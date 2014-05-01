@@ -181,6 +181,9 @@ class Topic extends ComponentBase
     {
         $post = PostModel::find(post('post'));
 
+        if (!$post->canEdit())
+            throw new ApplicationException('Permission denied.');
+
         if (post('mode') == 'save') {
             $post->save(post());
         }

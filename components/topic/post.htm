@@ -21,12 +21,11 @@
     <td class="post-column">
         <div class="post-content">
             {% if mode == 'edit' %}
-
                 {{ form_ajax('onUpdate', {
-                    update: { '::post': '#post-' ~ post.id }
+                    update: { (__SELF__ ~ '::post'): '#post-' ~ post.id }
                 }) }}
                     <textarea
-                        rows="6"
+                        rows="5"
                         name="content"
                         class="form-control"
                         >{{ post.content|raw }}</textarea>
