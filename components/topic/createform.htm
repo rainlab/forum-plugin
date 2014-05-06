@@ -14,7 +14,7 @@
             name="subject"
             type="text"
             class="form-control"
-            value="{{ form_value('subject') }}" />
+            value="{{ post('subject') }}" />
     </div>
 
     <div class="form-group">
@@ -24,7 +24,7 @@
             name="content"
             rows="8"
             type="text"
-            class="form-control">{{ form_value('content') }}</textarea>
+            class="form-control">{{ post('content') }}</textarea>
         <span class="help-block">You can use <a href="http://daringfireball.net/projects/markdown/syntax" target="_blank">Markdown</a> syntax.</span>
     </div>
 
