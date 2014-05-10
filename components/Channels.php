@@ -3,7 +3,7 @@
 use Cms\Classes\ComponentBase;
 use RainLab\Forum\Models\Channel;
 
-class ChannelList extends ComponentBase
+class Channels extends ComponentBase
 {
 
     private $channels = null;

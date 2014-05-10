@@ -11,10 +11,10 @@ The forum does not require immediate configuation to operate. However the follow
 
 ## Displaying a list of channels
 
-The plugin includes a component channelList that should be used as the main page for your forum. Add the component to your page and render it with the component tag:
+The plugin includes a component forumChannels that should be used as the main page for your forum. Add the component to your page and render it with the component tag:
 
 ```php
-{% component 'channelList' %}
+{% component 'forumChannels' %}
 ```
 
 You should tell this component about the other forum pages.
@@ -32,14 +32,14 @@ title = "Forum"
 url = "/forum"
 layout = "default"
 
-[channelList]
+[forumChannels]
 memberPage = "forum/member"
 channelPage = "forum/channel"
 topicPage = "forum/topic"
 ==
 
 <h1>Forum</h1>
-{% component 'channelList' %}
+{% component 'forumChannels' %}
 ```
 
 #### forum/channel.htm
@@ -49,13 +49,13 @@ title = "Forum"
 url = "/forum/channel/:slug"
 layout = "default"
 
-[channel]
+[forumChannel]
 memberPage = "forum/member"
 topicPage = "forum/topic"
 ==
 
 <h1>{{ channel.title }}</h1>
-{% component 'channel' %}
+{% component 'forumChannel' %}
 ```
 
 #### forum/topic.htm
@@ -65,13 +65,13 @@ title = "Forum"
 url = "/forum/topic/:slug"
 layout = "default"
 
-[topic]
+[forumTopic]
 memberPage = "forum/member"
 channelPage = "forum/channel"
 ==
 
 <h1>{{ topic.subject }}</h1>
-{% component 'topic' %}
+{% component 'forumTopic' %}
 ```
 
 #### forum/member.htm
@@ -81,11 +81,11 @@ title = "Forum"
 url = "/forum/member/:slug"
 layout = "default"
 
-[member]
+[forumMember]
 channelPage = "forum/channel"
 topicPage = "forum/topic"
 ==
 
 <h1>{{ member.username }}</h1>
-{% component 'member' %}
+{% component 'forumMember' %}
 ```

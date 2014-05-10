@@ -37,10 +37,10 @@ class Plugin extends PluginBase
     public function registerComponents()
     {
         return [
-           '\RainLab\Forum\Components\ChannelList' => 'channelList',
-           '\RainLab\Forum\Components\Channel'     => 'channel',
-           '\RainLab\Forum\Components\Topic'       => 'topic',
-           '\RainLab\Forum\Components\Member'      => 'member',
+           '\RainLab\Forum\Components\Channels' => 'forumChannels',
+           '\RainLab\Forum\Components\Channel'  => 'forumChannel',
+           '\RainLab\Forum\Components\Topic'    => 'forumTopic',
+           '\RainLab\Forum\Components\Member'   => 'forumMember',
         ];
     }
 
