@@ -1,6 +1,6 @@
 <tr class="forum-post-title">
     <th class="post-column">
-        {% if post.canEdit and mode != 'edit' %}
+        {% if post.canEdit and mode != 'edit' and mode != 'delete' %}
             <button
                 class="btn btn-primary btn-sm"
                 data-request="onUpdate"
@@ -31,13 +31,24 @@
                         >{{ post.content|raw }}</textarea>
 
                     <div class="form-group">
-                        <button type="submit" class="btn btn-primary btn-sm">Save</button>
+                        <button
+                            type="submit"
+                            class="btn btn-primary btn-sm">Save</button>
+                        <button
+                            type="button"
+                            data-request="{{ __SELF__ }}::onUpdate"
+                            data-request-data="post: {{ post.id }}, mode: 'delete'"
+                            data-request-update="'{{ __SELF__ }}::post': '#post-{{ post.id }}'"
+                            data-request-confirm="Are you sure?"
+                            class="btn btn-danger btn-sm">Delete</button>
                     </div>
 
                     <input type="hidden" name="mode" value="save" />
                     <input type="hidden" name="post" value="{{ post.id }}" />
                 {{ form_close() }}
 
+            {% elseif mode == 'delete' %}
+                <p><em>Post has been deleted</em></p>
             {% else %}
                 {{ post.content_html|raw }}
             {% endif %}

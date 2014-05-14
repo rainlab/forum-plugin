@@ -184,13 +184,15 @@ class Topic extends ComponentBase
         if (!$post->canEdit())
             throw new ApplicationException('Permission denied.');
 
-        if (post('mode') == 'save') {
+        $mode = post('mode', 'edit');
+        if ($mode == 'save') {
             $post->save(post());
         }
-        else {
-            $this->page['mode'] = 'edit';
+        elseif ($mode == 'delete') {
+            $post->delete();
         }
 
+        $this->page['mode'] = $mode;
         $this->page['post'] = $post;
     }
 
