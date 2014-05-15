@@ -12,7 +12,7 @@ class CreateChannelsTable extends Migration
         {
             $table->engine = 'InnoDB';
             $table->increments('id');
-            $table->integer('parent_id')->unsigned()->index();
+            $table->integer('parent_id')->unsigned()->index()->nullable();
             $table->string('title');
             $table->string('slug')->index()->unique();
             $table->string('description');
