@@ -18,9 +18,9 @@ class CreateChannelsTable extends Migration
             $table->string('description');
             $table->integer('nest_left');
             $table->integer('nest_right');
-            $table->integer('nest_depth');
-            $table->integer('count_topics');
-            $table->integer('count_posts');
+            $table->integer('nest_depth')->nullable();
+            $table->integer('count_topics')->nullable();
+            $table->integer('count_posts')->nullable();
             $table->timestamps();
         });
     }
