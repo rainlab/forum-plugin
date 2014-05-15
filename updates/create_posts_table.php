@@ -12,16 +12,16 @@ class CreatePostsTable extends Migration
         {
             $table->engine = 'InnoDB';
             $table->increments('id');
-            $table->string('subject');
+            $table->string('subject')->nullable();
             $table->text('content');
             $table->text('content_html');
-            $table->integer('topic_id')->unsigned()->index();
-            $table->integer('member_id')->unsigned()->index();
-            $table->integer('time');
-            $table->integer('edit_time');
-            $table->integer('edit_user_id');
-            $table->integer('delete_user_id');
-            $table->integer('delete_time');
+            $table->integer('topic_id')->unsigned()->index()->nullable();
+            $table->integer('member_id')->unsigned()->index()->nullable();
+            $table->integer('time')->nullable();
+            $table->integer('edit_time')->nullable();
+            $table->integer('edit_user_id')->nullable();
+            $table->integer('delete_user_id')->nullable();
+            $table->integer('delete_time')->nullable();
             $table->index(['topic_id', 'time'], 'topic_time');
             $table->timestamps();
         });

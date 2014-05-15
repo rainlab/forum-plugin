@@ -15,9 +15,9 @@ class CreateMembersTable extends Migration
             $table->integer('user_id')->unsigned();
             $table->string('username');
             $table->string('slug');
-            $table->integer('count_posts')->index();
-            $table->integer('count_topics')->index();
-            $table->dateTime('last_active_at')->index();
+            $table->integer('count_posts')->index()->nullable();
+            $table->integer('count_topics')->index()->nullable();
+            $table->dateTime('last_active_at')->index()->nullable();
             $table->timestamps();
         });
     }
