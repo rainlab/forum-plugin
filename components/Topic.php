@@ -67,7 +67,11 @@ class Topic extends ComponentBase
 
         $topic = TopicModel::whereSlug($slug)->first();
 
-        if ($topic) $topic->increment('count_views');
+        if ($topic) {
+            $topic->timestamps = false;
+            $topic->increment('count_views');
+            $topic->timestamps = true;
+        }
 
         return $this->topic = $topic;
     }
