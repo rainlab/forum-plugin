@@ -88,7 +88,7 @@ class Post extends Model
             $obj->where('topic_id', $topic);
         }
 
-        return $obj->paginate(5);
+        return $obj->paginate(30);
     }
 
     public function canEdit($member = null)
