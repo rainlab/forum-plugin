@@ -55,7 +55,7 @@ class Channel extends Model
         if ($this->firstTopic !== null)
             return $this->firstTopic;
 
-        return $this->firstTopic = $this->topics()->first();
+        return $this->firstTopic = $this->topics()->orderBy('updated_at', 'desc')->first();
     }
 
 }
