@@ -9,8 +9,7 @@
     {% for topic in topics %}
         <tr class="forum-topic">
             <td class="indicator-column">
-                <div class="topic-indicator {{ topic.hasNew ? 'has-new' }}"></div>
-                <!-- <div class="topic-indicator has-new"></div> -->
+                <div class="topic-indicator {{ member and topic.hasNew ? 'has-new' }}"></div>
             </td>
             <td>
                 <h5>
