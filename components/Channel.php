@@ -76,7 +76,7 @@ class Channel extends ComponentBase
             $searchString = trim(post('search'));
             $topics = TopicModel::make()->listFrontEnd($currentPage, 'updated_at', $channel->id, $searchString);
 
-            $this->member = MemberModel::getFromUser();
+            $this->page['member'] = $this->member = MemberModel::getFromUser();
             if ($this->member)
                 $topics = TopicWatch::setFlagsOnTopics($topics, $this->member);
 
