@@ -10,12 +10,14 @@ use RainLab\Forum\Models\Topic as TopicModel;
 use RainLab\Forum\Models\Channel as ChannelModel;
 use RainLab\Forum\Models\Member as MemberModel;
 use RainLab\Forum\Models\Post as PostModel;
+use RainLab\Forum\Models\TopicWatch;
 
 class Topic extends ComponentBase
 {
 
     private $topic = null;
     private $channel = null;
+    private $member = null;
 
     /**
      * @var Collection Posts cache for Twig access.
@@ -133,7 +135,9 @@ class Topic extends ComponentBase
         /*
          * Signed in member
          */
-        $this->page['member'] = MemberModel::getFromUser();
+        $this->page['member'] = $this->member = MemberModel::getFromUser();
+        if ($this->member)
+            TopicWatch::flagAsWatched($this->topic, $this->member);
     }
 
     public function onCreate()

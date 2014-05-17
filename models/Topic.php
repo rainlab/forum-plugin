@@ -59,6 +59,11 @@ class Topic extends Model
     ];
 
     /**
+     * @var boolean Topic has new posts for member, set by PostWatch model
+     */
+    public $hasNew = true;
+
+    /**
      * Creates a topic and a post inside a channel
      * @param  Channel $channel
      * @param  Member $member
@@ -120,7 +125,7 @@ class Topic extends Model
             $obj->whereIn('channel_id', $channels);
         }
 
-        return $obj->paginate(10);
+        return $obj->paginate(20);
     }
 
     public function afterCreate()

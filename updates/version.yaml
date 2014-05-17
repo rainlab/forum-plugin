@@ -5,3 +5,6 @@
     - create_topics_table.php
     - create_members_table.php
     - seed_all_tables.php
+1.0.2:
+    - Add unread flags to topics
+    - create_topic_watches_table.php

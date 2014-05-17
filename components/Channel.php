@@ -6,12 +6,15 @@ use Redirect;
 use Cms\Classes\ComponentBase;
 use RainLab\Forum\Models\Topic as TopicModel;
 use RainLab\Forum\Models\Channel as ChannelModel;
+use RainLab\Forum\Models\Member as MemberModel;
+use RainLab\Forum\Models\TopicWatch;
 
 class Channel extends ComponentBase
 {
 
+    private $member = null;
     private $channel = null;
-    
+
     /**
      * @var Collection Topics cache for Twig access.
      */
@@ -72,6 +75,11 @@ class Channel extends ComponentBase
             $currentPage = post('page');
             $searchString = trim(post('search'));
             $topics = TopicModel::make()->listFrontEnd($currentPage, 'updated_at', $channel->id, $searchString);
+
+            $this->member = MemberModel::getFromUser();
+            if ($this->member)
+                $topics = TopicWatch::setFlagsOnTopics($topics, $this->member);
+
             $this->page['topics'] = $this->topics = $topics;
 
             /*
