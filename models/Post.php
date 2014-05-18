@@ -99,7 +99,8 @@ class Post extends Model
         if (!$member)
             return false;
 
-        // @todo Moderators can also edit
+        if ($member->is_moderator)
+            return true;
 
         return $this->member_id == $member->id;
     }
