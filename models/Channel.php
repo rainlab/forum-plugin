@@ -46,10 +46,6 @@ class Channel extends Model
         'topics' => ['RainLab\Forum\Models\Topic']
     ];
 
-    public $hasManyThrough = [
-        'posts' => ['RainLab\Forum\Models\Post', 'through' => 'RainLab\Forum\Models\Topic']
-    ];
-
     /**
      * Returns the last updated topic in this channel.
      * @return Model

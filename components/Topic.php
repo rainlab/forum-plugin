@@ -216,8 +216,13 @@ class Topic extends ComponentBase
     {
         $channelId = post('channel');
         $channel = ChannelModel::find($channelId);
-        $this->getTopic()->moveToChannel($channel);
-        Flash::success(post('flash', 'Post moved successfully!'));
+        if ($channel) {
+            $this->getTopic()->moveToChannel($channel);
+            Flash::success(post('flash', 'Post moved successfully!'));
+        }
+        else {
+            Flash::error('Unable to find a channel to move to.');
+        }
     }
 
 }

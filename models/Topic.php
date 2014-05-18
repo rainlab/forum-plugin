@@ -131,10 +131,8 @@ class Topic extends Model
     public function moveToChannel($channel)
     {
         $oldChannel = $this->channel;
-        // $this->channel()->decrement('count_posts');
         $this->channel = $channel;
         $this->save();
-        // $this->channel()->increment('count_posts');
         $oldChannel->rebuildStats();
         $channel->rebuildStats();
     }
