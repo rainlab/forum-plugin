@@ -3,6 +3,7 @@
 use Event;
 use Backend;
 use RainLab\User\Models\User;
+use RainLab\Forum\Models\Member;
 use System\Classes\PluginBase;
 
 /**
@@ -35,19 +36,29 @@ class Plugin extends PluginBase
         });
 
         Event::listen('backend.form.extendFields', function($widget) {
-            if (!$widget->controller instanceof \RainLab\User\Controllers\Users) return;
+            if (!$widget->getController() instanceof \RainLab\User\Controllers\Users) return;
+            if ($widget->getContext() != 'update') return;
+            if (!Member::getFromUser($widget->model)) return;
+
             $widget->addFields([
+                'forum_member[username]' => [
+                    'label' => 'Username',
+                    'tab' => 'Forum',
+                    'comment' => 'The display to represent this user on the forum.',
+                ],
                 'forum_member[is_moderator]' => [
                     'label' => 'Forum moderator',
                     'type' => 'checkbox',
                     'tab' => 'Forum',
                     'span' => 'auto',
+                    'comment' => 'Place a tick in this box if this user can moderate the entire forum.',
                 ],
                 'forum_member[is_banned]' => [
                     'label' => 'Banned from forum',
                     'type' => 'checkbox',
                     'tab' => 'Forum',
                     'span' => 'auto',
+                    'comment' => 'Place a tick in this box if this user is banned from posting to the forum.',
                 ],
             ], 'primary');
         });
