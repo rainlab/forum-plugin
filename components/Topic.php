@@ -95,6 +95,11 @@ class Topic extends ComponentBase
         return $this->channel = $channel;
     }
 
+    public function getChannels()
+    {
+        return ChannelModel::all();
+    }
+
     protected function preparePostList()
     {
         /*
@@ -205,6 +210,14 @@ class Topic extends ComponentBase
 
         $this->page['mode'] = $mode;
         $this->page['post'] = $post;
+    }
+
+    public function onMoveTopic()
+    {
+        $channelId = post('channel');
+        $channel = ChannelModel::find($channelId);
+        $this->getTopic()->moveToChannel($channel);
+        Flash::success(post('flash', 'Post moved successfully!'));
     }
 
 }

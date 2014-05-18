@@ -6,6 +6,19 @@
     {% if topic %}
 
         <h4>{{ topic.subject }}</h4>
+
+        {% if member.is_moderator %}
+            {{ form_open({ request: 'onMoveTopic' }) }}
+                Move to:
+                <select name="channel">
+                    {% for channel in __SELF__.channels %}
+                        <option value="{{ channel.id }}">{{ channel.title }}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit">Move</button>
+            {{ form_close() }}
+        {% endif %}
+
         {% partial __SELF__ ~ "::posts" %}
         {% partial __SELF__ ~ "::pagination" %}
 

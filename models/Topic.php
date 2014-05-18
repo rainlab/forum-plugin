@@ -128,6 +128,17 @@ class Topic extends Model
         return $obj->paginate(20);
     }
 
+    public function moveToChannel($channel)
+    {
+        $oldChannel = $this->channel;
+        // $this->channel()->decrement('count_posts');
+        $this->channel = $channel;
+        $this->save();
+        // $this->channel()->increment('count_posts');
+        $oldChannel->rebuildStats();
+        $channel->rebuildStats();
+    }
+
     public function afterCreate()
     {
         $this->start_member()->increment('count_topics');
@@ -140,5 +151,6 @@ class Topic extends Model
         $this->channel()->decrement('count_topics');
         $this->channel()->decrement('count_posts', $this->posts()->count());
         $this->posts()->delete();
+        TopicWatch::where('topic_id', $this->id)->delete();
     }
 }

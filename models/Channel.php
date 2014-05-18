@@ -46,6 +46,10 @@ class Channel extends Model
         'topics' => ['RainLab\Forum\Models\Topic']
     ];
 
+    public $hasManyThrough = [
+        'posts' => ['RainLab\Forum\Models\Post', 'through' => 'RainLab\Forum\Models\Topic']
+    ];
+
     /**
      * Returns the last updated topic in this channel.
      * @return Model
@@ -56,6 +60,17 @@ class Channel extends Model
             return $this->firstTopic;
 
         return $this->firstTopic = $this->topics()->orderBy('updated_at', 'desc')->first();
+    }
+
+    /**
+     * Rebuilds the statistics for the channel
+     * @return void
+     */
+    public function rebuildStats()
+    {
+        $this->count_topics = $this->topics()->count();
+        $this->count_posts = $this->topics()->sum('count_posts');
+        $this->save();
     }
 
 }
