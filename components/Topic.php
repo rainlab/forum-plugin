@@ -69,11 +69,8 @@ class Topic extends ComponentBase
 
         $topic = TopicModel::whereSlug($slug)->first();
 
-        if ($topic) {
-            $topic->timestamps = false;
-            $topic->increment('count_views');
-            $topic->timestamps = true;
-        }
+        if ($topic)
+            $topic->increaseViewCount();
 
         return $this->topic = $topic;
     }
@@ -184,6 +181,15 @@ class Topic extends ComponentBase
             $post = PostModel::createInTopic($topic, $member, post());
 
             Flash::success(post('flash', 'Response added successfully!'));
+
+            /*
+             * Redirect to the intended page after successful update
+             */
+            $redirectUrl = post('redirect', $this->currentPageUrl([
+                'slug' => $topic->slug
+            ]));
+
+            return Redirect::to($redirectUrl.'?page=last');
         }
         catch (\Exception $ex) {
             Flash::error($ex->getMessage());

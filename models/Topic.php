@@ -131,10 +131,19 @@ class Topic extends Model
     public function moveToChannel($channel)
     {
         $oldChannel = $this->channel;
+        $this->timestamps = false;
         $this->channel = $channel;
         $this->save();
+        $this->timestamps = true;
         $oldChannel->rebuildStats();
         $channel->rebuildStats();
+    }
+
+    public function increaseViewCount()
+    {
+        $this->timestamps = false;
+        $this->increment('count_views');
+        $this->timestamps = true;
     }
 
     public function afterCreate()
