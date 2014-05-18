@@ -199,6 +199,9 @@ class Topic extends ComponentBase
         elseif ($mode == 'delete') {
             $post->delete();
         }
+        elseif ($mode == 'view') {
+            // Do nothing
+        }
 
         $this->page['mode'] = $mode;
         $this->page['post'] = $post;

@@ -41,6 +41,13 @@
                             data-request-update="'{{ __SELF__ }}::post': '#post-{{ post.id }}'"
                             data-request-confirm="Are you sure?"
                             class="btn btn-danger btn-sm">Delete</button>
+                        <a href="javascript:;"
+                            data-request="{{ __SELF__ }}::onUpdate"
+                            data-request-data="post: {{ post.id }}, mode: 'view'"
+                            data-request-update="'{{ __SELF__ }}::post': '#post-{{ post.id }}'"
+                            >
+                            Cancel
+                        </a>
                     </div>
 
                     <input type="hidden" name="mode" value="save" />
