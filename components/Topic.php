@@ -220,6 +220,12 @@ class Topic extends ComponentBase
 
     public function onMoveTopic()
     {
+        $member = MemberModel::getFromUser();
+        if (!$member->is_moderator) {
+            Flash::error('Access denied');
+            return;
+        }
+
         $channelId = post('channel');
         $channel = ChannelModel::find($channelId);
         if ($channel) {
