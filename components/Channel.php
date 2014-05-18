@@ -85,15 +85,17 @@ class Channel extends ComponentBase
             /*
              * Pagination
              */
-            $queryArr = [];
-            if ($searchString) $queryArr['search'] = $searchString;
-            $queryArr['page'] = '';
-            $paginationUrl = Request::url() . '?' . http_build_query($queryArr);
+            if ($topics) {
+                $queryArr = [];
+                if ($searchString) $queryArr['search'] = $searchString;
+                $queryArr['page'] = '';
+                $paginationUrl = Request::url() . '?' . http_build_query($queryArr);
 
-            if ($topics && $currentPage > ($lastPage = $topics->getLastPage()) && $currentPage > 1)
-                return Redirect::to($paginationUrl . $lastPage);
+                if ($currentPage > ($lastPage = $topics->getLastPage()) && $currentPage > 1)
+                    return Redirect::to($paginationUrl . $lastPage);
 
-            $this->page['paginationUrl'] = $paginationUrl;
+                $this->page['paginationUrl'] = $paginationUrl;
+            }
         }
 
         /*

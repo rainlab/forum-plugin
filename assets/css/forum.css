@@ -81,6 +81,13 @@
   border-radius: 999px;
   margin: 3px 0;
 }
+.rainlab-forum .forum-table th.post-column .post-edit,
+.rainlab-forum .forum-table td.post-column .post-edit,
+.rainlab-forum .forum-table th.post-column .post-delete,
+.rainlab-forum .forum-table td.post-column .post-delete {
+  font-weight: normal;
+  float: right;
+}
 .rainlab-forum .forum-table tr.forum-post td.member-column {
   background-color: #fcfcfc;
 }

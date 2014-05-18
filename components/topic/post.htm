@@ -1,15 +1,24 @@
 <tr class="forum-post-title">
     <th class="post-column">
+        <a href="#post-{{ post.id }}" class="post-anchor">#</a>
+        <em class="post-timesince">{{ post.created_at.diffForHumans }}</em>
         {% if post.canEdit and mode != 'edit' and mode != 'delete' %}
-            <button
-                class="btn btn-primary btn-sm"
+            <a href="javascript:;"
+                class="post-edit"
                 data-request="onUpdate"
                 data-request-data="post: {{ post.id }}"
-                data-request-update="'{{ __SELF__ ~ '::post' }}': '#post-{{ post.id }}'"
-                >Edit post</button>
+                data-request-update="'{{ __SELF__ ~ '::post' }}': '#post-{{ post.id }}'">
+                Edit post
+            </a>
+        {% elseif mode == 'edit' %}
+            <a href="javascript:;"
+                class="post-delete"
+                data-request="{{ __SELF__ }}::onUpdate"
+                data-request-data="post: {{ post.id }}, mode: 'view'"
+                data-request-update="'{{ __SELF__ }}::post': '#post-{{ post.id }}'">
+                Cancel
+            </a>
         {% endif %}
-        <a href="#post-{{ post.id }}">#</a>
-        <em>{{ post.created_at.diffForHumans }}</em>
     </th>
     <th class="member-column">
         <a href="{{ forumLink.member|page({ slug: post.member.slug }) }}">
@@ -41,13 +50,6 @@
                             data-request-update="'{{ __SELF__ }}::post': '#post-{{ post.id }}'"
                             data-request-confirm="Are you sure?"
                             class="btn btn-danger btn-sm">Delete</button>
-                        <a href="javascript:;"
-                            data-request="{{ __SELF__ }}::onUpdate"
-                            data-request-data="post: {{ post.id }}, mode: 'view'"
-                            data-request-update="'{{ __SELF__ }}::post': '#post-{{ post.id }}'"
-                            >
-                            Cancel
-                        </a>
                     </div>
 
                     <input type="hidden" name="mode" value="save" />

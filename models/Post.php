@@ -131,6 +131,10 @@ class Post extends Model
         $this->member()->decrement('count_posts');
         $this->topic()->decrement('count_posts');
         $this->topic->channel()->decrement('count_posts');
+
+        // If the topic has no more posts, delete it
+        if ($this->topic->count_posts <= 0)
+            $this->topic->delete();
     }
 
 }
