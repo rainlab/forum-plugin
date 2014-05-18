@@ -1,5 +1,6 @@
 <?php namespace RainLab\Forum;
 
+use Event;
 use Backend;
 use RainLab\User\Models\User;
 use System\Classes\PluginBase;
@@ -31,6 +32,24 @@ class Plugin extends PluginBase
     {
         User::extend(function($model) {
             $model->hasOne['forum_member'] = ['RainLab\Forum\Models\Member'];
+        });
+
+        Event::listen('backend.form.extendFields', function($widget) {
+            if (!$widget->controller instanceof \RainLab\User\Controllers\Users) return;
+            $widget->addFields([
+                'forum_member[is_moderator]' => [
+                    'label' => 'Forum moderator',
+                    'type' => 'checkbox',
+                    'tab' => 'Forum',
+                    'span' => 'auto',
+                ],
+                'forum_member[is_banned]' => [
+                    'label' => 'Banned from forum',
+                    'type' => 'checkbox',
+                    'tab' => 'Forum',
+                    'span' => 'auto',
+                ],
+            ], 'primary');
         });
     }
 

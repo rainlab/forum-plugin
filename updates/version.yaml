@@ -8,3 +8,6 @@
 1.0.2:
     - Add unread flags to topics
     - create_topic_watches_table.php
+1.0.3:
+    - Users can now be made moderators or be banned
+    - members_add_mod_and_ban.php
