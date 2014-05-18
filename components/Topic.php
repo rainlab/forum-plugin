@@ -136,7 +136,7 @@ class Topic extends ComponentBase
          * Signed in member
          */
         $this->page['member'] = $this->member = MemberModel::getFromUser();
-        if ($this->member)
+        if ($this->topic && $this->member)
             TopicWatch::flagAsWatched($this->topic, $this->member);
     }
 
