@@ -160,4 +160,13 @@ class Topic extends Model
         $this->posts()->delete();
         TopicWatch::where('topic_id', $this->id)->delete();
     }
+
+    public function canPost($member = null)
+    {
+        // @todo Add logic to check if topic is locked
+        if (!$member)
+            $member = Member::getFromUser();
+
+        return $member ? true : false;
+    }
 }

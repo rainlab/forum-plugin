@@ -1,0 +1,10 @@
+{{ form_open({ request: 'onUpdate', model: member }) }}
+
+    <div class="form-group">
+        <label for="memberUsername">Username</label>
+        <input name="username" type="text" class="form-control" id="memberUsername" value="{{ form_value('username') }}">
+    </div>
+
+    <button type="submit" class="btn btn-default">Save</button>
+
+{{ form_close() }}

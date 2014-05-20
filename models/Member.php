@@ -18,12 +18,12 @@ class Member extends Model
     /**
      * @var array Guarded fields
      */
-    protected $guarded = ['*'];
+    protected $guarded = [];
 
     /**
      * @var array Fillable fields
      */
-    protected $fillable = [];
+    protected $fillable = ['username'];
 
     /**
      * @var array Validation rules
@@ -70,4 +70,39 @@ class Member extends Model
 
         return $user->forum_member;
     }
+
+    /**
+     * Can the specified member edit this member
+     * @param  self $member
+     * @return bool
+     */
+    public function canEdit($member = null)
+    {
+        if (!$member)
+            $member = Member::getFromUser();
+
+        if (!$member)
+            return false;
+
+        if ($this->id == $member->id)
+            return true;
+
+        if ($member->is_moderator)
+            return true;
+
+        return false;
+    }
+
+    public function beforeSave()
+    {
+        /*
+         * Reset the slug
+         */
+        if ($this->isDirty('username')) {
+            $this->slug = null;
+            $this->slugAttributes();
+        }
+    }
+
+
 }

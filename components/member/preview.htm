@@ -1,0 +1,13 @@
+<div class="rainlab-forum">
+    <h5>
+        {{ member.username }}
+        {% if canEdit %}
+            <a href="{{ forumLink.member|page({ slug: member.slug }) }}?mode=edit">Edit details</a>
+        {% endif %}
+    </h5>
+    <p>
+        <img src="{{ member.user.avatarThumb(50, 'http://placehold.it/50x50.png') }}" />
+    </p>
+    <p>Member since: {{ member.created_at|date('Y-m-d') }}</p>
+    <p>Posts: {{ member.count_posts }}</p>
+</div>

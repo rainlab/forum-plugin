@@ -1,5 +1,7 @@
 <?php namespace RainLab\Forum\Components;
 
+use Flash;
+use Redirect;
 use Cms\Classes\ComponentBase;
 use RainLab\Forum\Models\Member as MemberModel;
 
@@ -7,6 +9,8 @@ class Member extends ComponentBase
 {
 
     private $member = null;
+
+    public $mode = 'view';
 
     const PARAM_SLUG = 'slug';
 
@@ -65,6 +69,42 @@ class Member extends ComponentBase
         ];
 
         $this->page['forumLink'] = $links;
+        $this->page['canEdit'] = $this->canEdit();
+        $this->page['mode'] = $this->mode = post('mode', $this->mode);
+    }
+
+    public function canEdit()
+    {
+        $member = $this->getMember();
+        if (!$member) return false;
+        return $member->canEdit(MemberModel::getFromUser());
+    }
+
+    public function onUpdate()
+    {
+        try {
+            if (!$this->canEdit())
+                throw new ApplicationException('Permission denied.');
+
+            $member = $this->getMember();
+            if (!$member) return;
+
+            $member->save(post());
+
+            Flash::success(post('flash', 'Settings successfully saved!'));
+
+            /*
+             * Redirect to the intended page after successful update
+             */
+            $redirectUrl = post('redirect', $this->currentPageUrl([
+                'slug' => $member->slug
+            ]));
+
+            return Redirect::to($redirectUrl);
+        }
+        catch (\Exception $ex) {
+            Flash::error($ex->getMessage());
+        }
     }
 
 }
