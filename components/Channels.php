@@ -2,6 +2,7 @@
 
 use Cms\Classes\ComponentBase;
 use RainLab\Forum\Models\Channel;
+use Cms\Classes\CmsPropertyHelper;
 
 class Channels extends ComponentBase
 {
@@ -22,19 +23,24 @@ class Channels extends ComponentBase
             'memberPage' => [
                 'title'       => 'Member Page',
                 'description' => 'Page name to use for clicking on a member.',
-                'type'        => 'string' // @todo Page picker
+                'type'        => 'dropdown',
             ],
             'channelPage' => [
                 'title'       => 'Channel Page',
                 'description' => 'Page name to use for clicking on a channel.',
-                'type'        => 'string' // @todo Page picker
+                'type'        => 'dropdown',
             ],
             'topicPage' => [
                 'title'       => 'Topic Page',
                 'description' => 'Page name to use for clicking on a conversation topic.',
-                'type'        => 'string' // @todo Page picker
+                'type'        => 'dropdown',
             ],
         ];
+    }
+
+    public function getPropertyOptions($property)
+    {
+        return CmsPropertyHelper::listPages();
     }
 
     public function onRun()

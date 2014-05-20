@@ -8,6 +8,7 @@ use RainLab\Forum\Models\Topic as TopicModel;
 use RainLab\Forum\Models\Channel as ChannelModel;
 use RainLab\Forum\Models\Member as MemberModel;
 use RainLab\Forum\Models\TopicWatch;
+use Cms\Classes\CmsPropertyHelper;
 
 class Channel extends ComponentBase
 {
@@ -36,14 +37,19 @@ class Channel extends ComponentBase
             'memberPage' => [
                 'title'       => 'Member Page',
                 'description' => 'Page name to use for clicking on a member.',
-                'type'        => 'string' // @todo Page picker
+                'type'        => 'dropdown'
             ],
             'topicPage' => [
                 'title'       => 'Topic Page',
                 'description' => 'Page name to use for clicking on a conversation topic.',
-                'type'        => 'string' // @todo Page picker
+                'type'        => 'dropdown'
             ],
         ];
+    }
+
+    public function getPropertyOptions($property)
+    {
+        return CmsPropertyHelper::listPages();
     }
 
     public function onRun()

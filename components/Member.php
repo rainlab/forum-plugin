@@ -27,12 +27,12 @@ class Member extends ComponentBase
             'channelPage' => [
                 'title'       => 'Channel Page',
                 'description' => 'Page name to use for clicking on a channel.',
-                'type'        => 'dropdown'
+                'type'        => 'dropdown',
             ],
             'topicPage' => [
                 'title'       => 'Topic Page',
                 'description' => 'Page name to use for clicking on a conversation topic.',
-                'type'        => 'dropdown'
+                'type'        => 'dropdown',
             ],
             'viewMode' => [
                 'title'       => 'View mode',
