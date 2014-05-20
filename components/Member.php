@@ -3,14 +3,13 @@
 use Flash;
 use Redirect;
 use Cms\Classes\ComponentBase;
+use Cms\Classes\CmsPropertyHelper;
 use RainLab\Forum\Models\Member as MemberModel;
 
 class Member extends ComponentBase
 {
 
     private $member = null;
-
-    public $mode = 'view';
 
     const PARAM_SLUG = 'slug';
 
@@ -28,14 +27,30 @@ class Member extends ComponentBase
             'channelPage' => [
                 'title'       => 'Channel Page',
                 'description' => 'Page name to use for clicking on a channel.',
-                'type'        => 'string' // @todo Page picker
+                'type'        => 'dropdown'
             ],
             'topicPage' => [
                 'title'       => 'Topic Page',
                 'description' => 'Page name to use for clicking on a conversation topic.',
-                'type'        => 'string' // @todo Page picker
+                'type'        => 'dropdown'
+            ],
+            'viewMode' => [
+                'title'       => 'View mode',
+                'description' => 'Manually set the view mode for the member component.',
+                'type'        => 'dropdown',
+                'default'     => ''
             ],
         ];
+    }
+
+    public function getViewModeOptions()
+    {
+        return ['' => '- none -', 'view' => 'View', 'edit' => 'Edit'];
+    }
+
+    public function getPropertyOptions($property)
+    {
+        return CmsPropertyHelper::listPages();
     }
 
     public function onRun()
@@ -52,9 +67,10 @@ class Member extends ComponentBase
             return $this->member;
 
         if (!$slug = $this->param(static::PARAM_SLUG))
-            return null;
+            $member = MemberModel::getFromUser();
+        else
+            $member = MemberModel::whereSlug($slug)->first();
 
-        $member = MemberModel::whereSlug($slug)->first();
         return $this->member = $member;
     }
 
@@ -70,13 +86,22 @@ class Member extends ComponentBase
 
         $this->page['forumLink'] = $links;
         $this->page['canEdit'] = $this->canEdit();
-        $this->page['mode'] = $this->mode = post('mode', $this->mode);
+        $this->page['mode'] = $this->getMode();
+    }
+
+    public function getMode()
+    {
+        return $this->property('viewMode', post('mode', 'view'));
     }
 
     public function canEdit()
     {
-        $member = $this->getMember();
-        if (!$member) return false;
+        if ($this->property('viewMode') == 'view')
+            return false;
+
+        if (!$member = $this->getMember())
+            return false;
+
         return $member->canEdit(MemberModel::getFromUser());
     }
 
