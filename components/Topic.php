@@ -4,6 +4,7 @@ use Auth;
 use Flash;
 use Request;
 use Redirect;
+use Cms\Classes\Page;
 use Cms\Classes\ComponentBase;
 use System\Classes\ApplicationException;
 use RainLab\Forum\Models\Topic as TopicModel;
@@ -11,7 +12,6 @@ use RainLab\Forum\Models\Channel as ChannelModel;
 use RainLab\Forum\Models\Member as MemberModel;
 use RainLab\Forum\Models\Post as PostModel;
 use RainLab\Forum\Models\TopicWatch;
-use Cms\Classes\CmsPropertyHelper;
 
 class Topic extends ComponentBase
 {
@@ -53,7 +53,7 @@ class Topic extends ComponentBase
 
     public function getPropertyOptions($property)
     {
-        return CmsPropertyHelper::listPages();
+        return Page::sortBy('baseFileName')->lists('baseFileName', 'baseFileName');
     }
 
     public function onRun()

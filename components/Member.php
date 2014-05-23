@@ -2,8 +2,8 @@
 
 use Flash;
 use Redirect;
+use Cms\Classes\Page;
 use Cms\Classes\ComponentBase;
-use Cms\Classes\CmsPropertyHelper;
 use RainLab\Forum\Models\Member as MemberModel;
 
 class Member extends ComponentBase
@@ -50,7 +50,7 @@ class Member extends ComponentBase
 
     public function getPropertyOptions($property)
     {
-        return CmsPropertyHelper::listPages();
+        return Page::sortBy('baseFileName')->lists('baseFileName', 'baseFileName');
     }
 
     public function onRun()

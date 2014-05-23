@@ -87,33 +87,4 @@ class Plugin extends PluginBase
         ];
     }
 
-    // public function registerNavigation()
-    // {
-    //     return [
-    //         'forum' => [
-    //             'label'       => 'Forum',
-    //             'url'         => Backend::url('rainlab/forum/channels'),
-    //             'icon'        => 'icon-comments',
-    //             'permissions' => ['forum.*'],
-    //             'order'       => 800,
-
-    //             'sideMenu' => [
-    //                 'topics' => [
-    //                     'label'       => 'Topics',
-    //                     'icon'        => 'icon-comments-o',
-    //                     'url'         => Backend::url('rainlab/forum/topics'),
-    //                     'permissions' => ['forum.access_topics'],
-    //                 ],
-    //                 'channels' => [
-    //                     'label'       => 'Channels',
-    //                     'icon'        => 'icon-list-ul',
-    //                     'url'         => Backend::url('rainlab/forum/channels'),
-    //                     'permissions' => ['forum.access_channels'],
-    //                 ],
-    //             ]
-
-    //         ]
-    //     ];
-    // }
-
 }
