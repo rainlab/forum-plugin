@@ -11,3 +11,12 @@ fields:
         type: textarea
         size: tiny
 
+    moderated:
+        label: Moderated
+        comment: Only moderators can post to this channel.
+        type: checkbox
+
+    hidden:
+        label: Hidden
+        comment: Hide this category from the main category list.
+        type: checkbox

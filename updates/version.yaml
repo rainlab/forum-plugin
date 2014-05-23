@@ -11,3 +11,6 @@
 1.0.3:
     - Users can now be made moderators or be banned
     - members_add_mod_and_ban.php
+1.0.4:
+    - Channels can now be hidden or moderated
+    - channels_add_hidden_and_moderated.php
