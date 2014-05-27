@@ -1,6 +1,7 @@
 <?php namespace RainLab\Forum\Models;
 
 use App;
+use Str;
 use Model;
 use Carbon\Carbon;
 use October\Rain\Support\Markdown;
@@ -111,7 +112,7 @@ class Post extends Model
 
     public function beforeSave()
     {
-        $this->content_html = Markdown::parse(trim($this->content));
+        $this->content_html = Str::cleanHtml(Markdown::parse(trim($this->content)));
     }
 
     public function afterCreate()
