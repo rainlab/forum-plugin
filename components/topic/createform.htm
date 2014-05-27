@@ -30,7 +30,9 @@
 
     <div class="form-group post-buttons">
         <button type="submit" class="btn btn-primary btn-lg">Post this topic</button>
-        <a class="btn btn-link btn-lg" href="{{ forumLink.channel|page({ slug: channel.slug }) }}">Cancel</a>
+        {% if returnUrl %}
+            <a class="btn btn-link btn-lg" href="{{ returnUrl }}">Cancel</a>
+        {% endif %}
     </div>
 
     <input type="hidden" name="channel" value="{{ channel.id }}" />

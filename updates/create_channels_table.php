@@ -15,7 +15,7 @@ class CreateChannelsTable extends Migration
             $table->integer('parent_id')->unsigned()->index()->nullable();
             $table->string('title');
             $table->string('slug')->index()->unique();
-            $table->string('description');
+            $table->string('description')->nullable();
             $table->integer('nest_left');
             $table->integer('nest_right');
             $table->integer('nest_depth')->nullable();

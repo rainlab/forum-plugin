@@ -2,7 +2,7 @@
     <h5>
         {{ member.username }}
         {% if canEdit %}
-            <a href="{{ forumLink.member|page({ slug: member.slug }) }}?mode=edit">Edit details</a>
+            <a href="{{ this.page.baseFileName|page }}?mode=edit">Edit details</a>
         {% endif %}
     </h5>
     <p>

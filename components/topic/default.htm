@@ -1,6 +1,6 @@
 <div class="rainlab-forum">
-    {% if channel %}
-        <p>&larr; <a href="{{ forumLink.channel|page({ slug: channel.slug }) }}">Back to {{ channel.title }}</a></p>
+    {% if returnUrl %}
+        <p>&larr; <a href="{{ returnUrl }}">Back to {{ channel.title }}</a></p>
     {% endif %}
 
     {% if topic %}

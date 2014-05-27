@@ -14,3 +14,6 @@
 1.0.4:
     - Channels can now be hidden or moderated
     - channels_add_hidden_and_moderated.php
+1.0.5:
+    - Introduced topic and channel embedding
+    - add_embed_code.php

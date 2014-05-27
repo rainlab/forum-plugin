@@ -15,17 +15,25 @@ use RainLab\Forum\Models\TopicWatch;
 
 class Topic extends ComponentBase
 {
+    /**
+     * @var boolean Determine if this component is being used by the EmbedChannel component.
+     */
+    public $embedMode = false;
 
     private $topic = null;
     private $channel = null;
     private $member = null;
 
+    public $memberPage;
+    public $memberPageParamId;
+    public $channelPage;
+    public $channelPageParamId;
+    public $returnUrl;
+
     /**
      * @var Collection Posts cache for Twig access.
      */
     public $posts = null;
-
-    const PARAM_SLUG = 'slug';
 
     public function componentDetails()
     {
@@ -38,15 +46,33 @@ class Topic extends ComponentBase
     public function defineProperties()
     {
         return [
+            'paramId' => [
+                'title'       => 'Slug param name',
+                'description' => 'The URL route parameter used for looking up the topic by its slug. A hard coded slug can also be used.',
+                'default'     => ':slug',
+                'type'        => 'string'
+            ],
             'memberPage' => [
                 'title'       => 'Member Page',
                 'description' => 'Page name to use for clicking on a member.',
                 'type'        => 'dropdown',
             ],
+            'memberPageParamId' => [
+                'title'       => 'Member page param name',
+                'description' => 'The expected parameter name used when creating links to the member page.',
+                'type'        => 'string',
+                'default'     => ':slug',
+            ],
             'channelPage' => [
                 'title'       => 'Channel Page',
                 'description' => 'Page name to use for clicking on a channel.',
                 'type'        => 'dropdown',
+            ],
+            'channelPageParamId' => [
+                'title'       => 'Channel page param name',
+                'description' => 'The expected parameter name used when creating links to the channel page.',
+                'type'        => 'string',
+                'default'     => ':slug',
             ],
         ];
     }
@@ -70,7 +96,7 @@ class Topic extends ComponentBase
         if ($this->topic !== null)
             return $this->topic;
 
-        if (!$slug = $this->param(static::PARAM_SLUG))
+        if (!$slug = $this->propertyOrParam('paramId'))
             return null;
 
         $topic = TopicModel::whereSlug($slug)->first();
@@ -131,21 +157,31 @@ class Topic extends ComponentBase
         }
 
         /*
-         * Load the page links
-         */
-        $links = [
-            'member' => $this->property('memberPage'),
-            'channel' => $this->property('channelPage'),
-        ];
-
-        $this->page['forumLink'] = $links;
-
-        /*
          * Signed in member
          */
         $this->page['member'] = $this->member = MemberModel::getFromUser();
         if ($this->topic && $this->member)
             TopicWatch::flagAsWatched($this->topic, $this->member);
+
+        /*
+         * Return URL
+         */
+        if ($this->getChannel()) {
+            if ($this->embedMode)
+                $returnUrl = $this->currentPageUrl([$this->property('paramId') => null]);
+            else
+                $returnUrl = $this->pageUrl($this->channelPage, [$this->channelPageParamId => $this->channel->slug]);
+
+             $this->returnUrl = $this->page['returnUrl'] = $returnUrl;
+         }
+
+        /*
+         * Page links
+         */
+        $this->memberPage = $this->page['memberPage'] = $this->property('memberPage');
+        $this->memberPageParamId = $this->page['memberPageParamId'] = $this->property('memberPageParamId');
+        $this->channelPage = $this->page['channelPage'] = $this->property('channelPage');
+        $this->channelPageParamId = $this->page['channelPageParamId'] = $this->property('channelPageParamId');
     }
 
     public function onCreate()
@@ -165,7 +201,7 @@ class Topic extends ComponentBase
              * Redirect to the intended page after successful update
              */
             $redirectUrl = post('redirect', $this->currentPageUrl([
-                'slug' => $topic->slug
+                $this->property('paramId') => $topic->slug
             ]));
 
             return Redirect::to($redirectUrl);
@@ -192,7 +228,7 @@ class Topic extends ComponentBase
              * Redirect to the intended page after successful update
              */
             $redirectUrl = post('redirect', $this->currentPageUrl([
-                'slug' => $topic->slug
+                $this->property('paramId') => $topic->slug
             ]));
 
             return Redirect::to($redirectUrl.'?page=last');
@@ -242,5 +278,4 @@ class Topic extends ComponentBase
             Flash::error('Unable to find a channel to move to.');
         }
     }
-
 }

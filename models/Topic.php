@@ -91,6 +91,29 @@ class Topic extends Model
     }
 
     /**
+     * Auto creates a topic based on embed code and channel
+     * @param  string $code      Embed code
+     * @param  int    $channelId Channel to create the topic in
+     * @param  string $subject   Title for the topic (if created)
+     * @return self
+     */
+    public static function createForEmbed($code, $channelId, $subject = null)
+    {
+        $topic = self::where('embed_code', $code)->where('channel_id', $channelId)->first();
+
+        if (!$topic) {
+            $topic = new self;
+            $topic->subject = $subject;
+            $topic->embed_code = $code;
+            $topic->channel_id = $channelId;
+            $topic->start_member_id = 0;
+            $topic->save();
+        }
+
+        return $topic;
+    }
+
+    /**
      * Lists topics for the front end
      * @param  integer $page      Page number
      * @param  string  $sort      Sorting field

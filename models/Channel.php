@@ -59,6 +59,28 @@ class Channel extends Model
     }
 
     /**
+     * Auto creates a channel based on embed code and a parent channel
+     * @param  string $code      Embed code
+     * @param  int    $channelId Channel to create the topic in
+     * @param  string $title     Title for the channel (if created)
+     * @return self
+     */
+    public static function createForEmbed($code, $channelId, $title = null)
+    {
+        $channel = self::where('embed_code', $code)->where('parent_id', $channelId)->first();
+
+        if (!$channel) {
+            $channel = new self;
+            $channel->title = $title;
+            $channel->embed_code = $code;
+            $channel->parent_id = $channelId;
+            $channel->save();
+        }
+
+        return $channel;
+    }
+
+    /**
      * Rebuilds the statistics for the channel
      * @return void
      */

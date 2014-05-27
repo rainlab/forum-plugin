@@ -11,7 +11,10 @@ class Member extends ComponentBase
 
     private $member = null;
 
-    const PARAM_SLUG = 'slug';
+    public $topicPage;
+    public $topicPageParamId;
+    public $channelPage;
+    public $channelPageParamId;
 
     public function componentDetails()
     {
@@ -24,21 +27,39 @@ class Member extends ComponentBase
     public function defineProperties()
     {
         return [
-            'channelPage' => [
-                'title'       => 'Channel Page',
-                'description' => 'Page name to use for clicking on a channel.',
-                'type'        => 'dropdown',
-            ],
-            'topicPage' => [
-                'title'       => 'Topic Page',
-                'description' => 'Page name to use for clicking on a conversation topic.',
-                'type'        => 'dropdown',
+            'paramId' => [
+                'title'       => 'Slug param name',
+                'description' => 'The URL route parameter used for looking up the forum member by their slug. A hard coded slug can also be used.',
+                'default'     => ':slug',
+                'type'        => 'string'
             ],
             'viewMode' => [
                 'title'       => 'View mode',
                 'description' => 'Manually set the view mode for the member component.',
                 'type'        => 'dropdown',
                 'default'     => ''
+            ],
+            'channelPage' => [
+                'title'       => 'Channel page',
+                'description' => 'Page name to use for clicking on a channel.',
+                'type'        => 'dropdown',
+            ],
+            'channelPageParamId' => [
+                'title'       => 'Channel page param name',
+                'description' => 'The expected parameter name used when creating links to the channel page.',
+                'type'        => 'string',
+                'default'     => ':slug',
+            ],
+            'topicPage' => [
+                'title'       => 'Topic page',
+                'description' => 'Page name to use for clicking on a conversation topic.',
+                'type'        => 'dropdown',
+            ],
+            'topicPageParamId' => [
+                'title'       => 'Topic page param name',
+                'description' => 'The expected parameter name used when creating links to the topic page.',
+                'type'        => 'string',
+                'default'     => ':slug',
             ],
         ];
     }
@@ -66,7 +87,7 @@ class Member extends ComponentBase
         if ($this->member !== null)
             return $this->member;
 
-        if (!$slug = $this->param(static::PARAM_SLUG))
+        if (!$slug = $this->propertyOrParam('paramId'))
             $member = MemberModel::getFromUser();
         else
             $member = MemberModel::whereSlug($slug)->first();
@@ -76,17 +97,16 @@ class Member extends ComponentBase
 
     protected function prepareVars()
     {
-        /*
-         * Load the page links
-         */
-        $links = [
-            'channel' => $this->property('channelPage'),
-            'topic' => $this->property('topicPage'),
-        ];
-
-        $this->page['forumLink'] = $links;
         $this->page['canEdit'] = $this->canEdit();
         $this->page['mode'] = $this->getMode();
+
+        /*
+         * Page links
+         */
+        $this->topicPage = $this->page['topicPage'] = $this->property('topicPage');
+        $this->topicPageParamId = $this->page['topicPageParamId'] = $this->property('topicPageParamId');
+        $this->channelPage = $this->page['channelPage'] = $this->property('channelPage');
+        $this->channelPageParamId = $this->page['channelPageParamId'] = $this->property('channelPageParamId');
     }
 
     public function getMode()

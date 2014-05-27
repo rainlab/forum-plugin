@@ -9,6 +9,13 @@ class Channels extends ComponentBase
 
     private $channels = null;
 
+    public $memberPage;
+    public $memberPageParamId;
+    public $topicPage;
+    public $topicPageParamId;
+    public $channelPage;
+    public $channelPageParamId;
+
     public function componentDetails()
     {
         return [
@@ -25,15 +32,33 @@ class Channels extends ComponentBase
                 'description' => 'Page name to use for clicking on a member.',
                 'type'        => 'dropdown',
             ],
+            'memberPageParamId' => [
+                'title'       => 'Member page param name',
+                'description' => 'The expected parameter name used when creating links to the member page.',
+                'type'        => 'string',
+                'default'     => ':slug',
+            ],
             'channelPage' => [
                 'title'       => 'Channel Page',
                 'description' => 'Page name to use for clicking on a channel.',
                 'type'        => 'dropdown',
             ],
+            'channelPageParamId' => [
+                'title'       => 'Channel page param name',
+                'description' => 'The expected parameter name used when creating links to the channel page.',
+                'type'        => 'string',
+                'default'     => ':slug',
+            ],
             'topicPage' => [
                 'title'       => 'Topic Page',
                 'description' => 'Page name to use for clicking on a conversation topic.',
                 'type'        => 'dropdown',
+            ],
+            'topicPageParamId' => [
+                'title'       => 'Topic page param name',
+                'description' => 'The expected parameter name used when creating links to the topic page.',
+                'type'        => 'string',
+                'default'     => ':slug',
             ],
         ];
     }
@@ -62,15 +87,13 @@ class Channels extends ComponentBase
     protected function prepareVars()
     {
         /*
-         * Load the page links
+         * Page links
          */
-        $links = [
-            'member' => $this->property('memberPage'),
-            'channel' => $this->property('channelPage'),
-            'topic' => $this->property('topicPage'),
-        ];
-
-        $this->page['forumLink'] = $links;
+        $this->memberPage = $this->page['memberPage'] = $this->property('memberPage');
+        $this->memberPageParamId = $this->page['memberPageParamId'] = $this->property('memberPageParamId');
+        $this->channelPage = $this->page['channelPage'] = $this->property('channelPage');
+        $this->channelPageParamId = $this->page['channelPageParamId'] = $this->property('channelPageParamId');
+        $this->topicPage = $this->page['topicPage'] = $this->property('topicPage');
+        $this->topicPageParamId = $this->page['topicPageParamId'] = $this->property('topicPageParamId');
     }
-
 }

@@ -23,7 +23,7 @@
                         </td>
                         <td>
                             <h5>
-                                <a href="{{ forumLink.channel|page({ slug: channel.slug }) }}">
+                                <a href="{{ channelPage|page({ (channelPageParamId): channel.slug }) }}">
                                     {{ channel.title }}
                                 </a>
                             </h5>
@@ -35,7 +35,7 @@
                                         <li><span>Subforum</span></li>
                                         {% for channel in channel.children %}
                                             <li>
-                                                <a href="{{ forumLink.channel|page({ slug: channel.slug }) }}" title="{{ channel.description }}">
+                                                <a href="{{ channelPage|page({ (channelPageParamId): channel.slug }) }}" title="{{ channel.description }}">
                                                     {{ channel.title }}
                                                 </a>
                                             </li>
@@ -54,9 +54,9 @@
                             {% if channel.firstTopic %}
                                 <p>
                                     <img src="{{ channel.firstTopic.last_post_member.user.avatarThumb(24, 'http://placehold.it/24x24.png') }}" class="member-avatar" />
-                                    <a href="{{ forumLink.member|page({ slug: channel.firstTopic.last_post_member.slug }) }}">{{ channel.firstTopic.last_post_member.username }}</a>
+                                    <a href="{{ memberPage|page({ (memberPageParamId): channel.firstTopic.last_post_member.slug }) }}">{{ channel.firstTopic.last_post_member.username }}</a>
                                     posted
-                                    <a href="{{ forumLink.topic|page({ slug: channel.firstTopic.slug }) }}?page=last#post-{{ channel.firstTopic.last_post_id }}">{{ channel.firstTopic.last_post_at.diffForHumans }}</a>
+                                    <a href="{{ topicPage|page({ (topicPageParamId): channel.firstTopic.slug }) }}?page=last#post-{{ channel.firstTopic.last_post_id }}">{{ channel.firstTopic.last_post_at.diffForHumans }}</a>
                                 </p>
                             {% endif %}
                         </td>

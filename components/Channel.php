@@ -16,12 +16,15 @@ class Channel extends ComponentBase
     private $member = null;
     private $channel = null;
 
+    public $memberPage;
+    public $memberPageParamId;
+    public $topicPage;
+    public $topicPageParamId;
+
     /**
      * @var Collection Topics cache for Twig access.
      */
     public $topics = null;
-
-    const PARAM_SLUG = 'slug';
 
     public function componentDetails()
     {
@@ -34,15 +37,33 @@ class Channel extends ComponentBase
     public function defineProperties()
     {
         return [
+            'paramId' => [
+                'title'       => 'Slug param name',
+                'description' => 'The URL route parameter used for looking up the channel by its slug. A hard coded slug can also be used.',
+                'default'     => ':slug',
+                'type'        => 'string'
+            ],
             'memberPage' => [
                 'title'       => 'Member Page',
                 'description' => 'Page name to use for clicking on a member.',
                 'type'        => 'dropdown'
             ],
+            'memberPageParamId' => [
+                'title'       => 'Member page param name',
+                'description' => 'The expected parameter name used when creating links to the member page.',
+                'type'        => 'string',
+                'default'     => ':slug',
+            ],
             'topicPage' => [
                 'title'       => 'Topic Page',
                 'description' => 'Page name to use for clicking on a conversation topic.',
                 'type'        => 'dropdown'
+            ],
+            'topicPageParamId' => [
+                'title'       => 'Topic page param name',
+                'description' => 'The expected parameter name used when creating links to the topic page.',
+                'type'        => 'string',
+                'default'     => ':slug',
             ],
         ];
     }
@@ -65,7 +86,7 @@ class Channel extends ComponentBase
         if ($this->channel !== null)
             return $this->channel;
 
-        if (!$slug = $this->param(static::PARAM_SLUG))
+        if (!$slug = $this->propertyOrParam('paramId'))
             return null;
 
         return $this->channel = ChannelModel::whereSlug($slug)->first();
@@ -105,14 +126,13 @@ class Channel extends ComponentBase
         }
 
         /*
-         * Load the page links
+         * Page links
          */
-        $links = [
-            'member' => $this->property('memberPage'),
-            'topic' => $this->property('topicPage'),
-        ];
+        $this->topicPage = $this->page['topicPage'] = $this->property('topicPage');
+        $this->topicPageParamId = $this->page['topicPageParamId'] = $this->property('topicPageParamId');
+        $this->memberPage = $this->page['memberPage'] = $this->property('memberPage');
+        $this->memberPageParamId = $this->page['memberPageParamId'] = $this->property('memberPageParamId');
 
-        $this->page['forumLink'] = $links;
         $this->page['isGuest'] = !Auth::check();
     }
 

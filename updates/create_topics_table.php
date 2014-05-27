@@ -15,7 +15,7 @@ class CreateTopicsTable extends Migration
             $table->string('subject')->nullable();
             $table->string('slug')->index()->unique();
             $table->integer('channel_id')->unsigned()->index();
-            $table->integer('start_member_id')->index();
+            $table->integer('start_member_id')->index()->nullable();
             $table->integer('last_post_id')->nullable();
             $table->integer('last_post_member_id')->nullable();
             $table->dateTime('last_post_at')->index()->nullable();
