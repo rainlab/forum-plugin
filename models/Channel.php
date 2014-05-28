@@ -95,9 +95,18 @@ class Channel extends Model
         $this->save();
     }
 
+    /**
+     * Filters if the channel should be visible on the front-end.
+     */
     public function scopeIsVisible($query)
     {
         return $query->where('is_hidden', '<>', true);
+    }
+
+    public function afterDelete()
+    {
+        foreach ($this->topics as $topic)
+            $topic->delete();
     }
 
 }

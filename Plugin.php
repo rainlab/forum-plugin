@@ -25,7 +25,7 @@ class Plugin extends PluginBase
             'name'        => 'Forum',
             'description' => 'A simple embeddable forum',
             'author'      => 'RainLab',
-            'icon'        => 'icon-leaf'
+            'icon'        => 'icon-comments'
         ];
     }
 
