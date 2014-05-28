@@ -21,7 +21,7 @@ noRecordsMessage: backend::lang.list.no_records
 recordsPerPage: 20
 
 # Display checkboxes next to each record
-showCheckboxes: false
+showCheckboxes: true
 
 showTree: true
 
