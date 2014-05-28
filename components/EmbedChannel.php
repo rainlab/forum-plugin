@@ -64,7 +64,7 @@ class EmbedChannel extends ComponentBase
             throw new Exception('No code specified for the Forum Embed component');
 
         $channel = ($channelId = $this->property('channelId'))
-            ? ChannelModel::whereSlug($channelId.'a')->first()
+            ? ChannelModel::whereSlug($channelId)->first()
             : null;
 
         if (!$channel)
