@@ -59,15 +59,14 @@ class EmbedTopic extends ComponentBase
         $code = $this->propertyOrParam('paramId');
 
         if (!$code)
-            return 'No code specified for the Forum Embed component';
+            return $this->page['fatalError'] = 'No code specified for the Forum Embed component';
 
         $channel = ($channelId = $this->property('channelId'))
             ? ChannelModel::find($channelId)
             : null;
 
         if (!$channel)
-            return 'No channel specified for Forum Embed component';
-
+            return $this->page['fatalError'] = 'No channel specified for Forum Embed component';
 
         $topic = TopicModel::createForEmbed($code, $channelId, $this->page->title);
 

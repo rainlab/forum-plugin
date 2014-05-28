@@ -58,14 +58,14 @@ class EmbedChannel extends ComponentBase
         $code = $this->propertyOrParam('paramId');
 
         if (!$code)
-            return 'No code specified for the Forum Embed component';
+            return $this->page['fatalError'] = 'No code specified for the Forum Embed component';
 
         $channel = ($channelId = $this->property('channelId'))
-            ? ChannelModel::find($channelId)
+            ? ChannelModel::whereSlug($channelId)->first()
             : null;
 
         if (!$channel)
-            return 'No channel specified for Forum Embed component';
+            return $this->page['fatalError'] = 'No channel specified for Forum Embed component';
 
         if (post('channel') || $this->propertyOrParam('paramTopic')) {
             $properties = $this->getProperties();
