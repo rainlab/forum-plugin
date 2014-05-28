@@ -62,7 +62,7 @@ class Channel extends Model
     /**
      * Auto creates a channel based on embed code and a parent channel
      * @param  string $code        Embed code
-     * @param  int    $channelSlug Channel to create the topic in
+     * @param  string $channelSlug Channel to create the topic in
      * @param  string $title       Title for the channel (if created)
      * @return self
      */

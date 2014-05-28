@@ -94,7 +94,7 @@ class Topic extends Model
     /**
      * Auto creates a topic based on embed code and channel
      * @param  string $code        Embed code
-     * @param  int    $channelSlug Channel to create the topic in
+     * @param  string $channelSlug Channel to create the topic in
      * @param  string $subject     Title for the topic (if created)
      * @return self
      */

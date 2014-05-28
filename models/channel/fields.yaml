@@ -3,17 +3,23 @@
 # ===================================
 
 fields:
-    title:
-        label: Title
-        span: left
-
     parent:
-        span: right
         label: Parent
         type: relation
         options:
             nameColumn: title
             emptyOption: -- No parent --
+
+    title:
+        label: Title
+        span: left
+
+    slug:
+        label: Slug
+        span: right
+        attributes:
+            data-input-preset: 'input[name="Channel[title]"]'
+            data-input-preset-type: slug
 
     description:
         label: Description
