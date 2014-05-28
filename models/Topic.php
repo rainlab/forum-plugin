@@ -3,6 +3,7 @@
 use App;
 use Model;
 use DB as Db;
+use System\Classes\ApplicationException;
 
 /**
  * Topic Model
@@ -92,20 +93,23 @@ class Topic extends Model
 
     /**
      * Auto creates a topic based on embed code and channel
-     * @param  string $code      Embed code
-     * @param  int    $channelId Channel to create the topic in
-     * @param  string $subject   Title for the topic (if created)
+     * @param  string $code        Embed code
+     * @param  int    $channelSlug Channel to create the topic in
+     * @param  string $subject     Title for the topic (if created)
      * @return self
      */
-    public static function createForEmbed($code, $channelId, $subject = null)
+    public static function createForEmbed($code, $channelSlug, $subject = null)
     {
-        $topic = self::where('embed_code', $code)->where('channel_id', $channelId)->first();
+        if (!$channel = Channel::whereSlug($channelSlug)->first())
+            throw new ApplicationException('Unable to find a channel with slug: ' . $channelSlug);
+
+        $topic = self::where('embed_code', $code)->where('channel_id', $channel->id)->first();
 
         if (!$topic) {
             $topic = new self;
             $topic->subject = $subject;
             $topic->embed_code = $code;
-            $topic->channel_id = $channelId;
+            $topic->channel = $channel;
             $topic->start_member_id = 0;
             $topic->save();
         }

@@ -45,7 +45,7 @@ class EmbedTopic extends ComponentBase
 
     protected function getChannelIdOptions()
     {
-        return ChannelModel::orderBy('title')->lists('title', 'id');
+        return ChannelModel::orderBy('title')->lists('title', 'slug');
     }
 
     public function getMemberPageOptions()

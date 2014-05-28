@@ -1,6 +1,7 @@
 <?php namespace RainLab\Forum\Models;
 
 use Model;
+use System\Classes\ApplicationException;
 
 /**
  * Channel Model
@@ -60,20 +61,23 @@ class Channel extends Model
 
     /**
      * Auto creates a channel based on embed code and a parent channel
-     * @param  string $code      Embed code
-     * @param  int    $channelId Channel to create the topic in
-     * @param  string $title     Title for the channel (if created)
+     * @param  string $code        Embed code
+     * @param  int    $channelSlug Channel to create the topic in
+     * @param  string $title       Title for the channel (if created)
      * @return self
      */
-    public static function createForEmbed($code, $channelId, $title = null)
+    public static function createForEmbed($code, $channelSlug, $title = null)
     {
-        $channel = self::where('embed_code', $code)->where('parent_id', $channelId)->first();
+        if (!$parentChannel = Channel::whereSlug($channelSlug)->first())
+            throw new ApplicationException('Unable to find a channel with slug: ' . $channelSlug);
+
+        $channel = self::where('embed_code', $code)->where('parent_id', $parentChannel->id)->first();
 
         if (!$channel) {
             $channel = new self;
             $channel->title = $title;
             $channel->embed_code = $code;
-            $channel->parent_id = $channelId;
+            $channel->parent = $parentChannel;
             $channel->save();
         }
 
