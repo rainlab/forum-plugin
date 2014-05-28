@@ -5,6 +5,15 @@
 fields:
     title:
         label: Title
+        span: left
+
+    parent:
+        span: right
+        label: Parent
+        type: relation
+        options:
+            nameColumn: title
+            emptyOption: -- No parent --
 
     description:
         label: Description
@@ -15,8 +24,10 @@ fields:
         label: Moderated
         comment: Only moderators can post to this channel.
         type: checkbox
+        span: auto
 
     hidden:
         label: Hidden
         comment: Hide this category from the main category list.
         type: checkbox
+        span: auto

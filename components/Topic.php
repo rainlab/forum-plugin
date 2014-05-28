@@ -124,9 +124,9 @@ class Topic extends ComponentBase
         return $this->channel = $channel;
     }
 
-    public function getChannels()
+    public function getChannelList()
     {
-        return ChannelModel::all();
+        return ChannelModel::getRootList('title', 'id');
     }
 
     protected function preparePostList()

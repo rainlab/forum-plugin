@@ -6,6 +6,7 @@ columns:
     title:
         label: Title
         searchable: true
+
     description:
         label: Description
         searchable: true

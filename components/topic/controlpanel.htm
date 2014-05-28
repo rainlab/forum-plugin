@@ -2,8 +2,8 @@
     {{ form_open({ request: 'onMoveTopic' }) }}
         Move to:
         <select name="channel">
-            {% for channel in __SELF__.channels %}
-                <option value="{{ channel.id }}">{{ channel.title }}</option>
+            {% for id, title in __SELF__.channelList %}
+                <option value="{{ id }}">{{ title|raw }}</option>
             {% endfor %}
         </select>
         <button type="submit">Move</button>

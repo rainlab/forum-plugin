@@ -190,6 +190,9 @@ class Topic extends Model
         if (!$member)
             $member = Member::getFromUser();
 
+        if ($member->is_banned)
+            return false;
+
         return $member ? true : false;
     }
 }
