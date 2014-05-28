@@ -12,6 +12,10 @@ use RainLab\Forum\Models\Member as MemberModel;
 
 class Channel extends ComponentBase
 {
+    /**
+     * @var boolean Determine if this component is being used by the EmbedChannel component.
+     */
+    public $embedMode = false;
 
     private $member = null;
     private $channel = null;

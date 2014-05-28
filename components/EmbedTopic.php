@@ -74,7 +74,8 @@ class EmbedTopic extends ComponentBase
         $properties['paramId'] = $topic->slug;
 
         // Replace this component completely
-        $this->addComponent('RainLab\Forum\Components\Topic', $this->alias, $properties);
+        $component = $this->addComponent('RainLab\Forum\Components\Topic', $this->alias, $properties);
+        $component->embedMode = 'topic';
     }
 
 }

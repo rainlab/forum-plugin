@@ -71,7 +71,6 @@ class EmbedChannel extends ComponentBase
             $properties = $this->getProperties();
             $properties['paramId'] = $this->property('paramTopic');
             $component = $this->addComponent('RainLab\Forum\Components\Topic', $this->alias, $properties);
-            $component->embedMode = true;
         }
         else {
             $channel = ChannelModel::createForEmbed($code, $channelId, $this->page->title);
@@ -81,9 +80,20 @@ class EmbedChannel extends ComponentBase
             $properties['topicPageParamId'] = $this->property('paramTopic');
 
             // Replace this component completely
-            $this->addComponent('RainLab\Forum\Components\Channel', $this->alias, $properties);
+            $component = $this->addComponent('RainLab\Forum\Components\Channel', $this->alias, $properties);
         }
 
+        /*
+         * Set the embedding mode
+         */
+        if (post('channel'))
+            $component->embedMode = 'post';
+        elseif (post('search'))
+            $component->embedMode = 'search';
+        elseif ($this->propertyOrParam('paramTopic'))
+            $component->embedMode = 'topic';
+        else
+            $component->embedMode = 'channel';
     }
 
 }
