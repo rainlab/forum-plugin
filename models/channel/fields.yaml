@@ -20,13 +20,13 @@ fields:
         type: textarea
         size: tiny
 
-    moderated:
+    is_moderated:
         label: Moderated
         comment: Only moderators can post to this channel.
         type: checkbox
         span: auto
 
-    hidden:
+    is_hidden:
         label: Hidden
         comment: Hide this category from the main category list.
         type: checkbox
