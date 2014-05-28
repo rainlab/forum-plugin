@@ -4,9 +4,12 @@ use Cms\Classes\Page;
 use Cms\Classes\ComponentBase;
 use RainLab\Forum\Models\Topic as TopicModel;
 use RainLab\Forum\Models\Channel as ChannelModel;
+use Exception;
 
 class EmbedChannel extends ComponentBase
 {
+
+    public $embedMode = true;
 
     public function componentDetails()
     {
@@ -58,14 +61,14 @@ class EmbedChannel extends ComponentBase
         $code = $this->propertyOrParam('paramId');
 
         if (!$code)
-            return $this->page['fatalError'] = 'No code specified for the Forum Embed component';
+            throw new Exception('No code specified for the Forum Embed component');
 
         $channel = ($channelId = $this->property('channelId'))
-            ? ChannelModel::whereSlug($channelId)->first()
+            ? ChannelModel::whereSlug($channelId.'a')->first()
             : null;
 
         if (!$channel)
-            return $this->page['fatalError'] = 'No channel specified for Forum Embed component';
+            throw new Exception('No channel specified for Forum Embed component');
 
         if (post('channel') || $this->propertyOrParam('paramTopic')) {
             $properties = $this->getProperties();
