@@ -91,4 +91,9 @@ class Channel extends Model
         $this->save();
     }
 
+    public function scopeIsVisible($query)
+    {
+        return $query->where('is_hidden', '<>', true);
+    }
+
 }

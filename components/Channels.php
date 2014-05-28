@@ -81,7 +81,7 @@ class Channels extends ComponentBase
         if ($this->channels !== null)
             return $this->channels;
 
-        return $this->channels = Channel::make()->getEagerRoot();
+        return $this->channels = Channel::orderByNested()->isVisible()->getNested();
     }
 
     protected function prepareVars()

@@ -19,12 +19,12 @@ class CreateTopicsTable extends Migration
             $table->integer('last_post_id')->nullable();
             $table->integer('last_post_member_id')->nullable();
             $table->dateTime('last_post_at')->index()->nullable();
-            $table->boolean('private')->index()->nullable();
-            $table->boolean('sticky')->nullable();
-            $table->boolean('locked')->index()->nullable();
+            $table->boolean('is_private')->index()->default(0);
+            $table->boolean('is_sticky')->default(0);
+            $table->boolean('is_locked')->index()->default(0);
             $table->integer('count_posts')->index()->nullable();
             $table->integer('count_views')->index()->nullable();
-            $table->index(['sticky', 'last_post_at'], 'sticky_post_time');
+            $table->index(['is_sticky', 'last_post_at'], 'sticky_post_time');
             $table->timestamps();
         });
     }

@@ -10,8 +10,8 @@ class ChannelsAddHiddenAndModerated extends Migration
     {
         Schema::table('rainlab_forum_channels', function($table)
         {
-            $table->boolean('hidden')->default(0);
-            $table->boolean('moderated')->default(0);
+            $table->boolean('is_hidden')->default(0);
+            $table->boolean('is_moderated')->default(0);
         });
     }
 
@@ -19,7 +19,7 @@ class ChannelsAddHiddenAndModerated extends Migration
     {
         Schema::table('rainlab_forum_channels', function($table)
         {
-            $table->dropColumn('hidden', 'moderated');
+            $table->dropColumn('is_hidden', 'is_moderated');
         });
     }
 }
