@@ -22,8 +22,8 @@ class CreateTopicsTable extends Migration
             $table->boolean('is_private')->index()->default(0);
             $table->boolean('is_sticky')->default(0);
             $table->boolean('is_locked')->index()->default(0);
-            $table->integer('count_posts')->index()->nullable();
-            $table->integer('count_views')->index()->nullable();
+            $table->integer('count_posts')->index()->default(0);
+            $table->integer('count_views')->index()->default(0);
             $table->index(['is_sticky', 'last_post_at'], 'sticky_post_time');
             $table->timestamps();
         });

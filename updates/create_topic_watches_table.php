@@ -14,7 +14,7 @@ class CreateTopicWatchesTable extends Migration
             $table->increments('id');
             $table->integer('topic_id')->unsigned()->index()->nullable();
             $table->integer('member_id')->unsigned()->index()->nullable();
-            $table->integer('count_posts')->index()->nullable();
+            $table->integer('count_posts')->index()->default(0);
             $table->dateTime('watched_at')->index();
         });
     }
