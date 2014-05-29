@@ -29,6 +29,22 @@
         }
     }
 
+    .forum-postform {
+        img.member-avatar {
+            border-radius: 999px;
+            margin: 0 3px;
+            float: left;
+        }
+
+        .post-area {
+            margin-left: 70px;
+        }
+
+        .post-buttons {
+            float: right;
+        }
+    }
+
     .forum-table {
         width: 100%;
         margin-bottom: 20px;
@@ -56,10 +72,7 @@
         thead:first-child tr:first-child td {
             border-top: 0;
         }
-        // Account for multiple tbody instances
-        tbody + tbody {
-            border-top: 2px solid @color-table-border;
-        }
+
 
         td.indicator-column {
             width: 12px;
@@ -115,6 +128,7 @@
 
         .post-content {
             padding: 10px 0;
+            word-break: break-all;
         }
 
         // Topic specific

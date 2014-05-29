@@ -18,6 +18,17 @@
   border-left-color: #f2c6ab;
   opacity: 1;
 }
+.rainlab-forum .forum-postform img.member-avatar {
+  border-radius: 999px;
+  margin: 0 3px;
+  float: left;
+}
+.rainlab-forum .forum-postform .post-area {
+  margin-left: 70px;
+}
+.rainlab-forum .forum-postform .post-buttons {
+  float: right;
+}
 .rainlab-forum .forum-table {
   width: 100%;
   margin-bottom: 20px;
@@ -44,9 +55,6 @@
 .rainlab-forum .forum-table thead:first-child tr:first-child th,
 .rainlab-forum .forum-table thead:first-child tr:first-child td {
   border-top: 0;
-}
-.rainlab-forum .forum-table tbody + tbody {
-  border-top: 2px solid #cccccc;
 }
 .rainlab-forum .forum-table td.indicator-column {
   width: 12px;
@@ -93,6 +101,7 @@
 }
 .rainlab-forum .forum-table .post-content {
   padding: 10px 0;
+  word-break: break-all;
 }
 .rainlab-forum .forum-table tr.forum-topic h5 {
   margin: 0;

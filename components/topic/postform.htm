@@ -5,22 +5,28 @@
     </div>
 {% endflash %}
 
-{{ form_open({ request: 'onPost' }) }}
+<div class="forum-postform">
 
-    <div class="form-group">
-        <label for="topicContent" class="control-label">Content</label>
-        <textarea
-            id="topicContent"
-            name="content"
-            rows="6"
-            class="form-control">{{ form_value('content') }}</textarea>
-        <span class="help-block">You can use <a href="http://daringfireball.net/projects/markdown/syntax" target="_blank">Markdown</a> syntax.</span>
-    </div>
+    {{ form_open({ request: 'onPost' }) }}
 
-    <div class="form-group post-buttons">
-        <button type="submit" class="btn btn-primary btn-lg">Reply</button>
-    </div>
+        <input type="hidden" name="topic" value="{{ topic.id }}" />
 
-    <input type="hidden" name="topic" value="{{ topic.id }}" />
+        <div class="member-area">
+            <img src="{{ member.user.avatarThumb(50, 'http://placehold.it/50x50.png') }}" class="member-avatar" alt="{{ member.username }}" />
+        </div>
 
-{{ form_close() }}
+        <div class="post-area">
+            <textarea
+                id="topicContent"
+                name="content"
+                rows="6"
+                class="form-control">{{ form_value('content') }}</textarea>
+            <span class="help-block">You can use <a href="http://daringfireball.net/projects/markdown/syntax" target="_blank">Markdown</a> syntax.</span>
+            <div class="post-buttons">
+                <button type="submit" class="btn btn-primary btn-lg">Post a Reply</button>
+            </div>
+        </div>
+
+    {{ form_close() }}
+
+</div>
