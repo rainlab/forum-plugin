@@ -1,5 +1,5 @@
 <p class="avatar">
-    <a href="{{ memberPage|page({ (memberPageParamId): member.slug }) }}">
+    <a href="{{ memberPage|page({ (memberPageIdParam): member.slug }) }}">
         <img src="{{ member.user.avatarThumb(50, 'http://placehold.it/50x50.png') }}" class="member-avatar" alt="{{ member.username }}" />
     </a>
 </p>

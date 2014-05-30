@@ -15,7 +15,7 @@
                 <h5>
                     {% if topic.sticky %}<strong>Sticky:</strong>{% endif %}
                     {% if topic.locked %}<strong>Locked:</strong>{% endif %}
-                    <a href="{{ topicPage|page({ (topicPageParamId): topic.slug }) }}">{{ topic.subject }}</a>
+                    <a href="{{ topicPage|page({ (topicPageIdParam): topic.slug }) }}">{{ topic.subject }}</a>
                 </h5>
             </td>
             <td class="counter-column">
@@ -27,9 +27,9 @@
             <td class="activity-column">
                 <p>
                     <img src="{{ topic.last_post_member.user.avatarThumb(24, 'http://placehold.it/24x24.png') }}" class="member-avatar" />
-                    <a href="{{ memberPage|page({ (memberPageParamId): topic.last_post_member.slug }) }}">{{ topic.last_post_member.username }}</a>
+                    <a href="{{ memberPage|page({ (memberPageIdParam): topic.last_post_member.slug }) }}">{{ topic.last_post_member.username }}</a>
                     posted
-                    <a href="{{ topicPage|page({ (topicPageParamId): topic.slug }) }}?page=last#post-{{ topic.last_post_id }}">{{ topic.last_post_at.diffForHumans }}</a>
+                    <a href="{{ topicPage|page({ (topicPageIdParam): topic.slug }) }}?page=last#post-{{ topic.last_post_id }}">{{ topic.last_post_at.diffForHumans }}</a>
                 </p>
             </td>
         </tr>

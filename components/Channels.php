@@ -10,11 +10,11 @@ class Channels extends ComponentBase
     private $channels = null;
 
     public $memberPage;
-    public $memberPageParamId;
+    public $memberPageIdParam;
     public $topicPage;
-    public $topicPageParamId;
+    public $topicPageIdParam;
     public $channelPage;
-    public $channelPageParamId;
+    public $channelPageIdParam;
 
     public function componentDetails()
     {
@@ -32,7 +32,7 @@ class Channels extends ComponentBase
                 'description' => 'Page name to use for clicking on a member.',
                 'type'        => 'dropdown',
             ],
-            'memberPageParamId' => [
+            'memberPageIdParam' => [
                 'title'       => 'Member page param name',
                 'description' => 'The expected parameter name used when creating links to the member page.',
                 'type'        => 'string',
@@ -43,7 +43,7 @@ class Channels extends ComponentBase
                 'description' => 'Page name to use for clicking on a channel.',
                 'type'        => 'dropdown',
             ],
-            'channelPageParamId' => [
+            'channelPageIdParam' => [
                 'title'       => 'Channel page param name',
                 'description' => 'The expected parameter name used when creating links to the channel page.',
                 'type'        => 'string',
@@ -54,7 +54,7 @@ class Channels extends ComponentBase
                 'description' => 'Page name to use for clicking on a conversation topic.',
                 'type'        => 'dropdown',
             ],
-            'topicPageParamId' => [
+            'topicPageIdParam' => [
                 'title'       => 'Topic page param name',
                 'description' => 'The expected parameter name used when creating links to the topic page.',
                 'type'        => 'string',
@@ -90,10 +90,10 @@ class Channels extends ComponentBase
          * Page links
          */
         $this->memberPage = $this->page['memberPage'] = $this->property('memberPage');
-        $this->memberPageParamId = $this->page['memberPageParamId'] = $this->property('memberPageParamId');
+        $this->memberPageIdParam = $this->page['memberPageIdParam'] = $this->property('memberPageIdParam');
         $this->channelPage = $this->page['channelPage'] = $this->property('channelPage');
-        $this->channelPageParamId = $this->page['channelPageParamId'] = $this->property('channelPageParamId');
+        $this->channelPageIdParam = $this->page['channelPageIdParam'] = $this->property('channelPageIdParam');
         $this->topicPage = $this->page['topicPage'] = $this->property('topicPage');
-        $this->topicPageParamId = $this->page['topicPageParamId'] = $this->property('topicPageParamId');
+        $this->topicPageIdParam = $this->page['topicPageIdParam'] = $this->property('topicPageIdParam');
     }
 }

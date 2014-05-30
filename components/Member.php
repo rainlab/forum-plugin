@@ -12,9 +12,9 @@ class Member extends ComponentBase
     private $member = null;
 
     public $topicPage;
-    public $topicPageParamId;
+    public $topicPageIdParam;
     public $channelPage;
-    public $channelPageParamId;
+    public $channelPageIdParam;
 
     public function componentDetails()
     {
@@ -27,7 +27,7 @@ class Member extends ComponentBase
     public function defineProperties()
     {
         return [
-            'paramId' => [
+            'idParam' => [
                 'title'       => 'Slug param name',
                 'description' => 'The URL route parameter used for looking up the forum member by their slug. A hard coded slug can also be used.',
                 'default'     => ':slug',
@@ -44,7 +44,7 @@ class Member extends ComponentBase
                 'description' => 'Page name to use for clicking on a channel.',
                 'type'        => 'dropdown',
             ],
-            'channelPageParamId' => [
+            'channelPageIdParam' => [
                 'title'       => 'Channel page param name',
                 'description' => 'The expected parameter name used when creating links to the channel page.',
                 'type'        => 'string',
@@ -55,7 +55,7 @@ class Member extends ComponentBase
                 'description' => 'Page name to use for clicking on a conversation topic.',
                 'type'        => 'dropdown',
             ],
-            'topicPageParamId' => [
+            'topicPageIdParam' => [
                 'title'       => 'Topic page param name',
                 'description' => 'The expected parameter name used when creating links to the topic page.',
                 'type'        => 'string',
@@ -87,7 +87,7 @@ class Member extends ComponentBase
         if ($this->member !== null)
             return $this->member;
 
-        if (!$slug = $this->propertyOrParam('paramId'))
+        if (!$slug = $this->propertyOrParam('idParam'))
             $member = MemberModel::getFromUser();
         else
             $member = MemberModel::whereSlug($slug)->first();
@@ -104,9 +104,9 @@ class Member extends ComponentBase
          * Page links
          */
         $this->topicPage = $this->page['topicPage'] = $this->property('topicPage');
-        $this->topicPageParamId = $this->page['topicPageParamId'] = $this->property('topicPageParamId');
+        $this->topicPageIdParam = $this->page['topicPageIdParam'] = $this->property('topicPageIdParam');
         $this->channelPage = $this->page['channelPage'] = $this->property('channelPage');
-        $this->channelPageParamId = $this->page['channelPageParamId'] = $this->property('channelPageParamId');
+        $this->channelPageIdParam = $this->page['channelPageIdParam'] = $this->property('channelPageIdParam');
     }
 
     public function getMode()

@@ -21,7 +21,7 @@
         {% endif %}
     </th>
     <th class="member-column">
-        <a href="{{ memberPage|page({ (memberPageParamId): post.member.slug }) }}">
+        <a href="{{ memberPage|page({ (memberPageIdParam): post.member.slug }) }}">
             {{ post.member.username }}
         </a>
     </th>

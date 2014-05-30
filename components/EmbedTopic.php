@@ -22,7 +22,7 @@ class EmbedTopic extends ComponentBase
     public function defineProperties()
     {
         return [
-            'paramId' => [
+            'idParam' => [
                 'title'             => 'Embed Code',
                 'description'       => 'A unique code for the generated topic or channel. A routing parameter can also be used.',
                 'type'              => 'string',
@@ -37,7 +37,7 @@ class EmbedTopic extends ComponentBase
                 'description'       => 'Page name to use for clicking on a member.',
                 'type'              => 'dropdown',
             ],
-            'memberPageParamId' => [
+            'memberPageIdParam' => [
                 'title'             => 'Member page param name',
                 'description'       => 'The expected parameter name used when creating links to the member page.',
                 'type'              => 'string',
@@ -59,7 +59,7 @@ class EmbedTopic extends ComponentBase
     public function onInit()
     {
         $mode = $this->property('mode');
-        $code = $this->propertyOrParam('paramId');
+        $code = $this->propertyOrParam('idParam');
 
         if (!$code)
             throw new Exception('No code specified for the Forum Embed component');
@@ -74,7 +74,7 @@ class EmbedTopic extends ComponentBase
         $topic = TopicModel::createForEmbed($code, $channelId, $this->page->title);
 
         $properties = $this->getProperties();
-        $properties['paramId'] = $topic->slug;
+        $properties['idParam'] = $topic->slug;
 
         // Replace this component completely
         $component = $this->addComponent('RainLab\Forum\Components\Topic', $this->alias, $properties);

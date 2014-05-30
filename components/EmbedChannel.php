@@ -22,12 +22,12 @@ class EmbedChannel extends ComponentBase
     public function defineProperties()
     {
         return [
-            'paramId' => [
+            'idParam' => [
                 'title'             => 'Embed code param',
                 'description'       => 'A unique code for the generated channel. A routing parameter can also be used.',
                 'type'              => 'string',
             ],
-            'paramTopic' => [
+            'topicParam' => [
                 'title'             => 'Topic code param',
                 'description'       => 'The URL route parameter used for looking up a topic by its slug.',
                 'type'              => 'string',
@@ -58,7 +58,7 @@ class EmbedChannel extends ComponentBase
 
     public function onInit()
     {
-        $code = $this->propertyOrParam('paramId');
+        $code = $this->propertyOrParam('idParam');
 
         if (!$code)
             throw new Exception('No code specified for the Forum Embed component');
@@ -70,17 +70,17 @@ class EmbedChannel extends ComponentBase
         if (!$channel)
             throw new Exception('No channel specified for Forum Embed component');
 
-        if (post('channel') || $this->propertyOrParam('paramTopic')) {
+        if (post('channel') || $this->propertyOrParam('topicParam')) {
             $properties = $this->getProperties();
-            $properties['paramId'] = $this->property('paramTopic');
+            $properties['idParam'] = $this->property('topicParam');
             $component = $this->addComponent('RainLab\Forum\Components\Topic', $this->alias, $properties);
         }
         else {
             $channel = ChannelModel::createForEmbed($code, $channelId, $this->page->title);
             $properties = $this->getProperties();
-            $properties['paramId'] = $channel->slug;
+            $properties['idParam'] = $channel->slug;
             $properties['topicPage'] = $this->page->baseFileName;
-            $properties['topicPageParamId'] = $this->property('paramTopic');
+            $properties['topicPageIdParam'] = $this->property('topicParam');
 
             // Replace this component completely
             $component = $this->addComponent('RainLab\Forum\Components\Channel', $this->alias, $properties);
@@ -93,7 +93,7 @@ class EmbedChannel extends ComponentBase
             $component->embedMode = 'post';
         elseif (post('search'))
             $component->embedMode = 'search';
-        elseif ($this->propertyOrParam('paramTopic'))
+        elseif ($this->propertyOrParam('topicParam'))
             $component->embedMode = 'topic';
         else
             $component->embedMode = 'channel';

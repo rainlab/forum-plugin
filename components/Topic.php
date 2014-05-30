@@ -25,9 +25,9 @@ class Topic extends ComponentBase
     private $member = null;
 
     public $memberPage;
-    public $memberPageParamId;
+    public $memberPageIdParam;
     public $channelPage;
-    public $channelPageParamId;
+    public $channelPageIdParam;
     public $returnUrl;
 
     /**
@@ -46,7 +46,7 @@ class Topic extends ComponentBase
     public function defineProperties()
     {
         return [
-            'paramId' => [
+            'idParam' => [
                 'title'       => 'Slug param name',
                 'description' => 'The URL route parameter used for looking up the topic by its slug. A hard coded slug can also be used.',
                 'default'     => ':slug',
@@ -57,7 +57,7 @@ class Topic extends ComponentBase
                 'description' => 'Page name to use for clicking on a member.',
                 'type'        => 'dropdown',
             ],
-            'memberPageParamId' => [
+            'memberPageIdParam' => [
                 'title'       => 'Member page param name',
                 'description' => 'The expected parameter name used when creating links to the member page.',
                 'type'        => 'string',
@@ -68,7 +68,7 @@ class Topic extends ComponentBase
                 'description' => 'Page name to use for clicking on a channel.',
                 'type'        => 'dropdown',
             ],
-            'channelPageParamId' => [
+            'channelPageIdParam' => [
                 'title'       => 'Channel page param name',
                 'description' => 'The expected parameter name used when creating links to the channel page.',
                 'type'        => 'string',
@@ -96,7 +96,7 @@ class Topic extends ComponentBase
         if ($this->topic !== null)
             return $this->topic;
 
-        if (!$slug = $this->propertyOrParam('paramId'))
+        if (!$slug = $this->propertyOrParam('idParam'))
             return null;
 
         $topic = TopicModel::whereSlug($slug)->first();
@@ -168,9 +168,9 @@ class Topic extends ComponentBase
          */
         if ($this->getChannel()) {
             if ($this->embedMode)
-                $returnUrl = $this->currentPageUrl([$this->property('paramId') => null]);
+                $returnUrl = $this->currentPageUrl([$this->property('idParam') => null]);
             else
-                $returnUrl = $this->pageUrl($this->channelPage, [$this->channelPageParamId => $this->channel->slug]);
+                $returnUrl = $this->pageUrl($this->channelPage, [$this->channelPageIdParam => $this->channel->slug]);
 
              $this->returnUrl = $this->page['returnUrl'] = $returnUrl;
          }
@@ -179,9 +179,9 @@ class Topic extends ComponentBase
          * Page links
          */
         $this->memberPage = $this->page['memberPage'] = $this->property('memberPage');
-        $this->memberPageParamId = $this->page['memberPageParamId'] = $this->property('memberPageParamId');
+        $this->memberPageIdParam = $this->page['memberPageIdParam'] = $this->property('memberPageIdParam');
         $this->channelPage = $this->page['channelPage'] = $this->property('channelPage');
-        $this->channelPageParamId = $this->page['channelPageParamId'] = $this->property('channelPageParamId');
+        $this->channelPageIdParam = $this->page['channelPageIdParam'] = $this->property('channelPageIdParam');
     }
 
     public function onCreate()
@@ -201,7 +201,7 @@ class Topic extends ComponentBase
              * Redirect to the intended page after successful update
              */
             $redirectUrl = post('redirect', $this->currentPageUrl([
-                $this->property('paramId') => $topic->slug
+                $this->property('idParam') => $topic->slug
             ]));
 
             return Redirect::to($redirectUrl);
@@ -228,7 +228,7 @@ class Topic extends ComponentBase
              * Redirect to the intended page after successful update
              */
             $redirectUrl = post('redirect', $this->currentPageUrl([
-                $this->property('paramId') => $topic->slug
+                $this->property('idParam') => $topic->slug
             ]));
 
             return Redirect::to($redirectUrl.'?page=last');
