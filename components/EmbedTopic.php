@@ -78,7 +78,9 @@ class EmbedTopic extends ComponentBase
 
         // Replace this component completely
         $component = $this->addComponent('RainLab\Forum\Components\Topic', $this->alias, $properties);
-        $component->embedMode = 'topic';
+
+        // Embed mode: Single topic
+        $component->embedMode = 'single';
     }
 
 }

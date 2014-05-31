@@ -167,7 +167,9 @@ class Topic extends ComponentBase
          * Return URL
          */
         if ($this->getChannel()) {
-            if ($this->embedMode)
+            if ($this->embedMode == 'single')
+                $returnUrl = null;
+            elseif ($this->embedMode)
                 $returnUrl = $this->currentPageUrl([$this->property('idParam') => null]);
             else
                 $returnUrl = $this->pageUrl($this->channelPage, [$this->channelPageIdParam => $this->channel->slug]);
