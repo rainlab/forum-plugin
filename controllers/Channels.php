@@ -22,7 +22,7 @@ class Channels extends Controller
     {
         parent::__construct();
 
-        BackendMenu::setContext('RainLab.Forum', 'forum', 'channels');
+        BackendMenu::setContext('October.System', 'system', 'settings');
     }
 
     public function index_onDelete()
