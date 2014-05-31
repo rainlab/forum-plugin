@@ -1,4 +1,12 @@
 <div class="rainlab-forum">
+
+    {% flash %}
+        <div class="alert alert-{{ type == 'error' ? 'danger' : type }}">
+            {{ message }}
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        </div>
+    {% endflash %}
+
     {% if returnUrl %}
         <p>&larr; <a href="{{ returnUrl }}">Back to {{ channel.title }}</a></p>
     {% endif %}
