@@ -24,7 +24,7 @@ class Plugin extends PluginBase
         return [
             'name'        => 'Forum',
             'description' => 'A simple embeddable forum',
-            'author'      => 'RainLab',
+            'author'      => 'Alexey Bobkov, Samuel Georges',
             'icon'        => 'icon-comments'
         ];
     }

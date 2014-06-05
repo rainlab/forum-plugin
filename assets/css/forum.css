@@ -101,7 +101,7 @@
 }
 .rainlab-forum .forum-table .post-content {
   padding: 10px 0;
-  word-break: break-all;
+  word-wrap: break-word;
 }
 .rainlab-forum .forum-table tr.forum-topic h5 {
   margin: 0;
