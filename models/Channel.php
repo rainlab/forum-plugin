@@ -59,19 +59,23 @@ class Channel extends Model
         return $this->firstTopic = $this->topics()->orderBy('updated_at', 'desc')->first();
     }
 
+    public function scopeForEmbed($query, $channel, $code)
+    {
+        return $query
+            ->where('embed_code', $code)
+            ->where('parent_id', $channel->id);
+    }
+
     /**
      * Auto creates a channel based on embed code and a parent channel
-     * @param  string $code        Embed code
-     * @param  string $channelSlug Channel to create the topic in
-     * @param  string $title       Title for the channel (if created)
+     * @param  string $code          Embed code
+     * @param  string $parentChannel Channel to create the topic in
+     * @param  string $title         Title for the channel (if created)
      * @return self
      */
-    public static function createForEmbed($code, $channelSlug, $title = null)
+    public static function createForEmbed($code, $parentChannel, $title = null)
     {
-        if (!$parentChannel = Channel::whereSlug($channelSlug)->first())
-            throw new ApplicationException('Unable to find a channel with slug: ' . $channelSlug);
-
-        $channel = self::where('embed_code', $code)->where('parent_id', $parentChannel->id)->first();
+        $channel = self::forEmbed($parentChannel, $code)->first();
 
         if (!$channel) {
             $channel = new self;

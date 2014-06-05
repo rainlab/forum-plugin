@@ -91,19 +91,23 @@ class Topic extends Model
         return $topic;
     }
 
+    public function scopeForEmbed($query, $channel, $code)
+    {
+        return $query
+            ->where('embed_code', $code)
+            ->where('parent_id', $channel->id);
+    }
+
     /**
      * Auto creates a topic based on embed code and channel
      * @param  string $code        Embed code
-     * @param  string $channelSlug Channel to create the topic in
+     * @param  string $channel     Channel to create the topic in
      * @param  string $subject     Title for the topic (if created)
      * @return self
      */
-    public static function createForEmbed($code, $channelSlug, $subject = null)
+    public static function createForEmbed($code, $channel, $subject = null)
     {
-        if (!$channel = Channel::whereSlug($channelSlug)->first())
-            throw new ApplicationException('Unable to find a channel with slug: ' . $channelSlug);
-
-        $topic = self::where('embed_code', $code)->where('channel_id', $channel->id)->first();
+        $topic = self::forEmbed($channel, $code)->first();
 
         if (!$topic) {
             $topic = new self;

@@ -63,27 +63,47 @@ class EmbedChannel extends ComponentBase
         if (!$code)
             throw new Exception('No code specified for the Forum Embed component');
 
-        $channel = ($channelId = $this->property('channelId'))
+        $parentChannel = ($channelId = $this->property('channelId'))
             ? ChannelModel::whereSlug($channelId)->first()
             : null;
 
-        if (!$channel)
+        if (!$parentChannel)
             throw new Exception('No channel specified for Forum Embed component');
 
+        $properties = $this->getProperties();
+
+        /*
+         * Proxy as topic
+         */
         if (post('channel') || $this->propertyOrParam('topicParam')) {
-            $properties = $this->getProperties();
             $properties['idParam'] = $this->property('topicParam');
             $component = $this->addComponent('RainLab\Forum\Components\Topic', $this->alias, $properties);
         }
+        /*
+         * Proxy as channel
+         */
         else {
-            $channel = ChannelModel::createForEmbed($code, $channelId, $this->page->title);
-            $properties = $this->getProperties();
-            $properties['idParam'] = $channel->slug;
+            if ($channel = ChannelModel::forEmbed($parentChannel, $code)->first())
+                $properties['idParam'] = $channel->slug;
+
             $properties['topicPage'] = $this->page->baseFileName;
             $properties['topicPageIdParam'] = $this->property('topicParam');
-
-            // Replace this component completely
             $component = $this->addComponent('RainLab\Forum\Components\Channel', $this->alias, $properties);
+
+            /*
+             * If a channel does not already exist, generate it when the page ends.
+             * This can be disabled by the page setting embedMode to FALSE, for example,
+             * if the page returns 404 a channel should not be generated.
+             */
+            if (!$channel) {
+                $this->controller->bindEvent('page.end', function() use ($component, $parentChannel, $code) {
+                    if ($component->embedMode !== false) {
+                        $channel = ChannelModel::createForEmbed($code, $parentChannel, $this->page->title);
+                        $component->setProperty('idParam', $channel->slug);
+                        $component->onRun();
+                    }
+                });
+            }
         }
 
         /*

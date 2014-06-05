@@ -71,16 +71,36 @@ class EmbedTopic extends ComponentBase
         if (!$channel)
             throw new Exception('No channel specified for Forum Embed component');
 
-        $topic = TopicModel::createForEmbed($code, $channelId, $this->page->title);
-
         $properties = $this->getProperties();
-        $properties['idParam'] = $topic->slug;
 
-        // Replace this component completely
+        /*
+         * Proxy as topic
+         */
+        if ($topic = TopicModel::forEmbed($channel, $code)->first())
+            $properties['idParam'] = $topic->slug;
+
         $component = $this->addComponent('RainLab\Forum\Components\Topic', $this->alias, $properties);
 
-        // Embed mode: Single topic
+        /*
+         * If a topic does not already exist, generate it when the page ends.
+         * This can be disabled by the page setting embedMode to FALSE, for example,
+         * if the page returns 404 a topic should not be generated.
+         */
+        if (!$topic) {
+            $this->controller->bindEvent('page.end', function() use ($component, $channel, $code) {
+                if ($component->embedMode !== false) {
+                    $topic = TopicModel::createForEmbed($code, $channel, $this->page->title);
+                    $component->setProperty('idParam', $topic->slug);
+                    $component->onRun();
+                }
+            });
+        }
+
+        /*
+         * Set the embedding mode: Single topic
+         */
         $component->embedMode = 'single';
+
     }
 
 }
