@@ -62,6 +62,18 @@ class Plugin extends PluginBase
                 ],
             ], 'primary');
         });
+
+        Event::listen('backend.list.extendColumns', function($widget) {
+            if (!$widget->getController() instanceof \RainLab\User\Controllers\Users) return;
+
+            $widget->addColumns([
+                'forum_member_username' => [
+                    'label' => 'Forum Username',
+                    'relation' => 'forum_member',
+                    'select' => '@username'
+                ]
+            ]);
+        });
     }
 
     public function registerComponents()
