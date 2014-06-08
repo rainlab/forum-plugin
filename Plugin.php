@@ -70,7 +70,8 @@ class Plugin extends PluginBase
                 'forum_member_username' => [
                     'label' => 'Forum Username',
                     'relation' => 'forum_member',
-                    'select' => '@username'
+                    'select' => '@username',
+                    'searchable' => true,
                 ]
             ]);
         });
