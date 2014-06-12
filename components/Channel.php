@@ -10,6 +10,11 @@ use RainLab\Forum\Models\Topic as TopicModel;
 use RainLab\Forum\Models\Channel as ChannelModel;
 use RainLab\Forum\Models\Member as MemberModel;
 
+/**
+ * Channel component
+ * 
+ * Displays a list of posts belonging to a channel.
+ */
 class Channel extends ComponentBase
 {
     /**
@@ -33,8 +38,8 @@ class Channel extends ComponentBase
     public function componentDetails()
     {
         return [
-            'name'        => 'Channel',
-            'description' => 'Displays a list of posts belonging to a channel.'
+            'name'           => 'rainlab.forum::lang.channel.component_name',
+            'description'    => 'rainlab.forum::lang.channel.component_description',
         ];
     }
 
@@ -48,24 +53,24 @@ class Channel extends ComponentBase
                 'type'        => 'string'
             ],
             'memberPage' => [
-                'title'       => 'Member Page',
-                'description' => 'Page name to use for clicking on a member.',
+                'title'       => 'rainlab.forum::lang.member.page_name',
+                'description' => 'rainlab.forum::lang.member.page_help',
                 'type'        => 'dropdown'
             ],
             'memberPageIdParam' => [
-                'title'       => 'Member page param name',
-                'description' => 'The expected parameter name used when creating links to the member page.',
+                'title'       => 'rainlab.forum::lang.member.param_name',
+                'description' => 'rainlab.forum::lang.member.param_help',
                 'type'        => 'string',
                 'default'     => ':slug',
             ],
             'topicPage' => [
-                'title'       => 'Topic Page',
-                'description' => 'Page name to use for clicking on a conversation topic.',
+                'title'       => 'rainlab.forum::lang.topic.page_name',
+                'description' => 'rainlab.forum::lang.topic.page_help',
                 'type'        => 'dropdown'
             ],
             'topicPageIdParam' => [
-                'title'       => 'Topic page param name',
-                'description' => 'The expected parameter name used when creating links to the topic page.',
+                'title'       => 'rainlab.forum::lang.topic.param_name',
+                'description' => 'rainlab.forum::lang.topic.param_help',
                 'type'        => 'string',
                 'default'     => ':slug',
             ],

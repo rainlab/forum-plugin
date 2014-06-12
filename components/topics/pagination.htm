@@ -1,0 +1,44 @@
+{% set paginationEnabled = topics.currentPage > 1 or topics.lastPage > 1 or topics.lastPage > topics.currentPage %}
+
+<div class="row forum-pagination {{ paginationEnabled ? "enabled" : "disabled" }}">
+    <div class="col-md-8">
+        <ul class="pagination">
+            {% if topics.currentPage > 1 %}
+                <li>
+                    <a href="{{ paginationUrl ~ (topics.currentPage - 1) }}">
+                        &larr; Previous
+                    </a>
+                </li>
+            {% else %}
+                <li class="disabled">
+                    <span>
+                        &larr; Previous
+                    </span>
+                </li>
+            {% endif %}
+            {% if topics.lastPage > 1 %}
+                {% for page in 1..topics.lastPage %}
+                    <li class="{{ page == topics.currentPage ? 'active' }}">
+                        <a href="{{ paginationUrl ~ page }}">{{ page }}</a>
+                    </li>
+                {% endfor %}
+            {% endif %}
+            {% if topics.lastPage > topics.currentPage %}
+                <li>
+                    <a href="{{ paginationUrl ~ (topics.currentPage + 1) }}">
+                        Next &rarr;
+                    </a>
+                </li>
+            {% else %}
+                <li class="disabled">
+                    <span>
+                        Next &rarr;
+                    </span>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+    <div class="col-md-4 text-right posts-total-summary">
+        <p>{{ topics.from }}-{{ topics.to }} of {{ topics.total }}</p>
+    </div>
+</div>

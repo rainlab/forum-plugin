@@ -42,22 +42,22 @@ class Plugin extends PluginBase
 
             $widget->addFields([
                 'forum_member[username]' => [
-                    'label' => 'Username',
-                    'tab' => 'Forum',
+                    'label'   => 'Username',
+                    'tab'     => 'Forum',
                     'comment' => 'The display to represent this user on the forum.',
                 ],
                 'forum_member[is_moderator]' => [
-                    'label' => 'Forum moderator',
-                    'type' => 'checkbox',
-                    'tab' => 'Forum',
-                    'span' => 'auto',
+                    'label'   => 'Forum moderator',
+                    'type'    => 'checkbox',
+                    'tab'     => 'Forum',
+                    'span'    => 'auto',
                     'comment' => 'Place a tick in this box if this user can moderate the entire forum.',
                 ],
                 'forum_member[is_banned]' => [
-                    'label' => 'Banned from forum',
-                    'type' => 'checkbox',
-                    'tab' => 'Forum',
-                    'span' => 'auto',
+                    'label'   => 'Banned from forum',
+                    'type'    => 'checkbox',
+                    'tab'     => 'Forum',
+                    'span'    => 'auto',
                     'comment' => 'Place a tick in this box if this user is banned from posting to the forum.',
                 ],
             ], 'primary');
@@ -68,9 +68,9 @@ class Plugin extends PluginBase
 
             $widget->addColumns([
                 'forum_member_username' => [
-                    'label' => 'Forum Username',
-                    'relation' => 'forum_member',
-                    'select' => '@username',
+                    'label'      => 'Forum Username',
+                    'relation'   => 'forum_member',
+                    'select'     => '@username',
                     'searchable' => true,
                 ]
             ]);
@@ -83,6 +83,7 @@ class Plugin extends PluginBase
            '\RainLab\Forum\Components\Channels'     => 'forumChannels',
            '\RainLab\Forum\Components\Channel'      => 'forumChannel',
            '\RainLab\Forum\Components\Topic'        => 'forumTopic',
+           '\RainLab\Forum\Components\Topics'       => 'forumTopics',
            '\RainLab\Forum\Components\Member'       => 'forumMember',
            '\RainLab\Forum\Components\EmbedTopic'   => 'forumEmbedTopic',
            '\RainLab\Forum\Components\EmbedChannel' => 'forumEmbedChannel',

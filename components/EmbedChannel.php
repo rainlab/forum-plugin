@@ -48,7 +48,7 @@ class EmbedChannel extends ComponentBase
 
     protected function getChannelIdOptions()
     {
-        return ChannelModel::orderByNested()->listsNested('title', 'slug', ' - ');
+        return ChannelModel::listsNested('title', 'slug', ' - ');
     }
 
     public function getMemberPageOptions()
