@@ -6,6 +6,7 @@ use Redirect;
 use Cms\Classes\Page;
 use Cms\Classes\ComponentBase;
 use RainLab\Forum\Models\TopicWatch;
+use RainLab\Forum\Models\ChannelWatch;
 use RainLab\Forum\Models\Topic as TopicModel;
 use RainLab\Forum\Models\Channel as ChannelModel;
 use RainLab\Forum\Models\Member as MemberModel;
@@ -112,9 +113,14 @@ class Channel extends ComponentBase
             $searchString = trim(post('search'));
             $topics = TopicModel::make()->listFrontEnd($currentPage, 'updated_at', $channel->id, $searchString);
 
+            /*
+             * Signed in member
+             */
             $this->page['member'] = $this->member = MemberModel::getFromUser();
-            if ($this->member)
+            if ($this->member) {
                 $topics = TopicWatch::setFlagsOnTopics($topics, $this->member);
+                ChannelWatch::flagAsWatched($channel, $this->member);
+            }
 
             $this->page['topics'] = $this->topics = $topics;
 

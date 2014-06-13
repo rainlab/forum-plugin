@@ -3,11 +3,14 @@
 use Cms\Classes\Page;
 use Cms\Classes\ComponentBase;
 use RainLab\Forum\Models\Channel;
+use RainLab\Forum\Models\ChannelWatch;
+use RainLab\Forum\Models\Member as MemberModel;
 
 class Channels extends ComponentBase
 {
 
-    private $channels = null;
+    private $member;
+    private $channels;
 
     public $memberPage;
     public $memberPageIdParam;
@@ -81,7 +84,15 @@ class Channels extends ComponentBase
         if ($this->channels !== null)
             return $this->channels;
 
-        return $this->channels = Channel::isVisible()->getNested();
+        $channels = Channel::isVisible()->get();
+
+        $this->page['member'] = $this->member = MemberModel::getFromUser();
+        if ($this->member)
+            $channels = ChannelWatch::setFlagsOnChannels($channels, $this->member);
+
+        $channels = $channels->toNested();
+
+        return $this->channels = $channels;
     }
 
     protected function prepareVars()
@@ -96,4 +107,5 @@ class Channels extends ComponentBase
         $this->topicPage = $this->page['topicPage'] = $this->property('topicPage');
         $this->topicPageIdParam = $this->page['topicPageIdParam'] = $this->property('topicPageIdParam');
     }
+
 }

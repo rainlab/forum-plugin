@@ -60,7 +60,7 @@ class Topic extends Model
     ];
 
     /**
-     * @var boolean Topic has new posts for member, set by PostWatch model
+     * @var boolean Topic has new posts for member, set by TopicWatch model
      */
     public $hasNew = true;
 

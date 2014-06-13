@@ -9,14 +9,22 @@ use System\Classes\ApplicationException;
 class Channel extends Model
 {
 
+    use \October\Rain\Database\Traits\NestedTree;
+
+    /**
+     * @var boolean Channel has new posts for member, set by ChannelWatch model
+     */
+    public $hasNew = true;
+
+    /**
+     * @var Topic A cache of the first topic in this channel.
+     */
     private $firstTopic;
 
     /**
      * @var string The database table used by the model.
      */
     public $table = 'rainlab_forum_channels';
-
-    public $implement = ['October.Rain.Database.Behaviors.NestedSetModel'];
 
     /**
      * @var array Guarded fields

@@ -17,6 +17,8 @@ use RainLab\Forum\Models\Member as MemberModel;
 class Topics extends ComponentBase
 {
 
+    private $member;
+
     public function componentDetails()
     {
         return [

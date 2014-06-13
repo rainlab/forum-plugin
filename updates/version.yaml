@@ -17,3 +17,6 @@
 1.0.5:
     - Introduced topic and channel embedding
     - add_embed_code.php
+1.0.6:
+    - Add unread flags to channels
+    - create_channel_watches_table.php
