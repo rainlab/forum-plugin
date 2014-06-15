@@ -95,7 +95,7 @@ class Topic extends Model
     {
         return $query
             ->where('embed_code', $code)
-            ->where('parent_id', $channel->id);
+            ->where('channel_id', $channel->id);
     }
 
     /**
