@@ -28,7 +28,7 @@
                             </h5>
                             <p>{{ channel.description }}</p>
 
-                            {% if channel.relations.children %}
+                            {% if channel.children|length %}
                                 <div class="forum-subchannel">
                                     <ul>
                                         <li><span>Subforum</span></li>
