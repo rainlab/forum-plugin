@@ -65,6 +65,7 @@ class Plugin extends PluginBase
 
         Event::listen('backend.list.extendColumns', function($widget) {
             if (!$widget->getController() instanceof \RainLab\User\Controllers\Users) return;
+            if (!$widget->model instanceof \RainLab\User\Models\User) return;
 
             $widget->addColumns([
                 'forum_member_username' => [
