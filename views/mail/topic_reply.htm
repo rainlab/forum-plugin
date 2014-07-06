@@ -29,7 +29,10 @@ To unsubscribe from ALL topics, please visit this page:
 
 <p>{{ post.member.username }} has just replied to a topic you are following entitled <em>{{ topic.subject }}</em> in the {{ channel.title }} forum.</p>
 
-<p>This topic is located at:<br /><a href="{{ postUrl }}">{{ postUrl }}</a></p>
+<p>
+    This topic is located at:<br />
+    <a href="{{ postUrl }}">{{ postUrl }}</a>
+</p>
 
 <p>Here is the message that has just been posted:</p>
 <hr />
@@ -42,8 +45,12 @@ To unsubscribe from ALL topics, please visit this page:
 
 <strong>Unsubscription information</strong>
 
-To unsubscribe from this topic, please visit this page:
-<a href="{{ unfollowUrl }}">{{ unfollowUrl }}</a>
+<p>
+    To unsubscribe from this topic, please visit this page:<br />
+    <a href="{{ unfollowUrl }}">{{ unfollowUrl }}</a>
+</p>
 
-To unsubscribe from ALL topics, please visit this page:
-<a href="{{ unsubscribeUrl }}">{{ unsubscribeUrl }}</a>
+<p>
+    To unsubscribe from ALL topics, please visit this page:<br />
+    <a href="{{ unsubscribeUrl }}">{{ unsubscribeUrl }}</a>
+</p>
