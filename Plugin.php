@@ -104,4 +104,11 @@ class Plugin extends PluginBase
         ];
     }
 
+    public function registerMailTemplates()
+    {
+        return [
+            'rainlab.forum::mail.topic_reply' => 'Notification to followers when a post is made to a topic.',
+        ];
+    }
+
 }
