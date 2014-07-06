@@ -28,6 +28,11 @@ class Post extends Model
     protected $fillable = ['subject', 'content'];
 
     /**
+     * @var array The attributes that should be visible in arrays.
+     */
+    protected $visible = ['subject', 'content', 'member', 'topic'];
+
+    /**
      * @var array Validation rules
      */
     public $rules = [
@@ -58,7 +63,11 @@ class Post extends Model
         $post->member = $member;
         $post->subject = array_get($data, 'subject', $topic->subject);
         $post->content = array_get($data, 'content');
-        return $post->save();
+        $post->save();
+
+        TopicFollow::follow($topic, $member);
+        $member->touchActivity();
+        return $post;
     }
 
     /**

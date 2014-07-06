@@ -1,5 +1,5 @@
 {% if member.is_moderator %}
-    {{ form_open({ request: 'onMoveTopic' }) }}
+    {{ form_open({ request: 'onMove' }) }}
         Move to:
         <select name="channel">
             {% for id, title in __SELF__.channelList %}
@@ -8,4 +8,18 @@
         </select>
         <button type="submit">Move</button>
     {{ form_close() }}
+{% endif %}
+
+{% if member %}
+
+    <a href="javascript:;"
+        data-request="onFollow"
+        data-request-update="'@controlpanel': '#topicControlPanel'">
+        {% if member.isFollowing(topic) %}
+            Unfollow this topic
+        {% else %}
+            Follow this topic
+        {% endif %}
+    </a>
+
 {% endif %}

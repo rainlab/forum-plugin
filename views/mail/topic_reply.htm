@@ -1,0 +1,49 @@
+subject = "Reply to '{{ topic.subject }}'"
+==
+
+<p>Dear {{ member.username }},</p>
+
+<p>{{ post.member.username }} has just replied to a topic you are following entitled <em>{{ topic.subject }}</em> in the {{ channel.title }} forum.</p>
+
+<p>This topic is located at:<br /><a href="{{ postUrl }}">{{ postUrl }}</a></p>
+
+<p>Here is the message that has just been posted:</p>
+<hr />
+{{ post.content }}
+<hr />
+
+<p>There may be other replies also, but you will not receive any more notifications for this topic until you are active on the forum again.</p>
+
+<hr />
+
+<strong>Unsubscription information</strong>
+
+To unsubscribe from this topic, please visit this page:
+<a href="{{ unfollowUrl }}">{{ unfollowUrl }}</a>
+
+To unsubscribe from ALL topics, please visit this page:
+<a href="{{ unsubscribeUrl }}">{{ unsubscribeUrl }}</a>
+
+==
+Dear {{ member.username }},
+
+{{ post.member.username }} has just replied to a topic you are following entitled - {{ topic.subject }} - in the {{ channel.title }} forum.
+
+This topic is located at:
+{{ postUrl }}
+
+Here is the message that has just been posted:
+----------------------------------------------
+{{ post.content }}
+----------------------------------------------
+
+There may be other replies also, but you will not receive any more notifications for this topic until you are active on the forum again.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+Unsubscription information
+
+To unsubscribe from this topic, please visit this page:
+{{ unfollowUrl }}
+
+To unsubscribe from ALL topics, please visit this page:
+{{ unsubscribeUrl }}

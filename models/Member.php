@@ -3,6 +3,7 @@
 use Str;
 use Auth;
 use Model;
+use Carbon\Carbon;
 
 /**
  * Member Model
@@ -26,6 +27,11 @@ class Member extends Model
     protected $fillable = ['username'];
 
     /**
+     * @var array The attributes that should be visible in arrays.
+     */
+    protected $visible = ['username', 'slug'];
+
+    /**
      * @var array Validation rules
      */
     public $rules = [];
@@ -34,6 +40,8 @@ class Member extends Model
      * @var array Auto generated slug
      */
     public $slugs = ['slug' => 'username'];
+
+    public $dates = ['last_active_at'];
 
     /**
      * @var array Relations
@@ -104,5 +112,22 @@ class Member extends Model
         }
     }
 
+    /**
+     * Returns true if this member is following this topic.
+     * @param  Topic  $topic
+     * @return boolean
+     */
+    public function isFollowing($topic)
+    {
+        return TopicFollow::check($topic, $this);
+    }
+
+    public function touchActivity()
+    {
+        return $this
+            ->newQuery()
+            ->where('id', $this->id)
+            ->update(['last_active_at' => Carbon::now()]);
+    }
 
 }

@@ -20,3 +20,6 @@
 1.0.6:
     - Add unread flags to channels
     - create_channel_watches_table.php
+1.0.7:
+    - Forum members can now follow topics
+    - create_topic_followers_table.php

@@ -15,15 +15,17 @@
 
         <h4>{{ topic.subject }}</h4>
 
-        {% partial __SELF__ ~ "::controlpanel" %}
+        <div id="topicControlPanel">
+            {% partial "@controlpanel" %}
+        </div>
 
-        {% partial __SELF__ ~ "::posts" %}
+        {% partial "@posts" %}
 
-        {% partial __SELF__ ~ "::pagination" %}
+        {% partial "@pagination" %}
 
         <h4>Reply to this discussion</h4>
         {% if member %}
-            {% partial __SELF__ ~ "::postform" %}
+            {% partial "@postform" %}
         {% else %}
             <p>You should be logged in before you can post.</p>
         {% endif %}
@@ -31,7 +33,7 @@
     {% elseif channel %}
 
         <h4>Create a new discussion topic</h4>
-        {% partial __SELF__ ~ "::createform" %}
+        {% partial "@createform" %}
 
     {% else %}
 

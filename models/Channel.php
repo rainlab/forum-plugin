@@ -37,6 +37,11 @@ class Channel extends Model
     protected $fillable = ['title', 'description', 'parent_id'];
 
     /**
+     * @var array The attributes that should be visible in arrays.
+     */
+    protected $visible = ['title', 'description'];
+
+    /**
      * @var array Validation rules
      */
     public $rules = [

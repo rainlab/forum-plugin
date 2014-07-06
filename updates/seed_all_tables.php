@@ -57,14 +57,14 @@ class SeedAllTables extends Seeder
             'description' => 'Disccusion about the blooming gardens.'
         ]);
 
-        if (!Schema::hasTable('users'))
-            return;
+        // if (!Schema::hasTable('users'))
+        //     return;
 
-        $user = \RainLab\User\Models\User::first();
-        if (!$user) return;
+        // $user = \RainLab\User\Models\User::first();
+        // if (!$user) return;
 
-        $member = Member::getFromUser($user);
-        Topic::createInChannel($october, $member, ['subject' => 'First post!', 'content' => 'Welcome to the forum!']);
+        // $member = Member::getFromUser($user);
+        // Topic::createInChannel($october, $member, ['subject' => 'First post!', 'content' => 'Welcome to the forum!']);
 
 
         // $topic = Topic::createInChannel($october, $member, ['subject' => 'Lots of posts in here!', 'content' => 'Another post!']);

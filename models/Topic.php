@@ -36,6 +36,11 @@ class Topic extends Model
     ];
 
     /**
+     * @var array The attributes that should be visible in arrays.
+     */
+    protected $visible = ['subject', 'channel'];
+
+    /**
      * @var array Date fields
      */
     public $dates = ['last_post_at'];
@@ -49,7 +54,7 @@ class Topic extends Model
      * @var array Relations
      */
     public $hasMany = [
-        'posts' => ['RainLab\Forum\Models\Post']
+        'posts' => ['RainLab\Forum\Models\Post'],
     ];
 
     public $belongsTo = [
@@ -57,6 +62,10 @@ class Topic extends Model
         'start_member' => ['RainLab\Forum\Models\Member'],
         'last_post' => ['RainLab\Forum\Models\Post'],
         'last_post_member' => ['RainLab\Forum\Models\Member'],
+    ];
+
+    public $belongsToMany = [
+        'followers' => ['RainLab\Forum\Models\Member', 'table' => 'rainlab_forum_topic_followers', 'timestamps' => true]
     ];
 
     /**
@@ -87,6 +96,9 @@ class Topic extends Model
             $topic->save();
             $post->save();
         });
+
+        TopicFollow::follow($topic, $member);
+        $member->touchActivity();
 
         return $topic;
     }

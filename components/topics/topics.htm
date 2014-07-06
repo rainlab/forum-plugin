@@ -1,8 +1,7 @@
 <table class="forum-table">
     <tr>
         <th colspan="2">Topic</th>
-        <th class="counter-column">Replies</th>
-        <th class="counter-column">Views</th>
+        <th class="channel-column">Channel</th>
         <th class="activity-column">Last post</th>
     </tr>
 
@@ -18,11 +17,8 @@
                     <a href="{{ topicPage|page({ (topicPageIdParam): topic.slug }) }}">{{ topic.subject }}</a>
                 </h5>
             </td>
-            <td class="counter-column">
-                <p>{{ (topic.count_posts-1) }}</p>
-            </td>
-            <td class="counter-column">
-                <p>{{ topic.count_views }}</p>
+            <td>
+                <p>{{ topic.channel.title }}</p>
             </td>
             <td class="activity-column">
                 <p>
@@ -37,7 +33,7 @@
 
     {% if not topics|length %}
         <tr>
-            <td colspan="100">There are no topics in this channel.</td>
+            <td colspan="100">There are no latest posts in any topics.</td>
         </tr>
     {% endif %}
 </table>

@@ -5,6 +5,8 @@ use Flash;
 use Request;
 use Redirect;
 use Cms\Classes\Page;
+use RainLab\User\Models\User as UserModel;
+use RainLab\User\Models\MailBlocker;
 use Cms\Classes\ComponentBase;
 use System\Classes\ApplicationException;
 use RainLab\Forum\Models\Topic as TopicModel;
@@ -12,6 +14,8 @@ use RainLab\Forum\Models\Channel as ChannelModel;
 use RainLab\Forum\Models\Member as MemberModel;
 use RainLab\Forum\Models\Post as PostModel;
 use RainLab\Forum\Models\TopicWatch;
+use RainLab\Forum\Models\TopicFollow;
+use Exception;
 
 class Topic extends ComponentBase
 {
@@ -84,10 +88,12 @@ class Topic extends ComponentBase
 
     public function onRun()
     {
-        $this->addCss('/plugins/rainlab/forum/assets/css/forum.css');
 
+        $this->addCss('/plugins/rainlab/forum/assets/css/forum.css');
         $this->page['channel'] = $this->getChannel();
         $this->page['topic'] = $topic = $this->getTopic();
+        $this->page['member'] = $member = $this->getMember();
+        $this->handleOptOutLinks();
         return $this->preparePostList();
     }
 
@@ -105,6 +111,14 @@ class Topic extends ComponentBase
             $topic->increaseViewCount();
 
         return $this->topic = $topic;
+    }
+
+    public function getMember()
+    {
+        if ($this->member !== null)
+            return $this->member;
+
+        return $this->member = MemberModel::getFromUser();
     }
 
     public function getChannel()
@@ -157,9 +171,8 @@ class Topic extends ComponentBase
         }
 
         /*
-         * Signed in member
+         * Set topic as watched
          */
-        $this->page['member'] = $this->member = MemberModel::getFromUser();
         if ($this->topic && $this->member)
             TopicWatch::flagAsWatched($this->topic, $this->member);
 
@@ -186,13 +199,53 @@ class Topic extends ComponentBase
         $this->channelPageIdParam = $this->page['channelPageIdParam'] = $this->property('channelPageIdParam');
     }
 
+    protected function handleOptOutLinks()
+    {
+        if (!$topic = $this->getTopic()) return;
+        if (!$action = post('action')) return;
+        if (!in_array($action, ['unfollow', 'unsubscribe'])) return;
+
+        /*
+         * Attempt to find member using dry authentication
+         */
+        if (!$member = $this->getMember()) {
+            if (!($authCode = post('auth')) || !strpos($authCode, '!')) return;
+            list($hash, $userId) = explode('!', $authCode);
+            if (!$user = UserModel::find($userId)) return;
+            if (!$member = MemberModel::getFromUser($user)) return;
+
+            $expectedCode = TopicFollow::makeAuthCode($action, $topic, $member);
+            if ($authCode != $expectedCode) {
+                Flash::error('Invalid authentication code, please sign in and try the link again.');
+                return;
+            }
+        }
+
+        /*
+         * Unfollow link
+         */
+        if ($action == 'unfollow') {
+            TopicFollow::unfollow($topic, $member);
+            Flash::success('You will no longer receive notifications about this topic.');
+        }
+
+        /*
+         * Unsubscribe link
+         */
+        if ($action == 'unsubscribe' && $member->user) {
+            MailBlocker::addBlock('rainlab.forum::mail.topic_reply', $member->user);
+            Flash::success('You will no longer receive notifications about any topics in this forum.');
+        }
+
+    }
+
     public function onCreate()
     {
         try {
             if (!$user = Auth::getUser())
                 throw new ApplicationException('You should be logged in.');
 
-            $member = MemberModel::getFromUser($user);
+            $member = $this->getMember();
             $channel = $this->getChannel();
 
             $topic = TopicModel::createInChannel($channel, $member, post());
@@ -208,7 +261,7 @@ class Topic extends ComponentBase
 
             return Redirect::to($redirectUrl);
         }
-        catch (\Exception $ex) {
+        catch (Exception $ex) {
             Flash::error($ex->getMessage());
         }
     }
@@ -219,23 +272,24 @@ class Topic extends ComponentBase
             if (!$user = Auth::getUser())
                 throw new ApplicationException('You should be logged in.');
 
-            $member = MemberModel::getFromUser($user);
+            $member = $this->getMember();
             $topic = $this->getTopic();
 
             $post = PostModel::createInTopic($topic, $member, post());
+            $postUrl = $this->currentPageUrl([$this->property('idParam') => $topic->slug]);
+
+            TopicFollow::sendNotifications($topic, $post, $postUrl);
 
             Flash::success(post('flash', 'Response added successfully!'));
 
             /*
              * Redirect to the intended page after successful update
              */
-            $redirectUrl = post('redirect', $this->currentPageUrl([
-                $this->property('idParam') => $topic->slug
-            ]));
+            $redirectUrl = post('redirect', $postUrl);
 
             return Redirect::to($redirectUrl.'?page=last');
         }
-        catch (\Exception $ex) {
+        catch (Exception $ex) {
             Flash::error($ex->getMessage());
         }
     }
@@ -262,9 +316,9 @@ class Topic extends ComponentBase
         $this->page['post'] = $post;
     }
 
-    public function onMoveTopic()
+    public function onMove()
     {
-        $member = MemberModel::getFromUser();
+        $member = $this->getMember();
         if (!$member->is_moderator) {
             Flash::error('Access denied');
             return;
@@ -278,6 +332,24 @@ class Topic extends ComponentBase
         }
         else {
             Flash::error('Unable to find a channel to move to.');
+        }
+    }
+
+    public function onFollow($isAjax = true)
+    {
+        try {
+            if (!$user = Auth::getUser())
+                throw new ApplicationException('You should be logged in.');
+
+            $this->page['member'] = $member = $this->getMember();
+            $this->page['topic'] = $topic = $this->getTopic();
+
+            TopicFollow::toggle($topic, $member);
+            $member->touchActivity();
+        }
+        catch (Exception $ex) {
+            if ($isAjax) throw $ex;
+            else Flash::error($ex->getMessage());
         }
     }
 }
