@@ -22,26 +22,36 @@ class EmbedChannel extends ComponentBase
     public function defineProperties()
     {
         return [
+            'channelId' => [
+                'title'             => 'Parent Channel',
+                'description'       => 'Specify the channel to create the new channel in',
+                'type'              => 'dropdown'
+            ],
             'idParam' => [
                 'title'             => 'Embed code param',
                 'description'       => 'A unique code for the generated channel. A routing parameter can also be used.',
                 'type'              => 'string',
+                'group'             => 'Parameters',
             ],
             'topicParam' => [
                 'title'             => 'Topic code param',
                 'description'       => 'The URL route parameter used for looking up a topic by its slug.',
                 'type'              => 'string',
                 'default'           => ':topicSlug',
-            ],
-            'channelId' => [
-                'title'             => 'Parent Channel',
-                'description'       => 'Specify the channel to create the new channel in',
-                'type'              => 'dropdown'
+                'group'             => 'Parameters',
             ],
             'memberPage' => [
-                'title'             => 'Member Page',
-                'description'       => 'Page name to use for clicking on a member.',
+                'title'             => 'rainlab.forum::lang.member.page_name',
+                'description'       => 'rainlab.forum::lang.member.page_help',
                 'type'              => 'dropdown',
+                'group'             => 'Links',
+            ],
+            'memberPageIdParam' => [
+                'title'             => 'rainlab.forum::lang.member.param_name',
+                'description'       => 'rainlab.forum::lang.member.param_help',
+                'type'              => 'string',
+                'default'           => ':slug',
+                'group'             => 'Links',
             ],
         ];
     }
@@ -56,7 +66,7 @@ class EmbedChannel extends ComponentBase
         return Page::sortBy('baseFileName')->lists('baseFileName', 'baseFileName');
     }
 
-    public function onInit()
+    public function init()
     {
         $code = $this->propertyOrParam('idParam');
 

@@ -22,26 +22,28 @@ class EmbedTopic extends ComponentBase
     public function defineProperties()
     {
         return [
-            'idParam' => [
-                'title'             => 'Embed Code',
-                'description'       => 'A unique code for the generated topic or channel. A routing parameter can also be used.',
-                'type'              => 'string',
-            ],
             'channelId' => [
                 'title'             => 'Target Channel',
                 'description'       => 'Specify the channel to create the new topic or channel in',
                 'type'              => 'dropdown'
             ],
+            'idParam' => [
+                'title'             => 'Embed Code',
+                'description'       => 'A unique code for the generated topic or channel. A routing parameter can also be used.',
+                'type'              => 'string',
+            ],
             'memberPage' => [
-                'title'             => 'Member Page',
-                'description'       => 'Page name to use for clicking on a member.',
+                'title'             => 'rainlab.forum::lang.member.page_name',
+                'description'       => 'rainlab.forum::lang.member.page_help',
                 'type'              => 'dropdown',
+                'group'             => 'Links',
             ],
             'memberPageIdParam' => [
-                'title'             => 'Member page param name',
-                'description'       => 'The expected parameter name used when creating links to the member page.',
+                'title'             => 'rainlab.forum::lang.member.param_name',
+                'description'       => 'rainlab.forum::lang.member.param_help',
                 'type'              => 'string',
                 'default'           => ':slug',
+                'group'             => 'Links',
             ],
         ];
     }
@@ -56,7 +58,7 @@ class EmbedTopic extends ComponentBase
         return Page::sortBy('baseFileName')->lists('baseFileName', 'baseFileName');
     }
 
-    public function onInit()
+    public function init()
     {
         $mode = $this->property('mode');
         $code = $this->propertyOrParam('idParam');

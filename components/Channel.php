@@ -51,29 +51,33 @@ class Channel extends ComponentBase
                 'title'       => 'Slug param name',
                 'description' => 'The URL route parameter used for looking up the channel by its slug. A hard coded slug can also be used.',
                 'default'     => ':slug',
-                'type'        => 'string'
+                'type'        => 'string',
             ],
             'memberPage' => [
                 'title'       => 'rainlab.forum::lang.member.page_name',
                 'description' => 'rainlab.forum::lang.member.page_help',
-                'type'        => 'dropdown'
+                'type'        => 'dropdown',
+                'group'       => 'Links',
             ],
             'memberPageIdParam' => [
                 'title'       => 'rainlab.forum::lang.member.param_name',
                 'description' => 'rainlab.forum::lang.member.param_help',
                 'type'        => 'string',
                 'default'     => ':slug',
+                'group'       => 'Links',
             ],
             'topicPage' => [
                 'title'       => 'rainlab.forum::lang.topic.page_name',
                 'description' => 'rainlab.forum::lang.topic.page_help',
-                'type'        => 'dropdown'
+                'type'        => 'dropdown',
+                'group'       => 'Links',
             ],
             'topicPageIdParam' => [
                 'title'       => 'rainlab.forum::lang.topic.param_name',
                 'description' => 'rainlab.forum::lang.topic.param_help',
                 'type'        => 'string',
                 'default'     => ':slug',
+                'group'       => 'Links',
             ],
         ];
     }

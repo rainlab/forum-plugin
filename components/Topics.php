@@ -44,7 +44,7 @@ class Topics extends ComponentBase
             'topicPage' => [
                 'title'       => 'rainlab.forum::lang.topic.page_name',
                 'description' => 'rainlab.forum::lang.topic.page_help',
-                'type'        => 'dropdown'
+                'type'        => 'dropdown',
             ],
             'topicPageIdParam' => [
                 'title'       => 'rainlab.forum::lang.topic.param_name',

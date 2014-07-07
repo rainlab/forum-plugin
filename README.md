@@ -2,6 +2,9 @@
 
 This plugin adds a simple embeddable forum to [OctoberCMS](http://octobercms.com).
 
+A video demonstration of this plugin can be seen here:
+https://vimeo.com/97088926
+
 ## Configuration
 
 The forum does not require immediate configuation to operate. However the following options are available.

@@ -43,23 +43,27 @@ class Member extends ComponentBase
                 'title'       => 'Channel page',
                 'description' => 'Page name to use for clicking on a channel.',
                 'type'        => 'dropdown',
+                'group'       => 'Links',
             ],
             'channelPageIdParam' => [
                 'title'       => 'Channel page param name',
                 'description' => 'The expected parameter name used when creating links to the channel page.',
                 'type'        => 'string',
                 'default'     => ':slug',
+                'group'       => 'Links',
             ],
             'topicPage' => [
                 'title'       => 'Topic page',
                 'description' => 'Page name to use for clicking on a conversation topic.',
                 'type'        => 'dropdown',
+                'group'       => 'Links',
             ],
             'topicPageIdParam' => [
                 'title'       => 'Topic page param name',
                 'description' => 'The expected parameter name used when creating links to the topic page.',
                 'type'        => 'string',
                 'default'     => ':slug',
+                'group'       => 'Links',
             ],
         ];
     }

@@ -2,6 +2,7 @@
 
 use Auth;
 use Flash;
+use Event;
 use Request;
 use Redirect;
 use Cms\Classes\Page;
@@ -54,29 +55,33 @@ class Topic extends ComponentBase
                 'title'       => 'Slug param name',
                 'description' => 'The URL route parameter used for looking up the topic by its slug. A hard coded slug can also be used.',
                 'default'     => ':slug',
-                'type'        => 'string'
+                'type'        => 'string',
             ],
             'memberPage' => [
-                'title'       => 'Member Page',
-                'description' => 'Page name to use for clicking on a member.',
+                'title'       => 'rainlab.forum::lang.member.page_name',
+                'description' => 'rainlab.forum::lang.member.page_help',
                 'type'        => 'dropdown',
+                'group'       => 'Links',
             ],
             'memberPageIdParam' => [
-                'title'       => 'Member page param name',
-                'description' => 'The expected parameter name used when creating links to the member page.',
+                'title'       => 'rainlab.forum::lang.member.param_name',
+                'description' => 'rainlab.forum::lang.member.param_help',
                 'type'        => 'string',
                 'default'     => ':slug',
+                'group'       => 'Links',
             ],
             'channelPage' => [
                 'title'       => 'Channel Page',
                 'description' => 'Page name to use for clicking on a channel.',
                 'type'        => 'dropdown',
+                'group'       => 'Links',
             ],
             'channelPageIdParam' => [
                 'title'       => 'Channel page param name',
                 'description' => 'The expected parameter name used when creating links to the channel page.',
                 'type'        => 'string',
                 'default'     => ':slug',
+                'group'       => 'Links',
             ],
         ];
     }
@@ -249,15 +254,20 @@ class Topic extends ComponentBase
             $channel = $this->getChannel();
 
             $topic = TopicModel::createInChannel($channel, $member, post());
+            $topicUrl = $this->currentPageUrl([$this->property('idParam') => $topic->slug]);
 
             Flash::success(post('flash', 'Topic created successfully!'));
 
             /*
+             * Extensbility
+             */
+            Event::fire('rainlab.forum.topic.create', [$this, $topic, $topicUrl]);
+            $this->fireEvent('topic.create', [$topic, $topicUrl]);
+
+            /*
              * Redirect to the intended page after successful update
              */
-            $redirectUrl = post('redirect', $this->currentPageUrl([
-                $this->property('idParam') => $topic->slug
-            ]));
+            $redirectUrl = post('redirect', $topicUrl);
 
             return Redirect::to($redirectUrl);
         }
@@ -279,8 +289,13 @@ class Topic extends ComponentBase
             $postUrl = $this->currentPageUrl([$this->property('idParam') => $topic->slug]);
 
             TopicFollow::sendNotifications($topic, $post, $postUrl);
-
             Flash::success(post('flash', 'Response added successfully!'));
+
+            /*
+             * Extensbility
+             */
+            Event::fire('rainlab.forum.topic.post', [$this, $post, $postUrl]);
+            $this->fireEvent('topic.post', [$post, $postUrl]);
 
             /*
              * Redirect to the intended page after successful update
