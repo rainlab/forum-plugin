@@ -201,6 +201,7 @@ class Topic extends Model
         $this->channel()->decrement('count_topics');
         $this->channel()->decrement('count_posts', $this->posts()->count());
         $this->posts()->delete();
+        $this->followers()->detach();
         TopicWatch::where('topic_id', $this->id)->delete();
     }
 
