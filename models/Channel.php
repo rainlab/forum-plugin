@@ -9,6 +9,8 @@ use System\Classes\ApplicationException;
 class Channel extends Model
 {
 
+    use \October\Rain\Database\Traits\Sluggable;
+    use \October\Rain\Database\Traits\Validation;
     use \October\Rain\Database\Traits\NestedTree;
 
     /**
@@ -51,7 +53,7 @@ class Channel extends Model
     /**
      * @var array Auto generated slug
      */
-    public $slugs = ['slug' => 'title'];
+    protected $slugs = ['slug' => 'title'];
 
     /**
      * @var array Relations

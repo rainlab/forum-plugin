@@ -10,6 +10,7 @@ use Carbon\Carbon;
  */
 class Member extends Model
 {
+    use \October\Rain\Database\Traits\Sluggable;
 
     /**
      * @var string The database table used by the model.
@@ -30,11 +31,6 @@ class Member extends Model
      * @var array The attributes that should be visible in arrays.
      */
     protected $visible = ['username', 'slug'];
-
-    /**
-     * @var array Validation rules
-     */
-    public $rules = [];
 
     /**
      * @var array Auto generated slug

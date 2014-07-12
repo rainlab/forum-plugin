@@ -10,6 +10,8 @@ use System\Classes\ApplicationException;
  */
 class Topic extends Model
 {
+    use \October\Rain\Database\Traits\Sluggable;
+    use \October\Rain\Database\Traits\Validation;
 
     /**
      * @var string The database table used by the model.
@@ -48,7 +50,7 @@ class Topic extends Model
     /**
      * @var array Auto generated slug
      */
-    public $slugs = ['slug' => 'subject'];
+    protected $slugs = ['slug' => 'subject'];
 
     /**
      * @var array Relations

@@ -11,6 +11,7 @@ use October\Rain\Support\Markdown;
  */
 class Post extends Model
 {
+    use \October\Rain\Database\Traits\Validation;
 
     /**
      * @var string The database table used by the model.
