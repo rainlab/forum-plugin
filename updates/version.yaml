@@ -23,3 +23,4 @@
 1.0.7:
     - Forum members can now follow topics
     - create_topic_followers_table.php
+1.0.8: Added Channel name to the Topics component view
