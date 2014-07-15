@@ -32,15 +32,15 @@ class Topic extends Model
      * @var array Validation rules
      */
     public $rules = [
-        'subject' => 'required',
-        'channel_id' => 'required',
+        'subject'         => 'required',
+        'channel_id'      => 'required',
         'start_member_id' => 'required'
     ];
 
     /**
      * @var array The attributes that should be visible in arrays.
      */
-    protected $visible = ['subject', 'channel'];
+    protected $visible = ['id', 'slug', 'subject', 'channel', 'created_at', 'updated_at'];
 
     /**
      * @var array Date fields
@@ -60,9 +60,9 @@ class Topic extends Model
     ];
 
     public $belongsTo = [
-        'channel' => ['RainLab\Forum\Models\Channel'],
-        'start_member' => ['RainLab\Forum\Models\Member'],
-        'last_post' => ['RainLab\Forum\Models\Post'],
+        'channel'          => ['RainLab\Forum\Models\Channel'],
+        'start_member'     => ['RainLab\Forum\Models\Member'],
+        'last_post'        => ['RainLab\Forum\Models\Post'],
         'last_post_member' => ['RainLab\Forum\Models\Member'],
     ];
 
