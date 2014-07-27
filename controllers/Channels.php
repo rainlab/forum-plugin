@@ -4,6 +4,7 @@ use Flash;
 use BackendMenu;
 use Backend\Classes\Controller;
 use RainLab\Forum\Models\Channel;
+use System\Classes\SettingsManager;
 
 /**
  * Channels Back-end Controller
@@ -23,6 +24,7 @@ class Channels extends Controller
         parent::__construct();
 
         BackendMenu::setContext('October.System', 'system', 'settings');
+        SettingsManager::setContext('RainLab.Forum', 'settings');
     }
 
     public function index_onDelete()
