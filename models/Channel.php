@@ -63,6 +63,27 @@ class Channel extends Model
     ];
 
     /**
+     * @var array Attributes that support translation, if available.
+     */
+    public $translatable = ['title', 'description'];
+
+    /**
+     * Add translation support to this model, if available.
+     * @return void
+     */
+    public static function boot()
+    {
+        parent::boot();
+
+        if (!class_exists('RainLab\Translate\Behaviors\TranslatableModel'))
+            return;
+
+        self::extend(function($model){
+            $model->implement[] = 'RainLab.Translate.Behaviors.TranslatableModel';
+        });
+    }
+
+    /**
      * Returns the last updated topic in this channel.
      * @return Model
      */

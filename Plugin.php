@@ -99,7 +99,8 @@ class Plugin extends PluginBase
                 'description' => 'Manage available forum channels.',
                 'icon'        => 'icon-comments',
                 'url'         => Backend::url('rainlab/forum/channels'),
-                'order'       => 500
+                'category'    => 'Forum',
+                'order'       => 500,
             ]
         ];
     }
