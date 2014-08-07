@@ -5,11 +5,14 @@ use Redirect;
 use Cms\Classes\Page;
 use Cms\Classes\ComponentBase;
 use RainLab\Forum\Models\Member as MemberModel;
+use RainLab\User\Models\MailBlocker;
+use Exception;
 
 class Member extends ComponentBase
 {
 
-    private $member = null;
+    protected $member = null;
+    protected $mailPreferences = null;
 
     public $topicPage;
     public $topicPageIdParam;
@@ -83,6 +86,8 @@ class Member extends ComponentBase
         $this->addCss('/plugins/rainlab/forum/assets/css/forum.css');
 
         $this->page['member'] = $this->getMember();
+        $this->page['mailPreferences'] = $this->getMailPreferences();
+        traceLog($this->page['mailPreferences']);
         $this->prepareVars();
     }
 
@@ -97,6 +102,24 @@ class Member extends ComponentBase
             $member = MemberModel::whereSlug($slug)->first();
 
         return $this->member = $member;
+    }
+
+    public function getMailPreferences()
+    {
+        if ($this->mailPreferences !== null)
+            return $this->mailPreferences;
+
+        $member = $this->getMember();
+        if (!$member || !$member->user)
+            return [];
+
+        $preferences = [];
+        $blocked = MailBlocker::checkAllForUser($member->user);
+        foreach ($this->getMailTemplates() as $alias => $template) {
+            $preferences[$alias] = !in_array($template, $blocked);
+        }
+
+        return $this->mailPreferences = $preferences;
     }
 
     protected function prepareVars()
@@ -138,7 +161,22 @@ class Member extends ComponentBase
             $member = $this->getMember();
             if (!$member) return;
 
-            $member->save(post());
+            /*
+             * Process mail preferences
+             */
+            if ($member->user) {
+                MailBlocker::toggleBlocks(
+                    post('MailPreferences'),
+                    $member->user,
+                    $this->getMailTemplates()
+                );
+            }
+
+            /*
+             * Save member
+             */
+            $data = array_except(post(), 'MailPreferences');
+            $member->save($data);
 
             Flash::success(post('flash', 'Settings successfully saved!'));
 
@@ -151,9 +189,14 @@ class Member extends ComponentBase
 
             return Redirect::to($redirectUrl);
         }
-        catch (\Exception $ex) {
+        catch (Exception $ex) {
             Flash::error($ex->getMessage());
         }
+    }
+
+    protected function getMailTemplates()
+    {
+        return ['topic_reply' => 'rainlab.forum::mail.topic_reply'];
     }
 
 }
