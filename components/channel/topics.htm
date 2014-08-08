@@ -28,8 +28,9 @@
                 <p>
                     <img src="{{ topic.last_post_member.user.avatarThumb(24, 'http://placehold.it/24x24.png') }}" class="member-avatar" />
                     <a href="{{ memberPage|page({ (memberPageIdParam): topic.last_post_member.slug }) }}">{{ topic.last_post_member.username }}</a>
-                    posted
-                    <a href="{{ topicPage|page({ (topicPageIdParam): topic.slug }) }}?page=last#post-{{ topic.last_post_id }}">{{ topic.last_post_at.diffForHumans }}</a>
+                    <small>
+                        posted <a href="{{ topicPage|page({ (topicPageIdParam): topic.slug }) }}?page=last#post-{{ topic.last_post_id }}">{{ topic.last_post_at.diffForHumans }}</a>
+                    </small>
                 </p>
             </td>
         </tr>

@@ -9,7 +9,7 @@
                 </th>
                 <th class="counter-column">Topics</th>
                 <th class="counter-column">Posts</th>
-                <th class="activity-column">Last post</th>
+                <th class="activity-column">Recent topic</th>
             </tr>
 
             {% if channel.relations.children %}
@@ -52,7 +52,7 @@
                         <td class="activity-column">
                             {% if channel.firstTopic %}
                                 <p>
-                                    <a href="{{ topicPage|page({ (topicPageIdParam): channel.firstTopic.slug }) }}?page=last#post-{{ channel.firstTopic.last_post_id }}">{{ channel.firstTopic.subject }}</a> {{ channel.firstTopic.last_post_at.diffForHumans }}
+                                    <a href="{{ topicPage|page({ (topicPageIdParam): channel.firstTopic.slug }) }}?page=last#post-{{ channel.firstTopic.last_post_id }}">{{ channel.firstTopic.subject }}</a> <small>{{ channel.firstTopic.last_post_at.diffForHumans }}</small>
                                 </p>
                             {% endif %}
                         </td>
