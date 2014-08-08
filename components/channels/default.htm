@@ -53,7 +53,7 @@
                             {% if channel.firstTopic %}
                                 <p>
                                     <img src="{{ channel.firstTopic.last_post_member.user.avatarThumb(24, 'http://placehold.it/24x24.png') }}" class="member-avatar" />
-                                    <a href="{{ memberPage|page({ (memberPageIdParam): channel.firstTopic.last_post_member.slug }) }}">{{ channel.firstTopic.last_post_member.username }}</a>
+                                    <a href="{{ memberPage|page({ (memberPageIdParam): channel.firstTopic.last_post_member.slug }) }}">{{ channel.firstTopic.subject }}</a>
                                     posted
                                     <a href="{{ topicPage|page({ (topicPageIdParam): channel.firstTopic.slug }) }}?page=last#post-{{ channel.firstTopic.last_post_id }}">{{ channel.firstTopic.last_post_at.diffForHumans }}</a>
                                 </p>

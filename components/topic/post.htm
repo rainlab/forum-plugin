@@ -1,69 +1,92 @@
-<tr class="forum-post-title">
-    <th class="post-column">
-        <a href="#post-{{ post.id }}" class="post-anchor">#</a>
-        <em class="post-timesince">{{ post.created_at.diffForHumans }}</em>
-        {% if post.canEdit and mode != 'edit' and mode != 'delete' %}
-            <a href="javascript:;"
-                class="post-edit"
-                data-request="onUpdate"
-                data-request-data="post: {{ post.id }}"
-                data-request-update="'{{ __SELF__ ~ '::post' }}': '#post-{{ post.id }}'">
-                Edit post
-            </a>
-        {% elseif mode == 'edit' %}
-            <a href="javascript:;"
-                class="post-delete"
-                data-request="{{ __SELF__ }}::onUpdate"
-                data-request-data="post: {{ post.id }}, mode: 'view'"
-                data-request-update="'{{ __SELF__ }}::post': '#post-{{ post.id }}'">
-                Cancel
-            </a>
+<a href="{{ memberPage|page({ (memberPageIdParam): post.member.slug }) }}" class="avatar">
+    <img src="{{ post.member.user.avatarThumb(50, 'http://placehold.it/50x50.png') }}" alt="{{ post.member.username }}" />
+</a>
+<div class="content">
+    <a href="{{ memberPage|page({ (memberPageIdParam): post.member.slug }) }}" class="author">
+        {{ post.member.username }}
+    </a>
+    <div class="metadata">
+        <div class="date">
+            <a href="#post-{{ post.id }}">{{ post.created_at.diffForHumans }}</a>
+        </div>
+        {% if post.member.is_moderator %}
+            <div class="status">
+                <i class="icon-star"></i> Moderator
+            </div>
         {% endif %}
-    </th>
-    <th class="member-column">
-        <a href="{{ memberPage|page({ (memberPageIdParam): post.member.slug }) }}">
-            {{ post.member.username }}
-        </a>
-    </th>
-</tr>
-<tr class="forum-post">
-    <td class="post-column">
-        <div class="post-content">
-            {% if mode == 'edit' %}
-                {{ form_ajax('onUpdate', {
-                    update: { (__SELF__ ~ '::post'): '#post-' ~ post.id }
-                }) }}
-                    <textarea
-                        rows="5"
-                        name="content"
-                        class="form-control"
-                        >{{ post.content }}</textarea>
+    </div>
 
-                    <div class="form-group">
-                        <button
-                            type="submit"
-                            class="btn btn-primary btn-sm">Save</button>
-                        <button
-                            type="button"
-                            data-request="{{ __SELF__ }}::onUpdate"
-                            data-request-data="post: {{ post.id }}, mode: 'delete'"
-                            data-request-update="'{{ __SELF__ }}::post': '#post-{{ post.id }}'"
-                            data-request-confirm="Are you sure?"
-                            class="btn btn-danger btn-sm">Delete</button>
-                    </div>
+    {% if mode == 'edit' %}
 
-                    <input type="hidden" name="mode" value="save" />
-                    <input type="hidden" name="post" value="{{ post.id }}" />
-                {{ form_close() }}
+        {{ form_open() }}
+            <!-- Passable fields -->
+            <input type="hidden" name="mode" value="save" />
+            <input type="hidden" name="post" value="{{ post.id }}" />
 
-            {% elseif mode == 'delete' %}
-                <p><em>Post has been deleted</em></p>
-            {% else %}
-                {{ post.content_html|raw }}
+            {% if topic.firstPost.id == post.id %}
+                <input type="text" name="subject" class="form-control" value="{{ topic.subject }}" />
+            {% endif %}
+
+            <div class="text">
+                <textarea
+                    rows="5"
+                    name="content"
+                    class="form-control"
+                    >{{ post.content }}</textarea>
+            </div>
+            <div class="actions">
+                <a
+                    href="javascript:;"
+                    data-request="{{ __SELF__ }}::onUpdate"
+                    data-request-data="post: {{ post.id }}"
+                    data-request-update="'{{ __SELF__ }}::post': '#post-{{ post.id }}'"
+                    class="delete">
+                    Save
+                </a>
+
+                <a
+                    href="javascript:;"
+                    data-request="{{ __SELF__ }}::onUpdate"
+                    data-request-data="post: {{ post.id }}, mode: 'delete'"
+                    data-request-update="'{{ __SELF__ }}::post': '#post-{{ post.id }}'"
+                    data-request-confirm="Are you sure?"
+                    class="delete">
+                    Delete
+                </a>
+
+                <a href="javascript:;"
+                    class="cancel"
+                    data-request="{{ __SELF__ }}::onUpdate"
+                    data-request-data="post: {{ post.id }}, mode: 'view'"
+                    data-request-update="'{{ __SELF__ }}::post': '#post-{{ post.id }}'">
+                    Cancel
+                </a>
+            </div>
+        {{ form_close() }}
+
+    {% elseif mode == 'delete' %}
+        <div class="text">
+            <p><em>Post has been deleted</em></p>
+        </div>
+    {% else %}
+        <div class="text">
+            {{ post.content_html|raw }}
+        </div>
+        <div class="actions">
+            <!--<a class="quote">
+                Quote
+            </a>-->
+            {% if post.canEdit and mode != 'edit' and mode != 'delete' %}
+                <a href="javascript:;"
+                    class="edit"
+                    data-request="onUpdate"
+                    data-request-data="post: {{ post.id }}"
+                    data-request-update="'{{ __SELF__ ~ '::post' }}': '#post-{{ post.id }}'">
+                    Edit
+                </a>
             {% endif %}
         </div>
-    </td>
-    <td class="member-column">
-        {% partial __SELF__ ~ "::member" member=post.member %}
-    </td>
-</tr>
+    {% endif %}
+
+</div>
+<div class="post-divider"></div>

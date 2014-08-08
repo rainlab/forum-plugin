@@ -76,6 +76,23 @@ class Topic extends Model
     public $hasNew = true;
 
     /**
+     * @var Topic A cache of the first topic in this channel.
+     */
+    private $firstPost;
+
+    /**
+     * Returns the first created post in this topic.
+     * @return Model
+     */
+    public function firstPost()
+    {
+        if ($this->firstPost !== null)
+            return $this->firstPost;
+
+        return $this->firstPost = $this->posts()->orderBy('created_at', 'asc')->first();
+    }
+
+    /**
      * Creates a topic and a post inside a channel
      * @param  Channel $channel
      * @param  Member $member

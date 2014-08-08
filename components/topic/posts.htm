@@ -1,9 +1,7 @@
-<table class="forum-table">
-
+<div class="forum-posts">
     {% for post in posts %}
-        <tbody id="post-{{ post.id }}">
+        <div class="forum-post" id="post-{{ post.id }}">
             {% partial __SELF__ ~ "::post" post=post %}
-        </tbody>
+        </div>
     {% endfor %}
-
-</table>
+</div>

@@ -311,6 +311,7 @@ class Topic extends ComponentBase
 
     public function onUpdate()
     {
+        $topic = $this->getTopic();
         $post = PostModel::find(post('post'));
 
         if (!$post->canEdit())
@@ -319,6 +320,10 @@ class Topic extends ComponentBase
         $mode = post('mode', 'edit');
         if ($mode == 'save') {
             $post->save(post());
+
+            // First post will update the topic subject
+            if ($topic->firstPost()->id == $post->id)
+                $topic->save(['subject' => post('subject')]);
         }
         elseif ($mode == 'delete') {
             $post->delete();
@@ -329,6 +334,7 @@ class Topic extends ComponentBase
 
         $this->page['mode'] = $mode;
         $this->page['post'] = $post;
+        $this->page['topic'] = $topic;
     }
 
     public function onMove()

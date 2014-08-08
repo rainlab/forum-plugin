@@ -15,20 +15,29 @@
 
         <h4>{{ topic.subject }}</h4>
 
-        <div id="topicControlPanel">
-            {% partial "@controlpanel" %}
+        <div class="row">
+            <div class="col-md-3 col-md-push-9">
+
+                <div id="topicControlPanel">
+                    {% partial "@controlpanel" %}
+                </div>
+
+            </div>
+            <div class="col-md-9 col-md-pull-3">
+
+                {% partial "@posts" %}
+
+                {% partial "@pagination" %}
+
+                <h4>Reply to this discussion</h4>
+                {% if member %}
+                    {% partial "@postform" %}
+                {% else %}
+                    <p>You should be logged in before you can post.</p>
+                {% endif %}
+
+            </div>
         </div>
-
-        {% partial "@posts" %}
-
-        {% partial "@pagination" %}
-
-        <h4>Reply to this discussion</h4>
-        {% if member %}
-            {% partial "@postform" %}
-        {% else %}
-            <p>You should be logged in before you can post.</p>
-        {% endif %}
 
     {% elseif channel %}
 
