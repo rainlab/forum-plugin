@@ -87,7 +87,6 @@ class Member extends ComponentBase
 
         $this->page['member'] = $this->getMember();
         $this->page['mailPreferences'] = $this->getMailPreferences();
-        traceLog($this->page['mailPreferences']);
         $this->prepareVars();
     }
 
