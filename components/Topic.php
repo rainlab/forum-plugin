@@ -302,7 +302,7 @@ class Topic extends ComponentBase
              */
             $redirectUrl = post('redirect', $postUrl);
 
-           return Redirect::to($redirectUrl.'?page=last#post-'.$post->id);
+            return Redirect::to($redirectUrl.'?page=last#post-'.$post->id);
         }
         catch (Exception $ex) {
             Flash::error($ex->getMessage());
