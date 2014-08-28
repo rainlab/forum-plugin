@@ -1,8 +1,8 @@
-<a href="{{ memberPage|page({ (memberPageIdParam): post.member.slug }) }}" class="avatar">
+<a href="{{ post.member.url }}" class="avatar">
     <img src="{{ post.member.user.avatarThumb(50, 'http://placehold.it/50x50.png') }}" alt="{{ post.member.username }}" />
 </a>
 <div class="content">
-    <a href="{{ memberPage|page({ (memberPageIdParam): post.member.slug }) }}" class="author">
+    <a href="{{ post.member.url }}" class="author">
         {{ post.member.username }}
     </a>
     <div class="metadata">
@@ -23,7 +23,7 @@
             <input type="hidden" name="mode" value="save" />
             <input type="hidden" name="post" value="{{ post.id }}" />
 
-            {% if topic.firstPost.id == post.id %}
+            {% if topic.first_post.id == post.id %}
                 <input type="text" name="subject" class="form-control" value="{{ topic.subject }}" />
             {% endif %}
 

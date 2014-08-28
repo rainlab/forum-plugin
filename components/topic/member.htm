@@ -1,7 +1,0 @@
-<p class="avatar">
-    <a href="{{ memberPage|page({ (memberPageIdParam): member.slug }) }}">
-        <img src="{{ member.user.avatarThumb(50, 'http://placehold.it/50x50.png') }}" class="member-avatar" alt="{{ member.username }}" />
-    </a>
-</p>
-<p class="since">Member since: {{ member.created_at|date('Y-m-d') }}</p>
-<p class="posts">Posts: {{ member.count_posts }}</p>

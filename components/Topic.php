@@ -25,14 +25,34 @@ class Topic extends ComponentBase
      */
     public $embedMode = false;
 
-    private $topic = null;
-    private $channel = null;
-    private $member = null;
+    /**
+     * @var RainLab\Forum\Models\Topic Topic cache
+     */
+    protected $topic = null;
 
+    /**
+     * @var RainLab\Forum\Models\Channel Channel cache
+     */
+    protected $channel = null;
+
+    /**
+     * @var RainLab\Forum\Models\Member Member cache
+     */
+    protected $member = null;
+
+    /**
+     * @var string Reference to the page name for linking to members.
+     */
     public $memberPage;
-    public $memberPageIdParam;
+
+    /**
+     * @var string Reference to the page name for linking to channels.
+     */
     public $channelPage;
-    public $channelPageIdParam;
+
+    /**
+     * @var string URL to redirect to after posting to the topic.
+     */
     public $returnUrl;
 
     /**
@@ -63,24 +83,10 @@ class Topic extends ComponentBase
                 'type'        => 'dropdown',
                 'group'       => 'Links',
             ],
-            'memberPageIdParam' => [
-                'title'       => 'rainlab.forum::lang.member.param_name',
-                'description' => 'rainlab.forum::lang.member.param_help',
-                'type'        => 'string',
-                'default'     => ':slug',
-                'group'       => 'Links',
-            ],
             'channelPage' => [
                 'title'       => 'Channel Page',
                 'description' => 'Page name to use for clicking on a channel.',
                 'type'        => 'dropdown',
-                'group'       => 'Links',
-            ],
-            'channelPageIdParam' => [
-                'title'       => 'Channel page param name',
-                'description' => 'The expected parameter name used when creating links to the channel page.',
-                'type'        => 'string',
-                'default'     => ':slug',
                 'group'       => 'Links',
             ],
         ];
@@ -93,13 +99,23 @@ class Topic extends ComponentBase
 
     public function onRun()
     {
-
         $this->addCss('/plugins/rainlab/forum/assets/css/forum.css');
+
+        $this->prepareVars();
         $this->page['channel'] = $this->getChannel();
         $this->page['topic'] = $topic = $this->getTopic();
         $this->page['member'] = $member = $this->getMember();
         $this->handleOptOutLinks();
         return $this->preparePostList();
+    }
+
+    protected function prepareVars()
+    {
+        /*
+         * Page links
+         */
+        $this->memberPage = $this->page['memberPage'] = $this->property('memberPage');
+        $this->channelPage = $this->page['channelPage'] = $this->property('channelPage');
     }
 
     public function getTopic()
@@ -140,6 +156,9 @@ class Topic extends ComponentBase
         else
             $channel = null;
 
+        // Add a "url" helper attribute for linking to the category
+        $channel->setUrl($this->channelPage, $this->controller);
+
         return $this->channel = $channel;
     }
 
@@ -157,7 +176,16 @@ class Topic extends ComponentBase
 
             $currentPage = post('page');
             $searchString = trim(post('search'));
-            $posts = PostModel::make()->listFrontEnd($currentPage, 'created_at', $topic->id, $searchString);
+            $posts = PostModel::with('member')->listFrontEnd($currentPage, 'created_at', $topic->id, $searchString);
+
+            /*
+             * Add a "url" helper attribute for linking to each member
+             */
+            $posts->each(function($post){
+                if ($post->member)
+                    $post->member->setUrl($this->memberPage, $this->controller);
+            });
+
             $this->page['posts'] = $this->posts = $posts;
 
             /*
@@ -190,18 +218,10 @@ class Topic extends ComponentBase
             elseif ($this->embedMode)
                 $returnUrl = $this->currentPageUrl([$this->property('idParam') => null]);
             else
-                $returnUrl = $this->pageUrl($this->channelPage, [$this->channelPageIdParam => $this->channel->slug]);
+                $returnUrl = $this->channel->url;
 
              $this->returnUrl = $this->page['returnUrl'] = $returnUrl;
          }
-
-        /*
-         * Page links
-         */
-        $this->memberPage = $this->page['memberPage'] = $this->property('memberPage');
-        $this->memberPageIdParam = $this->page['memberPageIdParam'] = $this->property('memberPageIdParam');
-        $this->channelPage = $this->page['channelPage'] = $this->property('channelPage');
-        $this->channelPageIdParam = $this->page['channelPageIdParam'] = $this->property('channelPageIdParam');
     }
 
     protected function handleOptOutLinks()
@@ -322,7 +342,7 @@ class Topic extends ComponentBase
             $post->save(post());
 
             // First post will update the topic subject
-            if ($topic->firstPost()->id == $post->id)
+            if ($topic->first_post->id == $post->id)
                 $topic->save(['subject' => post('subject')]);
         }
         elseif ($mode == 'delete') {

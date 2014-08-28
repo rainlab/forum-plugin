@@ -17,7 +17,10 @@ use RainLab\Forum\Models\Member as MemberModel;
 class Topics extends ComponentBase
 {
 
-    private $member;
+    /**
+     * @var RainLab\Forum\Models\Member Member cache
+     */
+    protected $member = null;
 
     public function componentDetails()
     {
@@ -35,22 +38,10 @@ class Topics extends ComponentBase
                 'description' => 'rainlab.forum::lang.member.page_help',
                 'type'        => 'dropdown'
             ],
-            'memberPageIdParam' => [
-                'title'       => 'rainlab.forum::lang.member.param_name',
-                'description' => 'rainlab.forum::lang.member.param_help',
-                'type'        => 'string',
-                'default'     => ':slug',
-            ],
             'topicPage' => [
                 'title'       => 'rainlab.forum::lang.topic.page_name',
                 'description' => 'rainlab.forum::lang.topic.page_help',
                 'type'        => 'dropdown',
-            ],
-            'topicPageIdParam' => [
-                'title'       => 'rainlab.forum::lang.topic.param_name',
-                'description' => 'rainlab.forum::lang.topic.param_help',
-                'type'        => 'string',
-                'default'     => ':slug',
             ],
         ];
     }
@@ -64,18 +55,43 @@ class Topics extends ComponentBase
     {
         $this->addCss('/plugins/rainlab/forum/assets/css/forum.css');
 
+        $this->prepareVars();
         return $this->prepareTopicList();
+    }
+
+    protected function prepareVars()
+    {
+        /*
+         * Page links
+         */
+        $this->topicPage = $this->page['topicPage'] = $this->property('topicPage');
+        $this->memberPage = $this->page['memberPage'] = $this->property('memberPage');
     }
 
     protected function prepareTopicList()
     {
         $currentPage = post('page');
         $searchString = trim(post('search'));
-        $topics = TopicModel::make()->listFrontEnd($currentPage, 'updated_at', null, $searchString);
+        $topics = TopicModel::with('last_post_member')->listFrontEnd($currentPage, 'updated_at', null, $searchString);
 
+        /*
+         * Add a "url" helper attribute for linking to each topic
+         */
+        $topics->each(function($topic){
+            $topic->setUrl($this->topicPage, $this->controller);
+
+            if ($topic->last_post_member)
+                $topic->last_post_member->setUrl($this->memberPage, $this->controller);
+        });
+
+        /*
+         * Signed in member
+         */
         $this->page['member'] = $this->member = MemberModel::getFromUser();
-        if ($this->member)
+        if ($this->member) {
+            $this->member->setUrl($this->memberPage, $this->controller);
             $topics = TopicWatch::setFlagsOnTopics($topics, $this->member);
+        }
 
         $this->page['topics'] = $this->topics = $topics;
 
@@ -93,14 +109,6 @@ class Topics extends ComponentBase
 
             $this->page['paginationUrl'] = $paginationUrl;
         }
-
-        /*
-         * Page links
-         */
-        $this->topicPage = $this->page['topicPage'] = $this->property('topicPage');
-        $this->topicPageIdParam = $this->page['topicPageIdParam'] = $this->property('topicPageIdParam');
-        $this->memberPage = $this->page['memberPage'] = $this->property('memberPage');
-        $this->memberPageIdParam = $this->page['memberPageIdParam'] = $this->property('memberPageIdParam');
     }
 
 }

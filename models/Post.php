@@ -79,7 +79,7 @@ class Post extends Model
      * @param  string   $search    Search query
      * @return self
      */
-    public function listFrontEnd($page = 1, $sort = 'created_at', $topic, $search = '')
+    public function scopeListFrontEnd($query, $page = 1, $sort = 'created_at', $topic, $search = '')
     {
         App::make('paginator')->setCurrentPage($page);
         $search = trim($search);
@@ -88,18 +88,17 @@ class Post extends Model
         if (!in_array($sort, $allowedSortingOptions))
             $sort = $allowedSortingOptions[0];
 
-        $obj = $this->newQuery();
-        $obj->orderBy($sort, 'asc');
+        $query->orderBy($sort, 'asc');
 
         if (strlen($search)) {
-            $obj->searchWhere($search, ['subject', 'content']);
+            $query->searchWhere($search, ['subject', 'content']);
         }
 
         if ($topic) {
-            $obj->where('topic_id', $topic);
+            $query->where('topic_id', $topic);
         }
 
-        return $obj->paginate(30);
+        return $query->paginate(30);
     }
 
     public function canEdit($member = null)

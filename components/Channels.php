@@ -9,15 +9,30 @@ use RainLab\Forum\Models\Member as MemberModel;
 class Channels extends ComponentBase
 {
 
+    /**
+     * @var RainLab\Forum\Models\Member Member cache
+     */
     private $member;
+
+    /**
+     * @var RainLab\Forum\Models\Channel Channel collection cache
+     */
     private $channels;
 
+    /**
+     * @var string Reference to the page name for linking to members.
+     */
     public $memberPage;
-    public $memberPageIdParam;
+
+    /**
+     * @var string Reference to the page name for linking to topics.
+     */
     public $topicPage;
-    public $topicPageIdParam;
+
+    /**
+     * @var string Reference to the page name for linking to channels.
+     */
     public $channelPage;
-    public $channelPageIdParam;
 
     public function componentDetails()
     {
@@ -35,33 +50,15 @@ class Channels extends ComponentBase
                 'description' => 'rainlab.forum::lang.member.page_help',
                 'type'        => 'dropdown',
             ],
-            'memberPageIdParam' => [
-                'title'       => 'rainlab.forum::lang.member.param_name',
-                'description' => 'rainlab.forum::lang.member.param_help',
-                'type'        => 'string',
-                'default'     => ':slug',
-            ],
             'channelPage' => [
                 'title'       => 'Channel Page',
                 'description' => 'Page name to use for clicking on a channel.',
                 'type'        => 'dropdown',
             ],
-            'channelPageIdParam' => [
-                'title'       => 'Channel page param name',
-                'description' => 'The expected parameter name used when creating links to the channel page.',
-                'type'        => 'string',
-                'default'     => ':slug',
-            ],
             'topicPage' => [
                 'title'       => 'Topic Page',
                 'description' => 'Page name to use for clicking on a conversation topic.',
                 'type'        => 'dropdown',
-            ],
-            'topicPageIdParam' => [
-                'title'       => 'Topic page param name',
-                'description' => 'The expected parameter name used when creating links to the topic page.',
-                'type'        => 'string',
-                'default'     => ':slug',
             ],
         ];
     }
@@ -75,24 +72,8 @@ class Channels extends ComponentBase
     {
         $this->addCss('/plugins/rainlab/forum/assets/css/forum.css');
 
-        $this->page['channels'] = $this->listChannels();
         $this->prepareVars();
-    }
-
-    public function listChannels()
-    {
-        if ($this->channels !== null)
-            return $this->channels;
-
-        $channels = Channel::isVisible()->get();
-
-        $this->page['member'] = $this->member = MemberModel::getFromUser();
-        if ($this->member)
-            $channels = ChannelWatch::setFlagsOnChannels($channels, $this->member);
-
-        $channels = $channels->toNested();
-
-        return $this->channels = $channels;
+        $this->page['channels'] = $this->listChannels();
     }
 
     protected function prepareVars()
@@ -101,11 +82,34 @@ class Channels extends ComponentBase
          * Page links
          */
         $this->memberPage = $this->page['memberPage'] = $this->property('memberPage');
-        $this->memberPageIdParam = $this->page['memberPageIdParam'] = $this->property('memberPageIdParam');
         $this->channelPage = $this->page['channelPage'] = $this->property('channelPage');
-        $this->channelPageIdParam = $this->page['channelPageIdParam'] = $this->property('channelPageIdParam');
         $this->topicPage = $this->page['topicPage'] = $this->property('topicPage');
-        $this->topicPageIdParam = $this->page['topicPageIdParam'] = $this->property('topicPageIdParam');
+    }
+
+    public function listChannels()
+    {
+        if ($this->channels !== null)
+            return $this->channels;
+
+        $channels = Channel::with('first_topic')->isVisible()->get();
+
+        /*
+         * Add a "url" helper attribute for linking to each channel
+         */
+        $channels->each(function($channel){
+            $channel->setUrl($this->channelPage, $this->controller);
+
+            if ($channel->first_topic)
+                $channel->first_topic->setUrl($this->topicPage, $this->controller);
+        });
+
+        $this->page['member'] = $this->member = MemberModel::getFromUser();
+        if ($this->member)
+            $channels = ChannelWatch::setFlagsOnChannels($channels, $this->member);
+
+        $channels = $channels->toNested();
+
+        return $this->channels = $channels;
     }
 
 }
