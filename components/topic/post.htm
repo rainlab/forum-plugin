@@ -78,7 +78,7 @@
             {{ post.content_html|raw }}
 
             {% if post.created_at != post.updated_at %}
-                <small class="text text-muted">Last updated at: {{ post.updated_at.diffForHumans }}</small>
+                <br /><small class="text text-muted">Last updated at: {{ post.updated_at.diffForHumans }}</small>
             {% endif %}
         </div>
         <div class="actions">
