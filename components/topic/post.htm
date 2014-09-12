@@ -28,13 +28,18 @@
             {% endif %}
 
             <div class="text">
+                {% if topic.is_locked and member.is_moderator == false %}
+                    <p>This topic is locked: you cannot edit posts or make replies.</p>
+                {% else %}
                 <textarea
                     rows="5"
                     name="content"
                     class="form-control"
                     >{{ post.content }}</textarea>
+                {% endif %}
             </div>
             <div class="actions">
+                {% if topic.is_locked == false or member.is_moderator == true %}
                 <a
                     href="javascript:;"
                     data-request="{{ __SELF__ }}::onUpdate"
@@ -53,7 +58,7 @@
                     class="delete">
                     Delete
                 </a>
-
+                {% endif %}
                 <a href="javascript:;"
                     class="cancel"
                     data-request="{{ __SELF__ }}::onUpdate"
@@ -71,6 +76,10 @@
     {% else %}
         <div class="text">
             {{ post.content_html|raw }}
+
+            {% if post.created_at != post.updated_at %}
+                <br /><small class="text text-muted">Last updated at: {{ post.updated_at.diffForHumans }}</small>
+            {% endif %}
         </div>
         <div class="actions">
             <!--<a class="quote">

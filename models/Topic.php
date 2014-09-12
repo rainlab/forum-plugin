@@ -239,4 +239,16 @@ class Topic extends Model
 
         return $this->url = $controller->pageUrl($pageName, $params);
     }
+
+    public function stickyTopic()
+    {
+        $this->is_sticky = ($this->is_sticky == 1 ? 0 : 1);
+        $this->save();
+    }
+
+    public function lockTopic()
+    {
+        $this->is_locked = ($this->is_locked == 1 ? 0 : 1);
+        $this->save();
+    }
 }
