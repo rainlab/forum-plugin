@@ -22,7 +22,7 @@
                         </td>
                         <td>
                             <h5>
-                                <a href="{{ channelPage|page({ (channelPageIdParam): channel.slug }) }}">
+                                <a href="{{ channel.url }}">
                                     {{ channel.title }}
                                 </a>
                             </h5>
@@ -34,7 +34,7 @@
                                         <li><span>Subforum</span></li>
                                         {% for channel in channel.children %}
                                             <li>
-                                                <a href="{{ channelPage|page({ (channelPageIdParam): channel.slug }) }}" title="{{ channel.description }}">
+                                                <a href="{{ channel.url }}" title="{{ channel.description }}">
                                                     {{ channel.title }}
                                                 </a>
                                             </li>
@@ -50,9 +50,12 @@
                             <p>{{ channel.count_posts }}</p>
                         </td>
                         <td class="activity-column">
-                            {% if channel.firstTopic %}
+                            {% if channel.first_topic %}
                                 <p>
-                                    <a href="{{ topicPage|page({ (topicPageIdParam): channel.firstTopic.slug }) }}?page=last#post-{{ channel.firstTopic.last_post_id }}">{{ channel.firstTopic.subject }}</a> <small>{{ channel.firstTopic.last_post_at.diffForHumans }}</small>
+                                    <a href="{{ channel.first_topic.url }}?page=last#post-{{ channel.first_topic.last_post_id }}">
+                                       {{ channel.first_topic.subject }}
+                                   </a>
+                                   <small>{{ channel.first_topic.last_post_at.diffForHumans }}</small>
                                 </p>
                             {% endif %}
                         </td>

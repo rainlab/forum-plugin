@@ -19,11 +19,6 @@ class Channel extends Model
     public $hasNew = true;
 
     /**
-     * @var Topic A cache of the first topic in this channel.
-     */
-    private $firstTopic;
-
-    /**
      * @var string The database table used by the model.
      */
     public $table = 'rainlab_forum_channels';
@@ -63,6 +58,13 @@ class Channel extends Model
     ];
 
     /**
+     * @var array Relations
+     */
+    public $hasOne = [
+        'first_topic' => ['RainLab\Forum\Models\Topic', 'order' => 'updated_at desc']
+    ];
+
+    /**
      * @var array Attributes that support translation, if available.
      */
     public $translatable = ['title', 'description'];
@@ -81,18 +83,6 @@ class Channel extends Model
         self::extend(function($model){
             $model->implement[] = 'RainLab.Translate.Behaviors.TranslatableModel';
         });
-    }
-
-    /**
-     * Returns the last updated topic in this channel.
-     * @return Model
-     */
-    public function firstTopic()
-    {
-        if ($this->firstTopic !== null)
-            return $this->firstTopic;
-
-        return $this->firstTopic = $this->topics()->orderBy('updated_at', 'desc')->first();
     }
 
     public function scopeForEmbed($query, $channel, $code)
@@ -147,6 +137,21 @@ class Channel extends Model
     {
         foreach ($this->topics as $topic)
             $topic->delete();
+    }
+
+    /**
+     * Sets the "url" attribute with a URL to this object
+     * @param string $pageName
+     * @param Cms\Classes\Controller $controller
+     */
+    public function setUrl($pageName, $controller)
+    {
+        $params = [
+            'id' => $this->id,
+            'slug' => $this->slug,
+        ];
+
+        return $this->url = $controller->pageUrl($pageName, $params);
     }
 
 }

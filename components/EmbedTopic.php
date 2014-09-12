@@ -9,6 +9,9 @@ use Exception;
 class EmbedTopic extends ComponentBase
 {
 
+    /**
+     * @var boolean Determine if this component is being used by the EmbedChannel component.
+     */
     public $embedMode = true;
 
     public function componentDetails()
@@ -36,13 +39,6 @@ class EmbedTopic extends ComponentBase
                 'title'             => 'rainlab.forum::lang.member.page_name',
                 'description'       => 'rainlab.forum::lang.member.page_help',
                 'type'              => 'dropdown',
-                'group'             => 'Links',
-            ],
-            'memberPageIdParam' => [
-                'title'             => 'rainlab.forum::lang.member.param_name',
-                'description'       => 'rainlab.forum::lang.member.param_help',
-                'type'              => 'string',
-                'default'           => ':slug',
                 'group'             => 'Links',
             ],
         ];

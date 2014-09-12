@@ -23,13 +23,30 @@ class Channel extends ComponentBase
      */
     public $embedMode = false;
 
-    private $member = null;
-    private $channel = null;
+    /**
+     * @var string If this channel is embedded, pass the topic slug to this route parameter for linking to topics.
+     */
+    public $embedTopicParam = ':topicSlug';
 
+    /**
+     * @var RainLab\Forum\Models\Member Member cache
+     */
+    protected $member = null;
+
+    /**
+     * @var RainLab\Forum\Models\Channel Channel cache
+     */
+    protected $channel = null;
+
+    /**
+     * @var string Reference to the page name for linking to members.
+     */
     public $memberPage;
-    public $memberPageIdParam;
+
+    /**
+     * @var string Reference to the page name for linking to topics.
+     */
     public $topicPage;
-    public $topicPageIdParam;
 
     /**
      * @var Collection Topics cache for Twig access.
@@ -59,24 +76,10 @@ class Channel extends ComponentBase
                 'type'        => 'dropdown',
                 'group'       => 'Links',
             ],
-            'memberPageIdParam' => [
-                'title'       => 'rainlab.forum::lang.member.param_name',
-                'description' => 'rainlab.forum::lang.member.param_help',
-                'type'        => 'string',
-                'default'     => ':slug',
-                'group'       => 'Links',
-            ],
             'topicPage' => [
                 'title'       => 'rainlab.forum::lang.topic.page_name',
                 'description' => 'rainlab.forum::lang.topic.page_help',
                 'type'        => 'dropdown',
-                'group'       => 'Links',
-            ],
-            'topicPageIdParam' => [
-                'title'       => 'rainlab.forum::lang.topic.param_name',
-                'description' => 'rainlab.forum::lang.topic.param_help',
-                'type'        => 'string',
-                'default'     => ':slug',
                 'group'       => 'Links',
             ],
         ];
@@ -91,8 +94,18 @@ class Channel extends ComponentBase
     {
         $this->addCss('/plugins/rainlab/forum/assets/css/forum.css');
 
+        $this->prepareVars();
         $this->page['channel'] = $this->getChannel();
         return $this->prepareTopicList();
+    }
+
+    protected function prepareVars()
+    {
+        /*
+         * Page links
+         */
+        $this->topicPage = $this->page['topicPage'] = $this->property('topicPage');
+        $this->memberPage = $this->page['memberPage'] = $this->property('memberPage');
     }
 
     public function getChannel()
@@ -115,13 +128,27 @@ class Channel extends ComponentBase
 
             $currentPage = post('page');
             $searchString = trim(post('search'));
-            $topics = TopicModel::make()->listFrontEnd($currentPage, 'updated_at', $channel->id, $searchString);
+            $topics = TopicModel::with('last_post_member')->listFrontEnd($currentPage, 'updated_at', $channel->id, $searchString);
+
+            /*
+             * Add a "url" helper attribute for linking to each topic
+             */
+            $topics->each(function($topic){
+                if ($this->embedMode)
+                    $topic->url = $this->pageUrl($this->topicPage, [$this->embedTopicParam => $topic->slug]);
+                else
+                    $topic->setUrl($this->topicPage, $this->controller);
+
+                if ($topic->last_post_member)
+                    $topic->last_post_member->setUrl($this->memberPage, $this->controller);
+            });
 
             /*
              * Signed in member
              */
             $this->page['member'] = $this->member = MemberModel::getFromUser();
             if ($this->member) {
+                $this->member->setUrl($this->memberPage, $this->controller);
                 $topics = TopicWatch::setFlagsOnTopics($topics, $this->member);
                 ChannelWatch::flagAsWatched($channel, $this->member);
             }
@@ -144,13 +171,6 @@ class Channel extends ComponentBase
             }
         }
 
-        /*
-         * Page links
-         */
-        $this->topicPage = $this->page['topicPage'] = $this->property('topicPage');
-        $this->topicPageIdParam = $this->page['topicPageIdParam'] = $this->property('topicPageIdParam');
-        $this->memberPage = $this->page['memberPage'] = $this->property('memberPage');
-        $this->memberPageIdParam = $this->page['memberPageIdParam'] = $this->property('memberPageIdParam');
 
         $this->page['isGuest'] = !Auth::check();
     }

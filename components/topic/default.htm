@@ -30,10 +30,14 @@
                 {% partial "@pagination" %}
 
                 <h4>Reply to this discussion</h4>
-                {% if member %}
-                    {% partial "@postform" %}
+                {% if topic.is_locked and member.is_moderator == false %}
+                    <p>This topic is locked: you cannot edit posts or make replies.</p>
                 {% else %}
-                    <p>You should be logged in before you can post.</p>
+                    {% if member %}
+                        {% partial "@postform" %}
+                    {% else %}
+                        <p>You should be logged in before you can post.</p>
+                    {% endif %}
                 {% endif %}
 
             </div>

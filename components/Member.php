@@ -11,13 +11,25 @@ use Exception;
 class Member extends ComponentBase
 {
 
+    /**
+     * @var RainLab\Forum\Models\Member Member cache
+     */
     protected $member = null;
+
+    /**
+     * @var array Mail preferences cache
+     */
     protected $mailPreferences = null;
 
+    /**
+     * @var string Reference to the page name for linking to topics.
+     */
     public $topicPage;
-    public $topicPageIdParam;
+
+    /**
+     * @var string Reference to the page name for linking to channels.
+     */
     public $channelPage;
-    public $channelPageIdParam;
 
     public function componentDetails()
     {
@@ -48,24 +60,10 @@ class Member extends ComponentBase
                 'type'        => 'dropdown',
                 'group'       => 'Links',
             ],
-            'channelPageIdParam' => [
-                'title'       => 'Channel page param name',
-                'description' => 'The expected parameter name used when creating links to the channel page.',
-                'type'        => 'string',
-                'default'     => ':slug',
-                'group'       => 'Links',
-            ],
             'topicPage' => [
                 'title'       => 'Topic page',
                 'description' => 'Page name to use for clicking on a conversation topic.',
                 'type'        => 'dropdown',
-                'group'       => 'Links',
-            ],
-            'topicPageIdParam' => [
-                'title'       => 'Topic page param name',
-                'description' => 'The expected parameter name used when creating links to the topic page.',
-                'type'        => 'string',
-                'default'     => ':slug',
                 'group'       => 'Links',
             ],
         ];
@@ -87,8 +85,19 @@ class Member extends ComponentBase
 
         $this->page['member'] = $this->getMember();
         $this->page['mailPreferences'] = $this->getMailPreferences();
-        traceLog($this->page['mailPreferences']);
         $this->prepareVars();
+    }
+
+    protected function prepareVars()
+    {
+        $this->page['canEdit'] = $this->canEdit();
+        $this->page['mode'] = $this->getMode();
+
+        /*
+         * Page links
+         */
+        $this->topicPage = $this->page['topicPage'] = $this->property('topicPage');
+        $this->channelPage = $this->page['channelPage'] = $this->property('channelPage');
     }
 
     public function getMember()
@@ -120,20 +129,6 @@ class Member extends ComponentBase
         }
 
         return $this->mailPreferences = $preferences;
-    }
-
-    protected function prepareVars()
-    {
-        $this->page['canEdit'] = $this->canEdit();
-        $this->page['mode'] = $this->getMode();
-
-        /*
-         * Page links
-         */
-        $this->topicPage = $this->page['topicPage'] = $this->property('topicPage');
-        $this->topicPageIdParam = $this->page['topicPageIdParam'] = $this->property('topicPageIdParam');
-        $this->channelPage = $this->page['channelPage'] = $this->property('channelPage');
-        $this->channelPageIdParam = $this->page['channelPageIdParam'] = $this->property('channelPageIdParam');
     }
 
     public function getMode()

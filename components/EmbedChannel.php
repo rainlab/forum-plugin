@@ -9,6 +9,9 @@ use Exception;
 class EmbedChannel extends ComponentBase
 {
 
+    /**
+     * @var boolean Determine if this component is being used by the EmbedChannel component.
+     */
     public $embedMode = true;
 
     public function componentDetails()
@@ -44,13 +47,6 @@ class EmbedChannel extends ComponentBase
                 'title'             => 'rainlab.forum::lang.member.page_name',
                 'description'       => 'rainlab.forum::lang.member.page_help',
                 'type'              => 'dropdown',
-                'group'             => 'Links',
-            ],
-            'memberPageIdParam' => [
-                'title'             => 'rainlab.forum::lang.member.param_name',
-                'description'       => 'rainlab.forum::lang.member.param_help',
-                'type'              => 'string',
-                'default'           => ':slug',
                 'group'             => 'Links',
             ],
         ];
@@ -97,8 +93,8 @@ class EmbedChannel extends ComponentBase
                 $properties['idParam'] = $channel->slug;
 
             $properties['topicPage'] = $this->page->baseFileName;
-            $properties['topicPageIdParam'] = $this->property('topicParam');
             $component = $this->addComponent('RainLab\Forum\Components\Channel', $this->alias, $properties);
+            $component->embedTopicParam = $this->property('topicParam');
 
             /*
              * If a channel does not already exist, generate it when the page ends.

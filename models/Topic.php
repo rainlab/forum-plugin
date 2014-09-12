@@ -59,6 +59,13 @@ class Topic extends Model
         'posts' => ['RainLab\Forum\Models\Post'],
     ];
 
+    /**
+     * @var array Relations
+     */
+    public $hasOne = [
+        'first_post' => ['RainLab\Forum\Models\Post', 'order' => 'created_at asc']
+    ];
+
     public $belongsTo = [
         'channel'          => ['RainLab\Forum\Models\Channel'],
         'start_member'     => ['RainLab\Forum\Models\Member'],
@@ -74,23 +81,6 @@ class Topic extends Model
      * @var boolean Topic has new posts for member, set by TopicWatch model
      */
     public $hasNew = true;
-
-    /**
-     * @var Topic A cache of the first topic in this channel.
-     */
-    private $firstPost;
-
-    /**
-     * Returns the first created post in this topic.
-     * @return Model
-     */
-    public function firstPost()
-    {
-        if ($this->firstPost !== null)
-            return $this->firstPost;
-
-        return $this->firstPost = $this->posts()->orderBy('created_at', 'asc')->first();
-    }
 
     /**
      * Creates a topic and a post inside a channel
@@ -160,7 +150,7 @@ class Topic extends Model
      * @param  string  $search    Search query
      * @return self
      */
-    public function listFrontEnd($page = 1, $sort = 'created_at', $channels = [], $search = '')
+    public function scopeListFrontEnd($query, $page = 1, $sort = 'created_at', $channels = [], $search = '')
     {
         App::make('paginator')->setCurrentPage($page);
         $search = trim($search);
@@ -169,25 +159,24 @@ class Topic extends Model
         if (!in_array($sort, $allowedSortingOptions))
             $sort = $allowedSortingOptions[0];
 
-        $obj = $this->newQuery();
-        $obj->orderBy('rainlab_forum_topics.' . $sort, in_array($sort, ['created_at', 'updated_at']) ? 'desc' : 'asc');
+        $query->orderBy($sort, in_array($sort, ['created_at', 'updated_at']) ? 'desc' : 'asc');
 
         if (strlen($search)) {
-            $obj->joinWith('posts', false);
-            $obj->searchWhere($search, ['rainlab_forum_topics.subject', 'rainlab_forum_posts.subject', 'content']);
+            $query->orWhereHas('posts', function($query) use ($search){
+                $query->searchWhere($search, ['subject', 'content']);
+            });
 
-            // Grouping due to the joinWith() call
-            $obj->groupBy($this->getQualifiedKeyName());
+            $query->orSearchWhere($search, 'subject');
         }
 
         if ($channels) {
             if (!is_array($channels))
                 $channels = [$channels];
 
-            $obj->whereIn('channel_id', $channels);
+            $query->whereIn('channel_id', $channels);
         }
 
-        return $obj->paginate(20);
+        return $query->paginate(20);
     }
 
     public function moveToChannel($channel)
@@ -234,5 +223,32 @@ class Topic extends Model
             return false;
 
         return $member ? true : false;
+    }
+
+    /**
+     * Sets the "url" attribute with a URL to this object
+     * @param string $pageName
+     * @param Cms\Classes\Controller $controller
+     */
+    public function setUrl($pageName, $controller)
+    {
+        $params = [
+            'id' => $this->id,
+            'slug' => $this->slug,
+        ];
+
+        return $this->url = $controller->pageUrl($pageName, $params);
+    }
+
+    public function stickyTopic()
+    {
+        $this->is_sticky = ($this->is_sticky == 1 ? 0 : 1);
+        $this->save();
+    }
+
+    public function lockTopic()
+    {
+        $this->is_locked = ($this->is_locked == 1 ? 0 : 1);
+        $this->save();
     }
 }
