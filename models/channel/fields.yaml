@@ -6,7 +6,7 @@ fields:
     parent:
         label: Parent
         type: relation
-        nameColumn: title
+        nameFrom: title
         emptyOption: -- No parent --
 
     title:
