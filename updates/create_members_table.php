@@ -12,9 +12,9 @@ class CreateMembersTable extends Migration
         {
             $table->engine = 'InnoDB';
             $table->increments('id');
-            $table->integer('user_id')->unsigned();
-            $table->string('username');
-            $table->string('slug');
+            $table->integer('user_id')->unsigned()->index()->nullable();
+            $table->string('username')->nullable();
+            $table->string('slug')->nullable();
             $table->integer('count_posts')->index()->default(0);
             $table->integer('count_topics')->index()->default(0);
             $table->dateTime('last_active_at')->index()->nullable();
