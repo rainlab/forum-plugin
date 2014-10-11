@@ -6,7 +6,7 @@
         {% endif %}
     </h5>
     <p>
-        <img src="{{ member.user.avatarThumb(50, 'http://placehold.it/50x50.png') }}" />
+        <img src="{{ member.user.avatarThumb(50, '//placehold.it/50x50.png') }}" />
     </p>
     <p>Member since: {{ member.created_at|date('Y-m-d') }}</p>
     <p>Posts: {{ member.count_posts }}</p>
