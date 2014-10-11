@@ -305,8 +305,8 @@ class Topic extends ComponentBase
             $member = $this->getMember();
             $topic = $this->getTopic();
 
-            if($topic->is_locked == 1 && $member->is_moderator == FALSE)
-                 throw new ApplicationException('This topic is locked: you cannot edit posts or make replies.');
+            if ($topic && $topic->is_locked && !$member->is_moderator)
+                throw new ApplicationException('This topic is locked: you cannot edit posts or make replies.');
 
             $post = PostModel::createInTopic($topic, $member, post());
             $postUrl = $this->currentPageUrl([$this->property('idParam') => $topic->slug]);
@@ -345,8 +345,9 @@ class Topic extends ComponentBase
 
         $mode = post('mode', 'edit');
         if ($mode == 'save') {
-             if($topic->is_locked == 1 && $member->is_moderator == FALSE)
-                 throw new ApplicationException('This topic is locked: you cannot edit posts or make replies.');
+
+            if ($topic && $topic->is_locked && !$member->is_moderator)
+                throw new ApplicationException('This topic is locked: you cannot edit posts or make replies.');
 
             $post->save(post());
 
@@ -403,29 +404,41 @@ class Topic extends ComponentBase
         }
     }
 
-    public function onSticky()
+    public function onSticky($isAjax = true)
     {
-        $member = $this->getMember();
-        if (!$member->is_moderator) {
-            Flash::error('Access denied');
-            return;
-        }
+        try {
+            $member = $this->getMember();
+            if (!$member || !$member->is_moderator)
+                throw new ApplicationException('Access denied');
 
-        $this->page['member'] = $member = $this->getMember();
-        $this->page['topic']  = $topic  = $this->getTopic();
-        $this->getTopic()->stickyTopic();
+            if ($topic = $this->getTopic())
+                $topic->stickyTopic();
+
+            $this->page['member'] = $member;
+            $this->page['topic']  = $topic;
+        }
+        catch (Exception $ex) {
+            if ($isAjax) throw $ex;
+            else Flash::error($ex->getMessage());
+        }
     }
 
-    public function onLock()
+    public function onLock($isAjax = true)
     {
-        $member = $this->getMember();
-        if (!$member->is_moderator) {
-            Flash::error('Access denied');
-            return;
-        }
+        try {
+            $member = $this->getMember();
+            if (!$member || !$member->is_moderator)
+                throw new ApplicationException('Access denied');
 
-        $this->page['member'] = $member = $this->getMember();
-        $this->page['topic']  = $topic  = $this->getTopic();
-        $this->getTopic()->lockTopic();
+            if ($topic = $this->getTopic())
+                $topic->lockTopic();
+
+            $this->page['member'] = $member;
+            $this->page['topic']  = $topic;
+        }
+        catch (Exception $ex) {
+            if ($isAjax) throw $ex;
+            else Flash::error($ex->getMessage());
+        }
     }
 }
