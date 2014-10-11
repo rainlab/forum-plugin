@@ -157,7 +157,8 @@ class Topic extends ComponentBase
             $channel = null;
 
         // Add a "url" helper attribute for linking to the category
-        $channel->setUrl($this->channelPage, $this->controller);
+        if ($channel)
+            $channel->setUrl($this->channelPage, $this->controller);
 
         return $this->channel = $channel;
     }
