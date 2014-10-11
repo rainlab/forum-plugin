@@ -13,6 +13,28 @@
                     <button type="submit" class="btn btn-block btn-primary btn-sm">Move</button>
                 {{ form_close() }}
             </div>
+
+            <a href="javascript:;"
+                class="list-group-item"
+                data-request="onLock"
+                data-request-update="'@controlpanel': '#topicControlPanel'">
+                {% if topic.is_locked %}
+                    Unlock topic
+                {% else %}
+                    Lock topic
+                {% endif %}
+            </a>
+
+            <a href="javascript:;"
+                class="list-group-item"
+                data-request="onSticky"
+                data-request-update="'@controlpanel': '#topicControlPanel'">
+                 {% if topic.is_sticky %}
+                    Unsticky topic
+                {% else %}
+                    Sticky topic
+                {% endif %}
+            </a><br/>
         {% endif %}
 
         {% if member %}
@@ -28,9 +50,15 @@
             </a>
         {% endif %}
 
+        {% if topic.is_locked %}
+        <div class="list-group-item">
+            <span class="text text-danger"><i class="icon icon-lock"></i> This topic is locked</span>
+        </div>
+        {% else %}
         <a href="#postForm" class="list-group-item">
             Post a reply
         </a>
+        {% endif %}
 
         <div class="list-group-item">
             <i class="fa fa-eye icon-eye-open"></i> {{ topic.count_views }} views

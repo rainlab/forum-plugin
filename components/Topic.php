@@ -305,6 +305,9 @@ class Topic extends ComponentBase
             $member = $this->getMember();
             $topic = $this->getTopic();
 
+            if($topic->is_locked == 1 && $member->is_moderator == FALSE)
+                 throw new ApplicationException('This topic is locked: you cannot edit posts or make replies.');
+
             $post = PostModel::createInTopic($topic, $member, post());
             $postUrl = $this->currentPageUrl([$this->property('idParam') => $topic->slug]);
 
@@ -331,6 +334,9 @@ class Topic extends ComponentBase
 
     public function onUpdate()
     {
+
+        $this->page['member'] = $member = $this->getMember();
+
         $topic = $this->getTopic();
         $post = PostModel::find(post('post'));
 
@@ -339,6 +345,9 @@ class Topic extends ComponentBase
 
         $mode = post('mode', 'edit');
         if ($mode == 'save') {
+             if($topic->is_locked == 1 && $member->is_moderator == FALSE)
+                 throw new ApplicationException('This topic is locked: you cannot edit posts or make replies.');
+
             $post->save(post());
 
             // First post will update the topic subject
@@ -392,5 +401,31 @@ class Topic extends ComponentBase
             if ($isAjax) throw $ex;
             else Flash::error($ex->getMessage());
         }
+    }
+
+    public function onSticky()
+    {
+        $member = $this->getMember();
+        if (!$member->is_moderator) {
+            Flash::error('Access denied');
+            return;
+        }
+
+        $this->page['member'] = $member = $this->getMember();
+        $this->page['topic']  = $topic  = $this->getTopic();
+        $this->getTopic()->stickyTopic();
+    }
+
+    public function onLock()
+    {
+        $member = $this->getMember();
+        if (!$member->is_moderator) {
+            Flash::error('Access denied');
+            return;
+        }
+
+        $this->page['member'] = $member = $this->getMember();
+        $this->page['topic']  = $topic  = $this->getTopic();
+        $this->getTopic()->lockTopic();
     }
 }

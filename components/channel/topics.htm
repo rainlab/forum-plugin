@@ -13,8 +13,8 @@
             </td>
             <td>
                 <h5>
-                    {% if topic.sticky %}<strong>Sticky:</strong>{% endif %}
-                    {% if topic.locked %}<strong>Locked:</strong>{% endif %}
+                    {% if topic.is_sticky %}<strong>Sticky:</strong>{% endif %}
+                    {% if topic.is_locked %}<i class="icon icon-lock"></i> <strong>Locked:</strong>{% endif %}
                     <a href="{{ topic.url }}">{{ topic.subject }}</a>
                 </h5>
             </td>

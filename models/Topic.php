@@ -159,6 +159,7 @@ class Topic extends Model
         if (!in_array($sort, $allowedSortingOptions))
             $sort = $allowedSortingOptions[0];
 
+        $query->orderBy('is_sticky', 'desc');
         $query->orderBy($sort, in_array($sort, ['created_at', 'updated_at']) ? 'desc' : 'asc');
 
         if (strlen($search)) {
@@ -238,5 +239,17 @@ class Topic extends Model
         ];
 
         return $this->url = $controller->pageUrl($pageName, $params);
+    }
+
+    public function stickyTopic()
+    {
+        $this->is_sticky = ($this->is_sticky == 1 ? 0 : 1);
+        $this->save();
+    }
+
+    public function lockTopic()
+    {
+        $this->is_locked = ($this->is_locked == 1 ? 0 : 1);
+        $this->save();
     }
 }
