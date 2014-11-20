@@ -28,7 +28,7 @@
             {% endif %}
 
             <div class="text">
-                {% if topic.is_locked and member.is_moderator == false %}
+                {% if topic.is_locked and not member.is_moderator %}
                     <p>This topic is locked: you cannot edit posts or make replies.</p>
                 {% else %}
                 <textarea
@@ -39,25 +39,25 @@
                 {% endif %}
             </div>
             <div class="actions">
-                {% if topic.is_locked == false or member.is_moderator == true %}
-                <a
-                    href="javascript:;"
-                    data-request="{{ __SELF__ }}::onUpdate"
-                    data-request-data="post: {{ post.id }}"
-                    data-request-update="'{{ __SELF__ }}::post': '#post-{{ post.id }}'"
-                    class="delete">
-                    Save
-                </a>
+                {% if not topic.is_locked or member.is_moderator %}
+                    <a
+                        href="javascript:;"
+                        data-request="{{ __SELF__ }}::onUpdate"
+                        data-request-data="post: {{ post.id }}"
+                        data-request-update="'{{ __SELF__ }}::post': '#post-{{ post.id }}'"
+                        class="delete">
+                        Save
+                    </a>
 
-                <a
-                    href="javascript:;"
-                    data-request="{{ __SELF__ }}::onUpdate"
-                    data-request-data="post: {{ post.id }}, mode: 'delete'"
-                    data-request-update="'{{ __SELF__ }}::post': '#post-{{ post.id }}'"
-                    data-request-confirm="Are you sure?"
-                    class="delete">
-                    Delete
-                </a>
+                    <a
+                        href="javascript:;"
+                        data-request="{{ __SELF__ }}::onUpdate"
+                        data-request-data="post: {{ post.id }}, mode: 'delete'"
+                        data-request-update="'{{ __SELF__ }}::post': '#post-{{ post.id }}'"
+                        data-request-confirm="Are you sure?"
+                        class="delete">
+                        Delete
+                    </a>
                 {% endif %}
                 <a href="javascript:;"
                     class="cancel"
@@ -78,7 +78,7 @@
             {{ post.content_html|raw }}
 
             {% if post.created_at != post.updated_at %}
-                <br /><small class="text text-muted">Last updated at: {{ post.updated_at.diffForHumans }}</small>
+                <p><small class="text text-muted">Last updated {{ post.updated_at.diffForHumans }}</small></p>
             {% endif %}
         </div>
         <div class="actions">
