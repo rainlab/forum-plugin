@@ -150,7 +150,7 @@ class Topic extends ComponentBase
         if ($topic = $this->getTopic())
             $channel = $topic->channel;
 
-        elseif ($channelId = post('channel'))
+        elseif ($channelId = input('channel'))
             $channel = ChannelModel::find($channelId);
 
         else
@@ -175,8 +175,8 @@ class Topic extends ComponentBase
          */
         if ($topic = $this->getTopic()) {
 
-            $currentPage = post('page');
-            $searchString = trim(post('search'));
+            $currentPage = input('page');
+            $searchString = trim(input('search'));
             $posts = PostModel::with('member')->listFrontEnd($currentPage, 'created_at', $topic->id, $searchString);
 
             /*
