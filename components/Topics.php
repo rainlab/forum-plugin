@@ -43,6 +43,13 @@ class Topics extends ComponentBase
                 'description' => 'rainlab.forum::lang.topic.page_help',
                 'type'        => 'dropdown',
             ],
+            'topicsPerPage' =>  [
+                'title'             => 'rainlab.forum::lang.topics.per_page',
+                'type'              => 'string',
+                'validationPattern' => '^[0-9]+$',
+                'validationMessage' => 'rainlab.forum::lang.topics.per_page_validation',
+                'default'           => '20',
+            ]
         ];
     }
 
@@ -66,13 +73,14 @@ class Topics extends ComponentBase
          */
         $this->topicPage = $this->page['topicPage'] = $this->property('topicPage');
         $this->memberPage = $this->page['memberPage'] = $this->property('memberPage');
+        $this->topicsPerPage = $this->page['topicsPerPage'] = $this->property('topicsPerPage');
     }
 
     protected function prepareTopicList()
     {
         $currentPage = post('page');
         $searchString = trim(post('search'));
-        $topics = TopicModel::with('last_post_member')->listFrontEnd($currentPage, 'updated_at', null, $searchString);
+        $topics = TopicModel::with('last_post_member')->listFrontEnd($currentPage, 'updated_at', null, $searchString, $this->topicsPerPage);
 
         /*
          * Add a "url" helper attribute for linking to each topic

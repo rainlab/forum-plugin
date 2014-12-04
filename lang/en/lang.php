@@ -4,6 +4,9 @@ return [
     'topics' => [
         'component_name' => 'Topic List',
         'component_description' => 'Displays a list of all topics.',
+        'per_page' => 'Topics per page',
+        'per_page_validation' => 'Invalid format of the topics per page value',
+
     ],
     'topic' => [
         'page_name' => 'Topic Page',
