@@ -150,7 +150,7 @@ class Topic extends Model
      * @param  string  $search    Search query
      * @return self
      */
-    public function scopeListFrontEnd($query, $page = 1, $sort = 'created_at', $channels = [], $search = '', $limit)
+    public function scopeListFrontEnd($query, $page = 1, $sort = 'created_at', $channels = [], $search = '', $limit = '20')
     {
         App::make('paginator')->setCurrentPage($page);
         $search = trim($search);
