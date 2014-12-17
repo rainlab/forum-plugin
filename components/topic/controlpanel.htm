@@ -29,12 +29,12 @@
                 class="list-group-item"
                 data-request="onSticky"
                 data-request-update="'@controlpanel': '#topicControlPanel'">
-                 {% if topic.is_sticky %}
+                {% if topic.is_sticky %}
                     Unsticky topic
                 {% else %}
                     Sticky topic
                 {% endif %}
-            </a><br/>
+            </a>
         {% endif %}
 
         {% if member %}
@@ -51,13 +51,13 @@
         {% endif %}
 
         {% if topic.is_locked %}
-        <div class="list-group-item">
-            <span class="text text-danger"><i class="icon icon-lock"></i> This topic is locked</span>
-        </div>
+            <div class="list-group-item">
+                <span class="text text-danger"><i class="icon icon-lock"></i> This topic is locked</span>
+            </div>
         {% else %}
-        <a href="#postForm" class="list-group-item">
-            Post a reply
-        </a>
+            <a href="#postForm" class="list-group-item">
+                Post a reply
+            </a>
         {% endif %}
 
         <div class="list-group-item">

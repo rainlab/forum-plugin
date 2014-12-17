@@ -344,6 +344,9 @@ class Topic extends ComponentBase
         if (!$post->canEdit())
             throw new ApplicationException('Permission denied.');
 
+        /*
+         * Supported modes: edit, view, delete, save
+         */
         $mode = post('mode', 'edit');
         if ($mode == 'save') {
 
@@ -358,9 +361,6 @@ class Topic extends ComponentBase
         }
         elseif ($mode == 'delete') {
             $post->delete();
-        }
-        elseif ($mode == 'view') {
-            // Do nothing
         }
 
         $this->page['mode'] = $mode;

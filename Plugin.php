@@ -25,6 +25,7 @@ class Plugin extends PluginBase
             'name'        => 'Forum',
             'description' => 'A simple embeddable forum',
             'author'      => 'Alexey Bobkov, Samuel Georges',
+            'homepage'    => 'http://octobercms.com',
             'icon'        => 'icon-comments'
         ];
     }

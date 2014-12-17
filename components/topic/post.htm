@@ -45,7 +45,7 @@
                         data-request="{{ __SELF__ }}::onUpdate"
                         data-request-data="post: {{ post.id }}"
                         data-request-update="'{{ __SELF__ }}::post': '#post-{{ post.id }}'"
-                        class="delete">
+                        class="save">
                         Save
                     </a>
 
@@ -60,10 +60,10 @@
                     </a>
                 {% endif %}
                 <a href="javascript:;"
-                    class="cancel"
                     data-request="{{ __SELF__ }}::onUpdate"
                     data-request-data="post: {{ post.id }}, mode: 'view'"
-                    data-request-update="'{{ __SELF__ }}::post': '#post-{{ post.id }}'">
+                    data-request-update="'{{ __SELF__ }}::post': '#post-{{ post.id }}'"
+                    class="cancel">
                     Cancel
                 </a>
             </div>
