@@ -144,17 +144,32 @@ class Topic extends Model
 
     /**
      * Lists topics for the front end
-     * @param  integer $page      Page number
-     * @param  string  $sort      Sorting field
-     * @param  Channel  $channels Topics in channels
-     * @param  string  $search    Search query
+     * @param  array $options Display options
+     *                        - page      Page number
+     *                        - perPage   Results per page
+     *                        - sort      Sorting field
+     *                        - channels  Topics in channels
+     *                        - search    Search query
      * @return self
      */
-    public function scopeListFrontEnd($query, $page = 1, $sort = 'created_at', $channels = [], $search = '', $limit = '20')
+    public function scopeListFrontEnd($query, $options)
     {
-        App::make('paginator')->setCurrentPage($page);
-        $search = trim($search);
+        /*
+         * Default options
+         */
+        extract(array_merge([
+            'page'       => 1,
+            'perPage'    => 20,
+            'sort'       => 'created_at',
+            'channels'   => null,
+            'search'     => ''
+        ], $options));
 
+        App::make('paginator')->setCurrentPage($page);
+
+        /*
+         * Sorting
+         */
         $allowedSortingOptions = ['created_at', 'updated_at', 'subject'];
         if (!in_array($sort, $allowedSortingOptions))
             $sort = $allowedSortingOptions[0];
@@ -162,6 +177,10 @@ class Topic extends Model
         $query->orderBy('is_sticky', 'desc');
         $query->orderBy($sort, in_array($sort, ['created_at', 'updated_at']) ? 'desc' : 'asc');
 
+        /*
+         * Search
+         */
+        $search = trim($search);
         if (strlen($search)) {
             $query->orWhereHas('posts', function($query) use ($search){
                 $query->searchWhere($search, ['subject', 'content']);
@@ -170,14 +189,17 @@ class Topic extends Model
             $query->orSearchWhere($search, 'subject');
         }
 
-        if ($channels) {
+        /*
+         * Channels
+         */
+        if ($channels !== null) {
             if (!is_array($channels))
                 $channels = [$channels];
 
             $query->whereIn('channel_id', $channels);
         }
 
-        return $query->paginate($limit);
+        return $query->paginate($perPage);
     }
 
     public function moveToChannel($channel)

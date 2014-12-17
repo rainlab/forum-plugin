@@ -80,7 +80,12 @@ class Topics extends ComponentBase
     {
         $currentPage = post('page');
         $searchString = trim(post('search'));
-        $topics = TopicModel::with('last_post_member')->listFrontEnd($currentPage, 'updated_at', null, $searchString, $this->topicsPerPage);
+        $topics = TopicModel::with('last_post_member')->listFrontEnd([
+            'page' => $currentPage,
+            'perPage' => $this->topicsPerPage,
+            'sort' => 'updated_at',
+            'search' => $searchString,
+        ]);
 
         /*
          * Add a "url" helper attribute for linking to each topic

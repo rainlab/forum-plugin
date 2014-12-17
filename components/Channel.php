@@ -128,7 +128,12 @@ class Channel extends ComponentBase
 
             $currentPage = post('page');
             $searchString = trim(post('search'));
-            $topics = TopicModel::with('last_post_member')->listFrontEnd($currentPage, 'updated_at', $channel->id, $searchString);
+            $topics = TopicModel::with('last_post_member')->listFrontEnd([
+                'page'     => $currentPage,
+                'sort'     => 'updated_at',
+                'channels' => $channel->id,
+                'search'   => $searchString,
+            ]);
 
             /*
              * Add a "url" helper attribute for linking to each topic

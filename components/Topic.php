@@ -177,7 +177,12 @@ class Topic extends ComponentBase
 
             $currentPage = input('page');
             $searchString = trim(input('search'));
-            $posts = PostModel::with('member')->listFrontEnd($currentPage, 'created_at', $topic->id, $searchString);
+            $posts = PostModel::with('member')->listFrontEnd([
+                'page'   => $currentPage,
+                'sort'   => 'created_at',
+                'topic'  => $topic->id,
+                'search' => $searchString,
+            ]);
 
             /*
              * Add a "url" helper attribute for linking to each member

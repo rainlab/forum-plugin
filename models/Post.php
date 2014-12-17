@@ -73,32 +73,54 @@ class Post extends Model
 
     /**
      * Lists topics for the front end
-     * @param  integer  $page      Page number
-     * @param  string   $sort      Sorting field
-     * @param  Channel  $channels  Topics in channels
-     * @param  string   $search    Search query
+     * @param  array $options Display options
+     *                        - page      Page number
+     *                        - perPage   Results per page
+     *                        - sort      Sorting field
+     *                        - topic     Posts in topic (id)
+     *                        - search    Search query
      * @return self
      */
-    public function scopeListFrontEnd($query, $page = 1, $sort = 'created_at', $topic, $search = '')
+    public function scopeListFrontEnd($query, $options)
     {
-        App::make('paginator')->setCurrentPage($page);
-        $search = trim($search);
+        /*
+         * Default options
+         */
+        extract(array_merge([
+            'page'       => 1,
+            'perPage'    => 30,
+            'sort'       => 'created_at',
+            'topic'      => null,
+            'search'     => ''
+        ], $options));
 
+        App::make('paginator')->setCurrentPage($page);
+
+        /*
+         * Sorting
+         */
         $allowedSortingOptions = ['created_at', 'updated_at'];
         if (!in_array($sort, $allowedSortingOptions))
             $sort = $allowedSortingOptions[0];
 
         $query->orderBy($sort, 'asc');
 
+        /*
+         * Search
+         */
+        $search = trim($search);
         if (strlen($search)) {
             $query->searchWhere($search, ['subject', 'content']);
         }
 
-        if ($topic) {
+        /*
+         * Topic
+         */
+        if ($topic !== null) {
             $query->where('topic_id', $topic);
         }
 
-        return $query->paginate(30);
+        return $query->paginate($perPage);
     }
 
     public function canEdit($member = null)
