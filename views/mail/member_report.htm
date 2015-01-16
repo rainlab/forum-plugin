@@ -10,8 +10,6 @@ The offender is:
 You can view their profile at:
 {{ memberUrl }}
 
-This message has been sent to all forum moderators.
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 Incident reported by
 
@@ -20,7 +18,7 @@ Email: {{ otherMember.user.email }}
 Forum Username: {{ otherMember.username }}
 Forum Profile: {{ otherMemberUrl  }}
 
-*** Do not forward this email ***
+This message has been sent to all forum moderators. Please do not forward.
 
 ==
 
@@ -38,15 +36,13 @@ Forum Profile: {{ otherMemberUrl  }}
     <a href="{{ memberUrl }}">{{ memberUrl }}</a>
 </p>
 
-<p>This message has been sent to all forum moderators.</p>
-
 <p><strong>Incident reported by</strong></p>
 
-<pre>
-    Name: {{ otherMember.user.name }}
-    Email: {{ otherMember.user.email }}
-    Forum Username: {{ otherMember.username }}
-    Forum Profile: {{ otherMemberUrl  }}
-</pre>
+<ul>
+    <li>Name: {{ otherMember.user.name }}</li>
+    <li>Email: {{ otherMember.user.email }}</li>
+    <li>Forum Username: {{ otherMember.username }}</li>
+    <li>Forum Profile: {{ otherMemberUrl  }}</li>
+</ul>
 
-*** Do not forward this email ***
+<p>This message has been sent to all forum moderators. Please do not forward.</p>
