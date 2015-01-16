@@ -10,7 +10,7 @@ class MembersAddModAndBan extends Migration
     {
         Schema::table('rainlab_forum_members', function($table)
         {
-            $table->boolean('is_moderator')->default(0);
+            $table->boolean('is_moderator')->default(0)->index();
             $table->boolean('is_banned')->default(0);
         });
     }

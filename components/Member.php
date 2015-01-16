@@ -1,5 +1,6 @@
 <?php namespace RainLab\Forum\Components;
 
+use Auth;
 use Mail;
 use Flash;
 use Redirect;
@@ -235,6 +236,9 @@ class Member extends ComponentBase
 
     public function onReport()
     {
+        if (!Auth::check())
+            throw new ApplicationException('You must be logged in to perform this action!');
+
         Flash::success(post('flash', 'User has been reported for spamming, thank-you for your assistance!'));
 
         $moderators = UserModel::whereHas('forum_member', function($member){
