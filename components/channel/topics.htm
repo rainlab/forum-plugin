@@ -26,7 +26,7 @@
             </td>
             <td class="activity-column">
                 <p>
-                    <img src="{{ topic.last_post_member.user.avatarThumb(24, '//placehold.it/24x24.png') }}" class="member-avatar" />
+                    <img src="{{ topic.last_post_member.user.avatarThumb(24) }}" class="member-avatar" />
                     <a href="{{ topic.last_post_member.url }}">{{ topic.last_post_member.username }}</a>
                     <small>
                         posted <a href="{{ topic.url }}?page=last#post-{{ topic.last_post_id }}">{{ topic.last_post_at.diffForHumans }}</a>

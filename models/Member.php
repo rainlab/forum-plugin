@@ -46,6 +46,10 @@ class Member extends Model
         'user' => ['RainLab\User\Models\User']
     ];
 
+    public $hasMany = [
+        'posts' => ['RainLab\Forum\Models\Post']
+    ];
+
     /**
      * Automatically creates a forum member for a user if not one already.
      * @param  RainLab\User\Models\User $user
@@ -139,6 +143,12 @@ class Member extends Model
         ];
 
         return $this->url = $controller->pageUrl($pageName, $params);
+    }
+
+    public function banMember()
+    {
+        $this->is_banned = ($this->is_banned == 1 ? 0 : 1);
+        $this->save();
     }
 
 }

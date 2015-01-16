@@ -1,0 +1,42 @@
+<div class="panel">
+    <div class="list-group">
+
+        {% if otherMember.is_moderator %}
+            <a
+                href="javascript:;"
+                class="list-group-item"
+                data-request="onBan"
+                data-request-update="'@controlpanel': '#memberControlPanel'"
+                >
+                {% if member.is_banned %}
+                    Unban member
+                {% else %}
+                    Ban member
+                {% endif %}
+            </a>
+        {% endif %}
+
+        <a
+            href="javascript:;"
+            class="list-group-item"
+            data-request="onReport"
+            data-request-update="'@controlpanel': '#memberControlPanel'"
+            data-request-confirm="Are you sure you want to flag this member as a spammer?"
+            >
+            Report spammer
+        </a>
+
+        {% if canEdit %}
+            <a
+                href="{{ this.page.baseFileName|page }}?mode=edit"
+                class="list-group-item">
+                Edit details
+            </a>
+        {% endif %}
+
+        <div class="list-group-item">
+            <i class="fa fa-eye icon-comments"></i> {{ member.count_posts }} posts
+        </div>
+
+    </div>
+</div>

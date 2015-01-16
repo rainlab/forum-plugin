@@ -30,8 +30,12 @@
                 {% partial "@pagination" %}
 
                 <h4>Reply to this discussion</h4>
-                {% if topic.is_locked and member.is_moderator == false %}
-                    <p>This topic is locked: you cannot edit posts or make replies.</p>
+                {% if not topic.canPost %}
+                    <p>
+                        You cannot edit posts or make replies:
+                        {% if member.is_banned %}Your account is banned.{% endif %}
+                        {% if topic.is_locked %}This topic is locked.{% endif %}
+                    </p>
                 {% else %}
                     {% if member %}
                         {% partial "@postform" %}

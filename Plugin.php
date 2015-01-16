@@ -110,6 +110,7 @@ class Plugin extends PluginBase
     {
         return [
             'rainlab.forum::mail.topic_reply' => 'Notification to followers when a post is made to a topic.',
+            'rainlab.forum::mail.member_report' => 'Notification to moderators when a member is reported to be a spammer.',
         ];
     }
 

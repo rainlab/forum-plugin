@@ -1,10 +1,12 @@
 <?php namespace RainLab\Forum\Components;
 
+use Mail;
 use Flash;
 use Redirect;
 use Cms\Classes\Page;
 use Cms\Classes\ComponentBase;
 use RainLab\Forum\Models\Member as MemberModel;
+use RainLab\User\Models\User as UserModel;
 use RainLab\User\Models\MailBlocker;
 use Exception;
 
@@ -15,6 +17,11 @@ class Member extends ComponentBase
      * @var RainLab\Forum\Models\Member Member cache
      */
     protected $member = null;
+
+    /**
+     * @var RainLab\Forum\Models\Member Other member cache
+     */
+    protected $otherMember = null;
 
     /**
      * @var array Mail preferences cache
@@ -83,13 +90,14 @@ class Member extends ComponentBase
     {
         $this->addCss('/plugins/rainlab/forum/assets/css/forum.css');
 
-        $this->page['member'] = $this->getMember();
-        $this->page['mailPreferences'] = $this->getMailPreferences();
         $this->prepareVars();
     }
 
     protected function prepareVars()
     {
+        $this->page['member'] = $this->getMember();
+        $this->page['otherMember'] = $this->getOtherMember();
+        $this->page['mailPreferences'] = $this->getMailPreferences();
         $this->page['canEdit'] = $this->canEdit();
         $this->page['mode'] = $this->getMode();
 
@@ -98,6 +106,18 @@ class Member extends ComponentBase
          */
         $this->topicPage = $this->page['topicPage'] = $this->property('topicPage');
         $this->channelPage = $this->page['channelPage'] = $this->property('channelPage');
+    }
+
+    public function getRecentPosts()
+    {
+        $member = $this->getMember();
+        $posts = $member->posts()->with('topic')->limit(10)->get();
+
+        $posts->each(function($post){
+            $post->topic->setUrl($this->topicPage, $this->controller);
+        });
+
+        return $posts;
     }
 
     public function getMember()
@@ -111,6 +131,14 @@ class Member extends ComponentBase
             $member = MemberModel::whereSlug($slug)->first();
 
         return $this->member = $member;
+    }
+
+    public function getOtherMember()
+    {
+        if ($this->otherMember !== null)
+            return $this->otherMember;
+
+        return $this->otherMember = MemberModel::getFromUser();
     }
 
     public function getMailPreferences()
@@ -133,7 +161,7 @@ class Member extends ComponentBase
 
     public function getMode()
     {
-        return $this->property('viewMode', post('mode', 'view'));
+        return $this->property('viewMode') ?: input('mode', 'view');
     }
 
     public function canEdit()
@@ -175,14 +203,7 @@ class Member extends ComponentBase
 
             Flash::success(post('flash', 'Settings successfully saved!'));
 
-            /*
-             * Redirect to the intended page after successful update
-             */
-            $redirectUrl = post('redirect', $this->currentPageUrl([
-                'slug' => $member->slug
-            ]));
-
-            return Redirect::to($redirectUrl);
+            return $this->redirectToSelf();
         }
         catch (Exception $ex) {
             Flash::error($ex->getMessage());
@@ -192,6 +213,61 @@ class Member extends ComponentBase
     protected function getMailTemplates()
     {
         return ['topic_reply' => 'rainlab.forum::mail.topic_reply'];
+    }
+
+    public function onBan($isAjax = true)
+    {
+        try {
+            $otherMember = $this->getOtherMember();
+            if (!$otherMember || !$otherMember->is_moderator)
+                throw new ApplicationException('Access denied');
+
+            if ($member = $this->getMember())
+                $member->banMember();
+
+            $this->prepareVars();
+        }
+        catch (Exception $ex) {
+            if ($isAjax) throw $ex;
+            else Flash::error($ex->getMessage());
+        }
+    }
+
+    public function onReport()
+    {
+        Flash::success(post('flash', 'User has been reported for spamming, thank-you for your assistance!'));
+
+        $moderators = UserModel::whereHas('forum_member', function($member){
+            $member->where('is_moderator', true);
+        })->lists('name', 'email');
+
+        if ($moderators) {
+            $member = $this->getMember();
+            $memberUrl = $this->currentPageUrl(['slug' => $member->slug]);
+            $params = [
+                'member' => $member,
+                'otherMember' => $this->getOtherMember(),
+                'memberUrl' => $memberUrl
+            ];
+            Mail::sendTo($moderators, 'rainlab.forum::mail.member_report', $params);
+        }
+
+        return $this->redirectToSelf();
+    }
+
+    protected function redirectToSelf()
+    {
+        if (!$member = $this->getMember())
+            return false;
+
+        /*
+         * Redirect to the intended page after successful update
+         */
+        $redirectUrl = post('redirect', $this->currentPageUrl([
+            'slug' => $member->slug
+        ]));
+
+        return Redirect::to($redirectUrl);
     }
 
 }

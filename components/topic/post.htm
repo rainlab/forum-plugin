@@ -1,15 +1,17 @@
 <a href="{{ post.member.url }}" class="avatar">
-    <img src="{{ post.member.user.avatarThumb(50, '//placehold.it/50x50.png') }}" alt="{{ post.member.username }}" />
+    <img src="{{ post.member.user.avatarThumb(50) }}" alt="{{ post.member.username }}" />
 </a>
 <div class="content">
-    <a href="{{ post.member.url }}" class="author">
-        {{ post.member.username }}
-    </a>
+    <a href="{{ post.member.url }}" class="author">{{ post.member.username }}</a>
     <div class="metadata">
         <div class="date">
             <a href="#post-{{ post.id }}">{{ post.created_at.diffForHumans }}</a>
         </div>
-        {% if post.member.is_moderator %}
+        {% if post.member.is_banned %}
+            <div class="status text-danger">
+                <i class="icon-exclamation"></i> Banned
+            </div>
+        {% elseif post.member.is_moderator %}
             <div class="status">
                 <i class="icon-star"></i> Moderator
             </div>
@@ -28,37 +30,32 @@
             {% endif %}
 
             <div class="text">
-                {% if topic.is_locked and not member.is_moderator %}
-                    <p>This topic is locked: you cannot edit posts or make replies.</p>
-                {% else %}
                 <textarea
                     rows="5"
                     name="content"
                     class="form-control"
                     >{{ post.content }}</textarea>
-                {% endif %}
             </div>
             <div class="actions">
-                {% if not topic.is_locked or member.is_moderator %}
-                    <a
-                        href="javascript:;"
-                        data-request="{{ __SELF__ }}::onUpdate"
-                        data-request-data="post: {{ post.id }}"
-                        data-request-update="'{{ __SELF__ }}::post': '#post-{{ post.id }}'"
-                        class="save">
-                        Save
-                    </a>
+                <a
+                    href="javascript:;"
+                    data-request="{{ __SELF__ }}::onUpdate"
+                    data-request-data="post: {{ post.id }}"
+                    data-request-update="'{{ __SELF__ }}::post': '#post-{{ post.id }}'"
+                    class="save">
+                    Save
+                </a>
 
-                    <a
-                        href="javascript:;"
-                        data-request="{{ __SELF__ }}::onUpdate"
-                        data-request-data="post: {{ post.id }}, mode: 'delete'"
-                        data-request-update="'{{ __SELF__ }}::post': '#post-{{ post.id }}'"
-                        data-request-confirm="Are you sure?"
-                        class="delete">
-                        Delete
-                    </a>
-                {% endif %}
+                <a
+                    href="javascript:;"
+                    data-request="{{ __SELF__ }}::onUpdate"
+                    data-request-data="post: {{ post.id }}, mode: 'delete'"
+                    data-request-update="'{{ __SELF__ }}::post': '#post-{{ post.id }}'"
+                    data-request-confirm="Are you sure?"
+                    class="delete">
+                    Delete
+                </a>
+
                 <a href="javascript:;"
                     data-request="{{ __SELF__ }}::onUpdate"
                     data-request-data="post: {{ post.id }}, mode: 'view'"
@@ -85,7 +82,7 @@
             <!--<a class="quote">
                 Quote
             </a>-->
-            {% if post.canEdit and mode != 'edit' and mode != 'delete' %}
+            {% if topic.canPost and post.canEdit and mode != 'edit' and mode != 'delete' %}
                 <a href="javascript:;"
                     class="edit"
                     data-request="onUpdate"

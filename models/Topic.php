@@ -238,14 +238,19 @@ class Topic extends Model
 
     public function canPost($member = null)
     {
-        // @todo Add logic to check if topic is locked
         if (!$member)
             $member = Member::getFromUser();
+
+        if (!$member)
+            return false;
 
         if ($member->is_banned)
             return false;
 
-        return $member ? true : false;
+        if ($this->is_locked && !$member->is_moderator)
+            return false;
+
+        return true;
     }
 
     /**
