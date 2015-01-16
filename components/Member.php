@@ -248,7 +248,7 @@ class Member extends ComponentBase
             $otherMemberUrl = $this->currentPageUrl(['slug' => $otherMember->slug]);
             $params = [
                 'member' => $member,
-                'memberUrl' => $memberUrl
+                'memberUrl' => $memberUrl,
                 'otherMember' => $otherMember,
                 'otherMemberUrl' => $otherMemberUrl,
             ];
