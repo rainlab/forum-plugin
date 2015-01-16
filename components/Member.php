@@ -244,10 +244,13 @@ class Member extends ComponentBase
         if ($moderators) {
             $member = $this->getMember();
             $memberUrl = $this->currentPageUrl(['slug' => $member->slug]);
+            $otherMember = $this->getOtherMember();
+            $otherMemberUrl = $this->currentPageUrl(['slug' => $otherMember->slug]);
             $params = [
                 'member' => $member,
-                'otherMember' => $this->getOtherMember(),
                 'memberUrl' => $memberUrl
+                'otherMember' => $otherMember,
+                'otherMemberUrl' => $otherMemberUrl,
             ];
             Mail::sendTo($moderators, 'rainlab.forum::mail.member_report', $params);
         }
