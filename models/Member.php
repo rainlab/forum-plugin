@@ -47,7 +47,7 @@ class Member extends Model
     ];
 
     public $hasMany = [
-        'posts' => ['RainLab\Forum\Models\Post']
+        'posts' => ['RainLab\Forum\Models\Post', 'order' => 'created_at desc']
     ];
 
     /**
