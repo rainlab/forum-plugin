@@ -5,6 +5,7 @@ use Backend;
 use RainLab\User\Models\User;
 use RainLab\Forum\Models\Member;
 use System\Classes\PluginBase;
+use RainLab\User\Controllers\Users as UsersController;
 
 /**
  * Forum Plugin Information File
@@ -36,10 +37,9 @@ class Plugin extends PluginBase
             $model->hasOne['forum_member'] = ['RainLab\Forum\Models\Member'];
         });
 
-        Event::listen('backend.form.extendFields', function($widget) {
-            if (!$widget->getController() instanceof \RainLab\User\Controllers\Users) return;
-            if ($widget->getContext() != 'update') return;
-            if (!Member::getFromUser($widget->model)) return;
+        UsersController::extendFormFields(function($widget, $model, $context) {
+            if ($context != 'update') return;
+            if (!Member::getFromUser($model)) return;
 
             $widget->addFields([
                 'forum_member[username]' => [
@@ -64,9 +64,8 @@ class Plugin extends PluginBase
             ], 'primary');
         });
 
-        Event::listen('backend.list.extendColumns', function($widget) {
-            if (!$widget->getController() instanceof \RainLab\User\Controllers\Users) return;
-            if (!$widget->model instanceof \RainLab\User\Models\User) return;
+        UsersController::extendListColumns(function($widget, $model) {
+            if (!$model instanceof \RainLab\User\Models\User) return;
 
             $widget->addColumns([
                 'forum_member_username' => [
