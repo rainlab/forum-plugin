@@ -63,8 +63,8 @@ class Topic extends ComponentBase
     public function componentDetails()
     {
         return [
-            'name'        => 'Topic',
-            'description' => 'Displays a topic and posts.'
+            'name'        => 'rainlab.forum::lang.topicpage.name',
+            'description' => 'rainlab.forum::lang.topicpage.desc'
         ];
     }
 
@@ -72,8 +72,8 @@ class Topic extends ComponentBase
     {
         return [
             'idParam' => [
-                'title'       => 'Slug param name',
-                'description' => 'The URL route parameter used for looking up the topic by its slug. A hard coded slug can also be used.',
+                'title'       => 'rainlab.forum::lang.topicpage.slug_name',
+                'description' => 'rainlab.forum::lang.topicpage.slug_desc',
                 'default'     => ':slug',
                 'type'        => 'string',
             ],
@@ -84,8 +84,8 @@ class Topic extends ComponentBase
                 'group'       => 'Links',
             ],
             'channelPage' => [
-                'title'       => 'Channel Page',
-                'description' => 'Page name to use for clicking on a channel.',
+                'title'       => 'rainlab.forum::lang.topicpage.channel_title',
+                'description' => 'rainlab.forum::lang.topicpage.channel_desc',
                 'type'        => 'dropdown',
                 'group'       => 'Links',
             ],

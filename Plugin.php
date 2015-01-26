@@ -23,8 +23,8 @@ class Plugin extends PluginBase
     public function pluginDetails()
     {
         return [
-            'name'        => 'Forum',
-            'description' => 'A simple embeddable forum',
+            'name'        => 'rainlab.forum::lang.plugin.name',
+            'description' => 'rainlab.forum::lang.plugin.description',
             'author'      => 'Alexey Bobkov, Samuel Georges',
             'homepage'    => 'http://octobercms.com',
             'icon'        => 'icon-comments'
@@ -43,23 +43,23 @@ class Plugin extends PluginBase
 
             $widget->addFields([
                 'forum_member[username]' => [
-                    'label'   => 'Username',
+                    'label'   => 'rainlab.forum::lang.settings.username',
                     'tab'     => 'Forum',
-                    'comment' => 'The display to represent this user on the forum.',
+                    'comment' => 'rainlab.forum::lang.settings.username_comment',
                 ],
                 'forum_member[is_moderator]' => [
-                    'label'   => 'Forum moderator',
+                    'label'   => 'rainlab.forum::lang.settings.moderator',
                     'type'    => 'checkbox',
                     'tab'     => 'Forum',
                     'span'    => 'auto',
-                    'comment' => 'Place a tick in this box if this user can moderate the entire forum.',
+                    'comment' => 'rainlab.forum::lang.settings.moderator_comment',
                 ],
                 'forum_member[is_banned]' => [
-                    'label'   => 'Banned from forum',
+                    'label'   => 'rainlab.forum::lang.settings.banned',
                     'type'    => 'checkbox',
                     'tab'     => 'Forum',
                     'span'    => 'auto',
-                    'comment' => 'Place a tick in this box if this user is banned from posting to the forum.',
+                    'comment' => 'rainlab.forum::lang.settings.banned_comment',
                 ],
             ], 'primary');
         });
@@ -69,7 +69,7 @@ class Plugin extends PluginBase
 
             $widget->addColumns([
                 'forum_member_username' => [
-                    'label'      => 'Forum Username',
+                    'label'      => 'rainlab.forum::lang.settings.forum_username',
                     'relation'   => 'forum_member',
                     'select'     => '@username',
                     'searchable' => true,
@@ -95,8 +95,8 @@ class Plugin extends PluginBase
     {
         return [
             'settings' => [
-                'label'       => 'Forum channels',
-                'description' => 'Manage available forum channels.',
+                'label'       => 'rainlab.forum::lang.settings.channels',
+                'description' => 'rainlab.forum::lang.settings.channels_desc',
                 'icon'        => 'icon-comments',
                 'url'         => Backend::url('rainlab/forum/channels'),
                 'category'    => 'Forum',
