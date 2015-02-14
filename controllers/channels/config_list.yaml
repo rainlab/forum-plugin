@@ -3,7 +3,7 @@
 # ===================================
 
 # Model List Column configuration
-list: @/plugins/rainlab/forum/models/channel/columns.yaml
+list: ~/plugins/rainlab/forum/models/channel/columns.yaml
 
 # Model Class name
 modelClass: RainLab\Forum\Models\Channel

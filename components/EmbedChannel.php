@@ -113,7 +113,7 @@ class EmbedChannel extends ComponentBase
         }
 
         /*
-         * Set the embedding mode
+         * Set the default embedding mode
          */
         if (post('channel'))
             $component->embedMode = 'post';

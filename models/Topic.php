@@ -2,8 +2,8 @@
 
 use App;
 use Model;
-use DB as Db;
-use System\Classes\ApplicationException;
+use Db;
+use ApplicationException;
 
 /**
  * Topic Model
@@ -165,8 +165,6 @@ class Topic extends Model
             'search'     => ''
         ], $options));
 
-        App::make('paginator')->setCurrentPage($page);
-
         /*
          * Sorting
          */
@@ -199,7 +197,7 @@ class Topic extends Model
             $query->whereIn('channel_id', $channels);
         }
 
-        return $query->paginate($perPage);
+        return $query->paginate($perPage, $page);
     }
 
     public function moveToChannel($channel)

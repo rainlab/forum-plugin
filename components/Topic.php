@@ -9,7 +9,7 @@ use Cms\Classes\Page;
 use RainLab\User\Models\User as UserModel;
 use RainLab\User\Models\MailBlocker;
 use Cms\Classes\ComponentBase;
-use System\Classes\ApplicationException;
+use ApplicationException;
 use RainLab\Forum\Models\Topic as TopicModel;
 use RainLab\Forum\Models\Channel as ChannelModel;
 use RainLab\Forum\Models\Member as MemberModel;

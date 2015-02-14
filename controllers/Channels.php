@@ -49,7 +49,7 @@ class Channels extends Controller
         $this->pageTitle = 'Reorder Channels';
 
         $toolbarConfig = $this->makeConfig();
-        $toolbarConfig->buttons = '@/plugins/rainlab/forum/controllers/channels/_reorder_toolbar.htm';
+        $toolbarConfig->buttons = '~/plugins/rainlab/forum/controllers/channels/_reorder_toolbar.htm';
 
         $this->vars['toolbar'] = $this->makeWidget('Backend\Widgets\Toolbar', $toolbarConfig);
         $this->vars['records'] = Channel::make()->getEagerRoot();

@@ -1,6 +1,5 @@
 <?php namespace RainLab\Forum\Updates;
 
-use DB;
 use Schema;
 use October\Rain\Database\Updates\Migration;
 use RainLab\Forum\Models\Post;

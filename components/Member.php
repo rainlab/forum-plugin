@@ -6,7 +6,7 @@ use Flash;
 use Redirect;
 use Cms\Classes\Page;
 use Cms\Classes\ComponentBase;
-use System\Classes\ApplicationException;
+use ApplicationException;
 use RainLab\Forum\Models\Member as MemberModel;
 use RainLab\User\Models\User as UserModel;
 use RainLab\User\Models\MailBlocker;

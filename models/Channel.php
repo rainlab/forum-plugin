@@ -1,7 +1,7 @@
 <?php namespace RainLab\Forum\Models;
 
 use Model;
-use System\Classes\ApplicationException;
+use ApplicationException;
 
 /**
  * Channel Model

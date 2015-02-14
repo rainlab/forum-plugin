@@ -4,7 +4,7 @@ use App;
 use Str;
 use Model;
 use Carbon\Carbon;
-use October\Rain\Support\Markdown;
+use Markdown;
 
 /**
  * Post Model
@@ -94,8 +94,6 @@ class Post extends Model
             'search'     => ''
         ], $options));
 
-        App::make('paginator')->setCurrentPage($page);
-
         /*
          * Sorting
          */
@@ -120,7 +118,7 @@ class Post extends Model
             $query->where('topic_id', $topic);
         }
 
-        return $query->paginate($perPage);
+        return $query->paginate($perPage, $page);
     }
 
     public function canEdit($member = null)

@@ -6,7 +6,7 @@
 name: Channel
 
 # Model Form Field configuration
-form: @/plugins/rainlab/forum/models/channel/fields.yaml
+form: ~/plugins/rainlab/forum/models/channel/fields.yaml
 
 # Model Class name
 modelClass: RainLab\Forum\Models\Channel
