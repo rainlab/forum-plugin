@@ -26,7 +26,7 @@ class Channel extends ComponentBase
     /**
      * @var string If this channel is embedded, pass the topic slug to this route parameter for linking to topics.
      */
-    public $embedTopicParam = ':topicSlug';
+    public $embedTopicParam = 'topicSlug';
 
     /**
      * @var RainLab\Forum\Models\Member Member cache
@@ -138,7 +138,7 @@ class Channel extends ComponentBase
             /*
              * Add a "url" helper attribute for linking to each topic
              */
-            $topics->each(function($topic){
+            $topics->each(function($topic) {
                 if ($this->embedMode)
                     $topic->url = $this->pageUrl($this->topicPage, [$this->embedTopicParam => $topic->slug]);
                 else
