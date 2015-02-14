@@ -79,11 +79,13 @@
             {% endif %}
         </div>
         <div class="actions">
-            <a  href="javascript:;"
-                    class="quote">
-                Quote
-            </a>
             {% if topic.canPost and post.canEdit and mode != 'edit' and mode != 'delete' %}
+                <a href="javascript:;"
+                    class="quote"
+                    data-request-data="post: {{ post.id }}"
+                    data-quote-button>
+                    Quote
+                </a>
                 <a href="javascript:;"
                     class="edit"
                     data-request="onUpdate"

@@ -1,29 +1,59 @@
+/*
+ * Forum Manager class
+ */
 
-function formatForumQuote(author, quote) {
-    quote = "**" + author + "** said:\n\n" + quote
-    quote = quote.replace(/^/g, ">")
-    quote = quote.replace(/\n/g, "\n>")
++function ($) { "use strict";
 
-    return quote
-}
+    var ForumManager = function () {
 
-$(document).ready(function() {
-    $('.quote').click(function (e) {
+        // Init
+        this.init()
+    }
 
-        var postId = $(this).closest('.forum-post').data('post-id')
+    ForumManager.prototype.init = function() {
+        var self = this
 
-        $.request('onQuote', {
-            data: { id: postId },
+        /*
+         * Bind event handlers
+         */
+        $(document).on('click', '[data-quote-button]', function(){
+            self.clickQuoteButton(this)
+        })
+    }
+
+    //
+    // Topic posting
+    //
+
+    ForumManager.prototype.formatForumQuote = function(author, quote) {
+        quote = "**" + author + "** said:\n\n" + quote
+        quote = quote.replace(/^/g, ">")
+        quote = quote.replace(/\n/g, "\n>")
+
+        return quote
+    }
+
+    ForumManager.prototype.clickQuoteButton = function(el) {
+        var self = this,
+            $el = $(el)
+
+        $el.request('onQuote', {
             success: function(data) {
-                var obj = $.parseJSON(data.result),
-                    quoteBody = obj.content,
-                    authorName = obj.author,
-                    quoteText = formatForumQuote(authorName, quoteBody)
+                var quoteBody = data.content,
+                    authorName = data.author,
+                    quoteText = self.formatForumQuote(authorName, quoteBody)
 
                 $('#topicContent')
                     .val($('#topicContent').val() + quoteText + '\n\n')
                     .focus()
             }
         })
+
+        return false
+    }
+
+    $(document).ready(function(){
+        new ForumManager
     })
-});
+
+}(window.jQuery);

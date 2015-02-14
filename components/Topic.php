@@ -309,8 +309,9 @@ class Topic extends ComponentBase
     public function onPost()
     {
         try {
-            if (!$user = Auth::getUser())
+            if (!$user = Auth::getUser()) {
                 throw new ApplicationException('You should be logged in.');
+            }
 
             $member = $this->getMember();
             $topic = $this->getTopic();
@@ -344,7 +345,6 @@ class Topic extends ComponentBase
 
     public function onUpdate()
     {
-
         $this->page['member'] = $member = $this->getMember();
 
         $topic = $this->getTopic();
@@ -359,8 +359,9 @@ class Topic extends ComponentBase
         $mode = post('mode', 'edit');
         if ($mode == 'save') {
 
-            if (!$topic || !$topic->canPost())
+            if (!$topic || !$topic->canPost()) {
                 throw new ApplicationException('You cannot edit posts or make replies.');
+            }
 
             $post->save(post());
 
@@ -379,13 +380,17 @@ class Topic extends ComponentBase
 
     public function onQuote()
     {
-        $this->page['member'] = $member = $this->getMember();
+        if (!$user = Auth::getUser()) {
+            throw new ApplicationException('You should be logged in.');
+        }
 
-        $topic    = $this->getTopic();
-        $post     = PostModel::find(post('id'));
-        $postJson = array_add($post->toArray(), 'author', MemberModel::find($post->member_id)->username);
+        if (!$post = PostModel::find(post('post'))) {
+            throw new ApplicationException('Unable to find that post.');
+        }
 
-        return json_encode($postJson);
+        $result = $post->toArray();
+        $result['author'] = $post->member ? $post->member->username : '???';
+        return $result;
     }
 
     public function onMove()
