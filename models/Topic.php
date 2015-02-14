@@ -180,11 +180,13 @@ class Topic extends Model
          */
         $search = trim($search);
         if (strlen($search)) {
-            $query->orWhereHas('posts', function($query) use ($search){
-                $query->searchWhere($search, ['subject', 'content']);
-            });
+            $query->where(function($query) use ($search) {
+                $query->whereHas('posts', function($query) use ($search){
+                    $query->searchWhere($search, ['subject', 'content']);
+                });
 
-            $query->orSearchWhere($search, 'subject');
+                $query->orSearchWhere($search, 'subject');
+            });
         }
 
         /*
