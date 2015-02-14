@@ -17,8 +17,8 @@ class EmbedTopic extends ComponentBase
     public function componentDetails()
     {
         return [
-            'name'        => 'Embed Topic',
-            'description' => 'Attach a topic to any page.'
+            'name'        => 'rainlab.forum::lang.embedtopic.topic_name',
+            'description' => 'rainlab.forum::lang.embedtopic.topic_self_desc'
         ];
     }
 
@@ -26,13 +26,13 @@ class EmbedTopic extends ComponentBase
     {
         return [
             'channelId' => [
-                'title'             => 'Target Channel',
-                'description'       => 'Specify the channel to create the new topic or channel in',
+                'title'             => 'rainlab.forum::lang.embedtopic.target_name',
+                'description'       => 'rainlab.forum::lang.embedtopic.target_desc',
                 'type'              => 'dropdown'
             ],
             'idParam' => [
-                'title'             => 'Embed Code',
-                'description'       => 'A unique code for the generated topic or channel. A routing parameter can also be used.',
+                'title'             => 'rainlab.forum::lang.embedtopic.embed_title',
+                'description'       => 'rainlab.forum::lang.embedtopic.embed_desc',
                 'type'              => 'string',
             ],
             'memberPage' => [

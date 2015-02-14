@@ -43,8 +43,8 @@ class Member extends ComponentBase
     public function componentDetails()
     {
         return [
-            'name'        => 'Member',
-            'description' => 'Displays form member information and activity.'
+            'name'        => 'rainlab.forum::lang.memberpage.name',
+            'description' => 'rainlab.forum::lang.memberpage.self_desc'
         ];
     }
 
@@ -52,26 +52,26 @@ class Member extends ComponentBase
     {
         return [
             'idParam' => [
-                'title'       => 'Slug param name',
-                'description' => 'The URL route parameter used for looking up the forum member by their slug. A hard coded slug can also be used.',
+                'title'       => 'rainlab.forum::lang.memberpage.slug_name',
+                'description' => 'rainlab.forum::lang.memberpage.slug_desc',
                 'default'     => ':slug',
                 'type'        => 'string'
             ],
             'viewMode' => [
-                'title'       => 'View mode',
-                'description' => 'Manually set the view mode for the member component.',
+                'title'       => 'rainlab.forum::lang.memberpage.view_title',
+                'description' => 'rainlab.forum::lang.memberpage.view_desc',
                 'type'        => 'dropdown',
                 'default'     => ''
             ],
             'channelPage' => [
-                'title'       => 'Channel page',
-                'description' => 'Page name to use for clicking on a channel.',
+                'title'       => 'rainlab.forum::lang.memberpage.ch_title',
+                'description' => 'rainlab.forum::lang.memberpage.ch_desc',
                 'type'        => 'dropdown',
                 'group'       => 'Links',
             ],
             'topicPage' => [
-                'title'       => 'Topic page',
-                'description' => 'Page name to use for clicking on a conversation topic.',
+                'title'       => 'rainlab.forum::lang.memberpage.topic_title',
+                'description' => 'rainlab.forum::lang.memberpage.topic_desc',
                 'type'        => 'dropdown',
                 'group'       => 'Links',
             ],

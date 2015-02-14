@@ -37,8 +37,8 @@ class Channels extends ComponentBase
     public function componentDetails()
     {
         return [
-            'name'        => 'Channel List',
-            'description' => 'Displays a list of all visible channels.'
+            'name'        => 'rainlab.forum::lang.channels.list_name',
+            'description' => 'rainlab.forum::lang.channels.list_desc'
         ];
     }
 
@@ -51,13 +51,13 @@ class Channels extends ComponentBase
                 'type'        => 'dropdown',
             ],
             'channelPage' => [
-                'title'       => 'Channel Page',
-                'description' => 'Page name to use for clicking on a channel.',
+                'title'       => 'rainlab.forum::lang.channel.page_name',
+                'description' => 'rainlab.forum::lang.channel.page_help',
                 'type'        => 'dropdown',
             ],
             'topicPage' => [
-                'title'       => 'Topic Page',
-                'description' => 'Page name to use for clicking on a conversation topic.',
+                'title'       => 'rainlab.forum::lang.topic.page_name',
+                'description' => 'rainlab.forum::lang.topic.page_help',
                 'type'        => 'dropdown',
             ],
         ];

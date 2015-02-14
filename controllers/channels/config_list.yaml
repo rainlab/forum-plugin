@@ -9,7 +9,7 @@ list: ~/plugins/rainlab/forum/models/channel/columns.yaml
 modelClass: RainLab\Forum\Models\Channel
 
 # List Title
-title: Manage Channels
+title: rainlab.forum::lang.channels.manage
 
 # Link URL for each record
 recordUrl: rainlab/forum/channels/update/:id

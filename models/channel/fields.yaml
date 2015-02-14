@@ -4,35 +4,35 @@
 
 fields:
     parent:
-        label: Parent
+        label: rainlab.forum::lang.data.parent
         type: relation
         nameFrom: title
-        emptyOption: -- No parent --
+        emptyOption: rainlab.forum::lang.data.noparent
 
     title:
-        label: Title
+        label: rainlab.forum::lang.data.title
         span: left
 
     slug:
-        label: Slug
+        label: rainlab.forum::lang.data.slug
         span: right
         attributes:
             data-input-preset: 'input[name="Channel[title]"]'
             data-input-preset-type: slug
 
     description:
-        label: Description
+        label: rainlab.forum::lang.data.desc
         type: textarea
         size: tiny
 
     is_moderated:
-        label: Moderated
-        comment: Only moderators can post to this channel.
+        label: rainlab.forum::lang.data.moderated
+        comment: rainlab.forum::lang.data.is_mod
         type: checkbox
         span: auto
 
     is_hidden:
-        label: Hidden
-        comment: Hide this category from the main category list.
+        label: rainlab.forum::lang.data.hidden
+        comment: rainlab.forum::lang.data.is_hidden
         type: checkbox
         span: auto

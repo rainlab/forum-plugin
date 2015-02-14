@@ -65,8 +65,8 @@ class Channel extends ComponentBase
     {
         return [
             'idParam' => [
-                'title'       => 'Slug param name',
-                'description' => 'The URL route parameter used for looking up the channel by its slug. A hard coded slug can also be used.',
+                'title'       => 'rainlab.forum::lang.slug.name',
+                'description' => 'rainlab.forum::lang.slug.desc',
                 'default'     => ':slug',
                 'type'        => 'string',
             ],
