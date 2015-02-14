@@ -25,22 +25,22 @@ class EmbedChannel extends ComponentBase
     public function defineProperties()
     {
         return [
-            'channelId' => [
-                'title'             => 'rainlab.forum::lang.embedch.channel_title',
-                'description'       => 'rainlab.forum::lang.embedch.channel_desc',
-                'type'              => 'dropdown'
-            ],
-            'idParam' => [
+            'embedCode' => [
                 'title'             => 'rainlab.forum::lang.embedch.embed_title',
                 'description'       => 'rainlab.forum::lang.embedch.embed_desc',
                 'type'              => 'string',
                 'group'             => 'Parameters',
             ],
-            'topicParam' => [
+            'channelSlug' => [
+                'title'             => 'rainlab.forum::lang.embedch.channel_title',
+                'description'       => 'rainlab.forum::lang.embedch.channel_desc',
+                'type'              => 'dropdown'
+            ],
+            'topicSlug' => [
                 'title'             => 'rainlab.forum::lang.embedch.topic_name',
                 'description'       => 'rainlab.forum::lang.embedch.topic_desc',
                 'type'              => 'string',
-                'default'           => ':topicSlug',
+                'default'           => '{{ :topicSlug }}',
                 'group'             => 'Parameters',
             ],
             'memberPage' => [
@@ -64,13 +64,13 @@ class EmbedChannel extends ComponentBase
 
     public function init()
     {
-        $code = $this->propertyOrParam('idParam');
+        $code = $this->property('embedCode');
 
         if (!$code)
             throw new Exception('No code specified for the Forum Embed component');
 
-        $parentChannel = ($channelId = $this->property('channelId'))
-            ? ChannelModel::whereSlug($channelId)->first()
+        $parentChannel = ($channelSlug = $this->property('channelSlug'))
+            ? ChannelModel::whereSlug($channelSlug)->first()
             : null;
 
         if (!$parentChannel)
@@ -81,20 +81,21 @@ class EmbedChannel extends ComponentBase
         /*
          * Proxy as topic
          */
-        if (post('channel') || $this->propertyOrParam('topicParam')) {
-            $properties['idParam'] = $this->property('topicParam');
+        if (post('channel') || $this->property('topicSlug')) {
+            $properties['slug'] = $this->property('topicSlug');
             $component = $this->addComponent('RainLab\Forum\Components\Topic', $this->alias, $properties);
         }
         /*
          * Proxy as channel
          */
         else {
-            if ($channel = ChannelModel::forEmbed($parentChannel, $code)->first())
-                $properties['idParam'] = $channel->slug;
+            if ($channel = ChannelModel::forEmbed($parentChannel, $code)->first()) {
+                $properties['slug'] = $channel->slug;
+            }
 
             $properties['topicPage'] = $this->page->baseFileName;
             $component = $this->addComponent('RainLab\Forum\Components\Channel', $this->alias, $properties);
-            $component->embedTopicParam = $this->property('topicParam');
+            $component->embedTopicParam = $this->paramName('topicSlug');
 
             /*
              * If a channel does not already exist, generate it when the page ends.
@@ -105,7 +106,7 @@ class EmbedChannel extends ComponentBase
                 $this->controller->bindEvent('page.end', function() use ($component, $parentChannel, $code) {
                     if ($component->embedMode !== false) {
                         $channel = ChannelModel::createForEmbed($code, $parentChannel, $this->page->title);
-                        $component->setProperty('idParam', $channel->slug);
+                        $component->setProperty('slug', $channel->slug);
                         $component->onRun();
                     }
                 });
@@ -119,7 +120,7 @@ class EmbedChannel extends ComponentBase
             $component->embedMode = 'post';
         elseif (post('search'))
             $component->embedMode = 'search';
-        elseif ($this->propertyOrParam('topicParam'))
+        elseif ($this->property('topicSlug'))
             $component->embedMode = 'topic';
         else
             $component->embedMode = 'channel';

@@ -51,10 +51,10 @@ class Member extends ComponentBase
     public function defineProperties()
     {
         return [
-            'idParam' => [
+            'slug' => [
                 'title'       => 'rainlab.forum::lang.memberpage.slug_name',
                 'description' => 'rainlab.forum::lang.memberpage.slug_desc',
-                'default'     => ':slug',
+                'default'     => '{{ :slug }}',
                 'type'        => 'string'
             ],
             'viewMode' => [
@@ -127,7 +127,7 @@ class Member extends ComponentBase
         if ($this->member !== null)
             return $this->member;
 
-        if (!$slug = $this->propertyOrParam('idParam'))
+        if (!$slug = $this->property('slug'))
             $member = MemberModel::getFromUser();
         else
             $member = MemberModel::whereSlug($slug)->first();

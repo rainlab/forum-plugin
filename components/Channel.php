@@ -64,10 +64,10 @@ class Channel extends ComponentBase
     public function defineProperties()
     {
         return [
-            'idParam' => [
+            'slug' => [
                 'title'       => 'rainlab.forum::lang.slug.name',
                 'description' => 'rainlab.forum::lang.slug.desc',
-                'default'     => ':slug',
+                'default'     => '{{ :slug }}',
                 'type'        => 'string',
             ],
             'memberPage' => [
@@ -113,7 +113,7 @@ class Channel extends ComponentBase
         if ($this->channel !== null)
             return $this->channel;
 
-        if (!$slug = $this->propertyOrParam('idParam'))
+        if (!$slug = $this->property('slug'))
             return null;
 
         return $this->channel = ChannelModel::whereSlug($slug)->first();

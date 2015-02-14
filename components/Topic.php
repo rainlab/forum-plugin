@@ -71,10 +71,10 @@ class Topic extends ComponentBase
     public function defineProperties()
     {
         return [
-            'idParam' => [
+            'slug' => [
                 'title'       => 'rainlab.forum::lang.topicpage.slug_name',
                 'description' => 'rainlab.forum::lang.topicpage.slug_desc',
-                'default'     => ':slug',
+                'default'     => '{{ :slug }}',
                 'type'        => 'string',
             ],
             'memberPage' => [
@@ -124,7 +124,7 @@ class Topic extends ComponentBase
         if ($this->topic !== null)
             return $this->topic;
 
-        if (!$slug = $this->propertyOrParam('idParam'))
+        if (!$slug = $this->property('slug'))
             return null;
 
         $topic = TopicModel::whereSlug($slug)->first();
@@ -223,7 +223,7 @@ class Topic extends ComponentBase
             if ($this->embedMode == 'single')
                 $returnUrl = null;
             elseif ($this->embedMode)
-                $returnUrl = $this->currentPageUrl([$this->property('idParam') => null]);
+                $returnUrl = $this->currentPageUrl([$this->paramName('slug') => null]);
             else
                 $returnUrl = $this->channel->url;
 
@@ -284,7 +284,7 @@ class Topic extends ComponentBase
                 throw new ApplicationException('You cannot create new topics: Your account is banned.');
 
             $topic = TopicModel::createInChannel($channel, $member, post());
-            $topicUrl = $this->currentPageUrl([$this->property('idParam') => $topic->slug]);
+            $topicUrl = $this->currentPageUrl([$this->paramName('slug') => $topic->slug]);
 
             Flash::success(post('flash', 'Topic created successfully!'));
 
@@ -320,7 +320,7 @@ class Topic extends ComponentBase
                 throw new ApplicationException('You cannot edit posts or make replies.');
 
             $post = PostModel::createInTopic($topic, $member, post());
-            $postUrl = $this->currentPageUrl([$this->property('idParam') => $topic->slug]);
+            $postUrl = $this->currentPageUrl([$this->paramName('slug') => $topic->slug]);
 
             TopicFollow::sendNotifications($topic, $post, $postUrl);
             Flash::success(post('flash', 'Response added successfully!'));

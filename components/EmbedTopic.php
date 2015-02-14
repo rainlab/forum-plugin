@@ -25,15 +25,15 @@ class EmbedTopic extends ComponentBase
     public function defineProperties()
     {
         return [
-            'channelId' => [
-                'title'             => 'rainlab.forum::lang.embedtopic.target_name',
-                'description'       => 'rainlab.forum::lang.embedtopic.target_desc',
-                'type'              => 'dropdown'
-            ],
-            'idParam' => [
+            'embedCode' => [
                 'title'             => 'rainlab.forum::lang.embedtopic.embed_title',
                 'description'       => 'rainlab.forum::lang.embedtopic.embed_desc',
                 'type'              => 'string',
+            ],
+            'channelSlug' => [
+                'title'             => 'rainlab.forum::lang.embedtopic.target_name',
+                'description'       => 'rainlab.forum::lang.embedtopic.target_desc',
+                'type'              => 'dropdown'
             ],
             'memberPage' => [
                 'title'             => 'rainlab.forum::lang.member.page_name',
@@ -57,13 +57,13 @@ class EmbedTopic extends ComponentBase
     public function init()
     {
         $mode = $this->property('mode');
-        $code = $this->propertyOrParam('idParam');
+        $code = $this->property('embedCode');
 
         if (!$code)
             throw new Exception('No code specified for the Forum Embed component');
 
-        $channel = ($channelId = $this->property('channelId'))
-            ? ChannelModel::whereSlug($channelId)->first()
+        $channel = ($channelSlug = $this->property('channelSlug'))
+            ? ChannelModel::whereSlug($channelSlug)->first()
             : null;
 
         if (!$channel)
@@ -74,8 +74,9 @@ class EmbedTopic extends ComponentBase
         /*
          * Proxy as topic
          */
-        if ($topic = TopicModel::forEmbed($channel, $code)->first())
-            $properties['idParam'] = $topic->slug;
+        if ($topic = TopicModel::forEmbed($channel, $code)->first()) {
+            $properties['slug'] = $topic->slug;
+        }
 
         $component = $this->addComponent('RainLab\Forum\Components\Topic', $this->alias, $properties);
 
@@ -88,7 +89,7 @@ class EmbedTopic extends ComponentBase
             $this->controller->bindEvent('page.end', function() use ($component, $channel, $code) {
                 if ($component->embedMode !== false) {
                     $topic = TopicModel::createForEmbed($code, $channel, $this->page->title);
-                    $component->setProperty('idParam', $topic->slug);
+                    $component->setProperty('slug', $topic->slug);
                     $component->onRun();
                 }
             });
