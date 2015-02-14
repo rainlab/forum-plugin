@@ -117,7 +117,7 @@ class Topics extends ComponentBase
             $queryArr['page'] = '';
             $paginationUrl = Request::url() . '?' . http_build_query($queryArr);
 
-            if ($currentPage > ($lastPage = $topics->getLastPage()) && $currentPage > 1)
+            if ($currentPage > ($lastPage = $topics->lastPage()) && $currentPage > 1)
                 return Redirect::to($paginationUrl . $lastPage);
 
             $this->page['paginationUrl'] = $paginationUrl;
