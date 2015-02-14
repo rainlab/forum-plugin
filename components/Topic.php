@@ -100,6 +100,7 @@ class Topic extends ComponentBase
     public function onRun()
     {
         $this->addCss('/plugins/rainlab/forum/assets/css/forum.css');
+        $this->addJs('/plugins/rainlab/forum/assets/js/forum.js');
 
         $this->prepareVars();
         $this->page['channel'] = $this->getChannel();
@@ -374,6 +375,17 @@ class Topic extends ComponentBase
         $this->page['mode'] = $mode;
         $this->page['post'] = $post;
         $this->page['topic'] = $topic;
+    }
+
+    public function onQuote()
+    {
+        $this->page['member'] = $member = $this->getMember();
+
+        $topic    = $this->getTopic();
+        $post     = PostModel::find(post('id'));
+        $postJson = array_add($post->toArray(), 'author', MemberModel::find($post->member_id)->username);
+
+        return json_encode($postJson);
     }
 
     public function onMove()
