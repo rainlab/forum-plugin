@@ -79,13 +79,15 @@
             {% endif %}
         </div>
         <div class="actions">
-            {% if topic.canPost and post.canEdit and mode != 'edit' and mode != 'delete' %}
+            {% if topic.canPost %}
                 <a href="javascript:;"
                     class="quote"
                     data-request-data="post: {{ post.id }}"
                     data-quote-button>
                     Quote
                 </a>
+            {% endif %}
+            {% if topic.canPost and post.canEdit and mode != 'edit' and mode != 'delete' %}
                 <a href="javascript:;"
                     class="edit"
                     data-request="onUpdate"
