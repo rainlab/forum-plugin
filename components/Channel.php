@@ -92,7 +92,7 @@ class Channel extends ComponentBase
 
     public function onRun()
     {
-        $this->addCss('/plugins/rainlab/forum/assets/css/forum.css');
+        $this->addCss('assets/css/forum.css');
 
         $this->prepareVars();
         $this->page['channel'] = $this->getChannel();

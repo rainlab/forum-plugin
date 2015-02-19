@@ -60,7 +60,7 @@ class Topics extends ComponentBase
 
     public function onRun()
     {
-        $this->addCss('/plugins/rainlab/forum/assets/css/forum.css');
+        $this->addCss('assets/css/forum.css');
 
         $this->prepareVars();
         return $this->prepareTopicList();
