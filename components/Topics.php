@@ -78,8 +78,8 @@ class Topics extends ComponentBase
 
     protected function prepareTopicList()
     {
-        $currentPage = post('page');
-        $searchString = trim(post('search'));
+        $currentPage = input('page');
+        $searchString = trim(input('search'));
         $topics = TopicModel::with('last_post_member')->listFrontEnd([
             'page' => $currentPage,
             'perPage' => $this->topicsPerPage,

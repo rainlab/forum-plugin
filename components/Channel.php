@@ -126,8 +126,8 @@ class Channel extends ComponentBase
          */
         if ($channel = $this->getChannel()) {
 
-            $currentPage = post('page');
-            $searchString = trim(post('search'));
+            $currentPage = input('page');
+            $searchString = trim(input('search'));
             $topics = TopicModel::with('last_post_member')->listFrontEnd([
                 'page'     => $currentPage,
                 'sort'     => 'updated_at',

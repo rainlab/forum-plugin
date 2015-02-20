@@ -81,7 +81,7 @@ class EmbedChannel extends ComponentBase
         /*
          * Proxy as topic
          */
-        if (post('channel') || $this->property('topicSlug')) {
+        if (input('channel') || $this->property('topicSlug')) {
             $properties['slug'] = '{{' . $this->propertyName('topicSlug') . '}}';
             $component = $this->addComponent('RainLab\Forum\Components\Topic', $this->alias, $properties);
         }
@@ -116,9 +116,9 @@ class EmbedChannel extends ComponentBase
         /*
          * Set the default embedding mode
          */
-        if (post('channel'))
+        if (input('channel'))
             $component->embedMode = 'post';
-        elseif (post('search'))
+        elseif (input('search'))
             $component->embedMode = 'search';
         elseif ($this->property('topicSlug'))
             $component->embedMode = 'topic';
