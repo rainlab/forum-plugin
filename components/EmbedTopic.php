@@ -44,7 +44,7 @@ class EmbedTopic extends ComponentBase
         ];
     }
 
-    protected function getChannelIdOptions()
+    protected function getChannelSlugOptions()
     {
         return ChannelModel::listsNested('title', 'slug', ' - ');
     }
