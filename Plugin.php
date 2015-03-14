@@ -12,7 +12,6 @@ use RainLab\User\Controllers\Users as UsersController;
  */
 class Plugin extends PluginBase
 {
-
     public $require = ['RainLab.User'];
 
     /**
@@ -26,8 +25,8 @@ class Plugin extends PluginBase
             'name'        => 'rainlab.forum::lang.plugin.name',
             'description' => 'rainlab.forum::lang.plugin.description',
             'author'      => 'Alexey Bobkov, Samuel Georges',
-            'homepage'    => 'http://octobercms.com',
-            'icon'        => 'icon-comments'
+            'icon'        => 'icon-comments',
+            'homepage'    => 'https://github.com/rainlab/forum-plugin'
         ];
     }
 
@@ -45,22 +44,22 @@ class Plugin extends PluginBase
                 'forum_member[username]' => [
                     'label'   => 'rainlab.forum::lang.settings.username',
                     'tab'     => 'Forum',
-                    'comment' => 'rainlab.forum::lang.settings.username_comment',
+                    'comment' => 'rainlab.forum::lang.settings.username_comment'
                 ],
                 'forum_member[is_moderator]' => [
                     'label'   => 'rainlab.forum::lang.settings.moderator',
                     'type'    => 'checkbox',
                     'tab'     => 'Forum',
                     'span'    => 'auto',
-                    'comment' => 'rainlab.forum::lang.settings.moderator_comment',
+                    'comment' => 'rainlab.forum::lang.settings.moderator_comment'
                 ],
                 'forum_member[is_banned]' => [
                     'label'   => 'rainlab.forum::lang.settings.banned',
                     'type'    => 'checkbox',
                     'tab'     => 'Forum',
                     'span'    => 'auto',
-                    'comment' => 'rainlab.forum::lang.settings.banned_comment',
-                ],
+                    'comment' => 'rainlab.forum::lang.settings.banned_comment'
+                ]
             ], 'primary');
         });
 
@@ -72,7 +71,7 @@ class Plugin extends PluginBase
                     'label'      => 'rainlab.forum::lang.settings.forum_username',
                     'relation'   => 'forum_member',
                     'select'     => '@username',
-                    'searchable' => true,
+                    'searchable' => true
                 ]
             ]);
         });
@@ -87,7 +86,7 @@ class Plugin extends PluginBase
            '\RainLab\Forum\Components\Topics'       => 'forumTopics',
            '\RainLab\Forum\Components\Member'       => 'forumMember',
            '\RainLab\Forum\Components\EmbedTopic'   => 'forumEmbedTopic',
-           '\RainLab\Forum\Components\EmbedChannel' => 'forumEmbedChannel',
+           '\RainLab\Forum\Components\EmbedChannel' => 'forumEmbedChannel'
         ];
     }
 
@@ -100,7 +99,7 @@ class Plugin extends PluginBase
                 'icon'        => 'icon-comments',
                 'url'         => Backend::url('rainlab/forum/channels'),
                 'category'    => 'Forum',
-                'order'       => 500,
+                'order'       => 500
             ]
         ];
     }
@@ -109,8 +108,7 @@ class Plugin extends PluginBase
     {
         return [
             'rainlab.forum::mail.topic_reply' => 'Notification to followers when a post is made to a topic.',
-            'rainlab.forum::mail.member_report' => 'Notification to moderators when a member is reported to be a spammer.',
+            'rainlab.forum::mail.member_report' => 'Notification to moderators when a member is reported to be a spammer.'
         ];
     }
-
 }
