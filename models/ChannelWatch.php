@@ -57,7 +57,8 @@ class ChannelWatch extends Model
         foreach ($watches as $watch) {
             foreach ($channels as $channel) {
                 if ($channel->id == $watch->channel_id) {
-                    $channel->hasNew = ($firstTopic = $channel->first_topic) &&
+                    $channel->hasNew = $channel->count_topics > 0 &&
+                        ($firstTopic = $channel->first_topic) &&
                         $firstTopic->last_post_at &&
                         $firstTopic->last_post_at->gt($watch->watched_at);
                 }
