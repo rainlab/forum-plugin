@@ -122,7 +122,7 @@ class Channel extends Model
     {
         $this->count_topics = $this->topics()->count();
         $this->count_posts = $this->topics()->sum('count_posts');
-        $this->save();
+        return $this;
     }
 
     /**

@@ -16,9 +16,7 @@ fields:
     slug:
         label: rainlab.forum::lang.data.slug
         span: right
-        attributes:
-            data-input-preset: 'input[name="Channel[title]"]'
-            data-input-preset-type: slug
+        preset: title
 
     description:
         label: rainlab.forum::lang.data.desc

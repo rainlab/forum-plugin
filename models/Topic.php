@@ -209,8 +209,8 @@ class Topic extends Model
         $this->channel = $channel;
         $this->save();
         $this->timestamps = true;
-        $oldChannel->rebuildStats();
-        $channel->rebuildStats();
+        $oldChannel->rebuildStats()->save();
+        $channel->rebuildStats()->save();
     }
 
     public function increaseViewCount()
