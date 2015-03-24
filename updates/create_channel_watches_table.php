@@ -15,7 +15,7 @@ class CreateChannelWatchesTable extends Migration
             $table->integer('channel_id')->unsigned()->index()->nullable();
             $table->integer('member_id')->unsigned()->index()->nullable();
             $table->integer('count_topics')->index()->default(0);
-            $table->dateTime('watched_at')->index();
+            $table->dateTime('watched_at')->nullable()->index();
         });
     }
 

@@ -13,8 +13,8 @@ class CreatePostsTable extends Migration
             $table->engine = 'InnoDB';
             $table->increments('id');
             $table->string('subject')->nullable();
-            $table->text('content');
-            $table->text('content_html');
+            $table->text('content')->nullable();
+            $table->text('content_html')->nullable();
             $table->integer('topic_id')->unsigned()->index()->nullable();
             $table->integer('member_id')->unsigned()->index()->nullable();
             $table->integer('edit_user_id')->nullable();

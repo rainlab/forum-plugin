@@ -13,11 +13,11 @@ class CreateChannelsTable extends Migration
             $table->engine = 'InnoDB';
             $table->increments('id');
             $table->integer('parent_id')->unsigned()->index()->nullable();
-            $table->string('title');
+            $table->string('title')->nullable();
             $table->string('slug')->index()->unique();
             $table->string('description')->nullable();
-            $table->integer('nest_left');
-            $table->integer('nest_right');
+            $table->integer('nest_left')->nullable();
+            $table->integer('nest_right')->nullable();
             $table->integer('nest_depth')->nullable();
             $table->integer('count_topics')->default(0);
             $table->integer('count_posts')->default(0);
