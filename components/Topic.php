@@ -77,6 +77,11 @@ class Topic extends ComponentBase
                 'default'     => '{{ :slug }}',
                 'type'        => 'string',
             ],
+            'postsPerPage' => [
+                'title'       => 'rainlab.forum::lang.topicpage.pagination_name',
+                'default'     => '20',
+                'type'        => 'string',
+            ],
             'memberPage' => [
                 'title'       => 'rainlab.forum::lang.member.page_name',
                 'description' => 'rainlab.forum::lang.member.page_help',
@@ -104,8 +109,8 @@ class Topic extends ComponentBase
 
         $this->prepareVars();
         $this->page['channel'] = $this->getChannel();
-        $this->page['topic'] = $topic = $this->getTopic();
-        $this->page['member'] = $member = $this->getMember();
+        $this->page['topic']   = $topic = $this->getTopic();
+        $this->page['member']  = $member = $this->getMember();
         $this->handleOptOutLinks();
         return $this->preparePostList();
     }
@@ -115,8 +120,8 @@ class Topic extends ComponentBase
         /*
          * Page links
          */
-        $this->memberPage = $this->page['memberPage'] = $this->property('memberPage');
-        $this->channelPage = $this->page['channelPage'] = $this->property('channelPage');
+        $this->memberPage   = $this->page['memberPage']  = $this->property('memberPage');
+        $this->channelPage  = $this->page['channelPage'] = $this->property('channelPage');
     }
 
     public function getTopic()
@@ -180,6 +185,7 @@ class Topic extends ComponentBase
             $searchString = trim(input('search'));
             $posts = PostModel::with('member')->listFrontEnd([
                 'page'   => $currentPage,
+                'perPage'     => $this->property('postsPerPage'),
                 'sort'   => 'created_at',
                 'topic'  => $topic->id,
                 'search' => $searchString,
