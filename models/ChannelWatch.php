@@ -62,8 +62,7 @@ class ChannelWatch extends Model
                         $firstTopic->last_post_at &&
                         $firstTopic->last_post_at->gt($watch->watched_at);
                 }
-                else
-                {
+                else {
                      $channel->hasNew = $channel->count_topics > 0;
                 }
             }

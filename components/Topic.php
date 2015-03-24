@@ -184,11 +184,11 @@ class Topic extends ComponentBase
             $currentPage = input('page');
             $searchString = trim(input('search'));
             $posts = PostModel::with('member')->listFrontEnd([
-                'page'   => $currentPage,
-                'perPage'     => $this->property('postsPerPage'),
-                'sort'   => 'created_at',
-                'topic'  => $topic->id,
-                'search' => $searchString,
+                'page'    => $currentPage,
+                'perPage' => $this->property('postsPerPage'),
+                'sort'    => 'created_at',
+                'topic'   => $topic->id,
+                'search'  => $searchString,
             ]);
 
             /*
