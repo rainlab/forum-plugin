@@ -70,8 +70,8 @@ class Plugin extends PluginBase
                 'forum_member_username' => [
                     'label'      => 'rainlab.forum::lang.settings.forum_username',
                     'relation'   => 'forum_member',
-                    'select'     => '@username',
-                    'searchable' => true
+                    'select'     => 'username',
+                    'searchable' => false
                 ]
             ]);
         });
