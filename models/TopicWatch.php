@@ -56,10 +56,11 @@ class TopicWatch extends Model
 
         foreach ($watches as $watch) {
             foreach ($topics as $topic) {
-                if ($topic->id == $watch->topic_id)
-                    ($firstPost = $topic->first_topic) &&
-                    $firstPost->last_post_at &&
-                    $firstPost->last_post_at->gt($watch->watched_at);
+                if ($topic->id == $watch->topic_id) {
+                    $topic->hasNew = ($firstPost = $topic->first_topic) &&
+                        $firstPost->last_post_at &&
+                        $firstPost->last_post_at->gt($watch->watched_at);
+                }
             }
         }
 
