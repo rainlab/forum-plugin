@@ -2,7 +2,7 @@ subject = "Reply to '{{ topic.subject }}'"
 ==
 Dear {{ member.username }},
 
-{{ post.member.username }} has just replied to a topic you are following entitled - {{ topic.subject }} - in the {{ channel.title }} forum.
+{{ post.member.username }} has just replied to a topic you are following entitled - {{ topic.subject }} - in the {{ channel.title }} forum. There may be other replies also, but you will not receive any more notifications for this topic until you are active on the forum again.
 
 This topic is located at:
 {{ postUrl }}
@@ -11,8 +11,6 @@ Here is the message that has just been posted:
 ----------------------------------------------
 {{ post.content }}
 ----------------------------------------------
-
-There may be other replies also, but you will not receive any more notifications for this topic until you are active on the forum again.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 Unsubscription information
@@ -27,7 +25,7 @@ To unsubscribe from ALL topics, please visit this page:
 
 <p>Dear {{ member.username }},</p>
 
-<p>{{ post.member.username }} has just replied to a topic you are following entitled <em>{{ topic.subject }}</em> in the {{ channel.title }} forum.</p>
+<p>{{ post.member.username }} has just replied to a topic you are following entitled <em>{{ topic.subject }}</em> in the {{ channel.title }} forum. There may be other replies also, but you will not receive any more notifications for this topic until you are active on the forum again.</p>
 
 <p>
     This topic is located at:<br />
@@ -39,10 +37,8 @@ To unsubscribe from ALL topics, please visit this page:
 {{ post.content }}
 <hr />
 
-<p>There may be other replies also, but you will not receive any more notifications for this topic until you are active on the forum again.</p>
-
+<br /><br />
 <hr />
-
 <p><strong>Unsubscription information</strong></p>
 
 <p>
