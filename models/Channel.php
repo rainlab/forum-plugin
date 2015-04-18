@@ -154,4 +154,9 @@ class Channel extends Model
         return $this->url = $controller->pageUrl($pageName, $params);
     }
 
+    public function beforeCreate() 
+    { 
+        $this->setDefaultLeftAndRight(); 
+    }
+
 }
