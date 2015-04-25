@@ -64,7 +64,7 @@ class Topic extends ComponentBase
     {
         return [
             'name'        => 'rainlab.forum::lang.topicpage.name',
-            'description' => 'rainlab.forum::lang.topicpage.desc'
+            'description' => 'rainlab.forum::lang.topicpage.self_desc'
         ];
     }
 
