@@ -183,7 +183,7 @@ class Topic extends ComponentBase
 
             $currentPage = input('page');
             $searchString = trim(input('search'));
-            $posts = PostModel::with('member')->listFrontEnd([
+            $posts = PostModel::with('member.user.avatar')->listFrontEnd([
                 'page'    => $currentPage,
                 'perPage' => $this->property('postsPerPage'),
                 'sort'    => 'created_at',
