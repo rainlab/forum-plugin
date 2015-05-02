@@ -2,41 +2,7 @@
 
 <div class="row forum-pagination {{ paginationEnabled ? "enabled" : "disabled" }}">
     <div class="col-md-8">
-        <ul class="pagination">
-            {% if posts.currentPage > 1 %}
-                <li>
-                    <a href="{{ paginationUrl ~ (posts.currentPage - 1) }}">
-                        &larr; Previous
-                    </a>
-                </li>
-            {% else %}
-                <li class="disabled">
-                    <span>
-                        &larr; Previous
-                    </span>
-                </li>
-            {% endif %}
-            {% if posts.lastPage > 1 %}
-                {% for page in 1..posts.lastPage %}
-                    <li class="{{ page == posts.currentPage ? 'active' }}">
-                        <a href="{{ paginationUrl ~ page }}">{{ page }}</a>
-                    </li>
-                {% endfor %}
-            {% endif %}
-            {% if posts.lastPage > posts.currentPage %}
-                <li>
-                    <a href="{{ paginationUrl ~ (posts.currentPage + 1) }}">
-                        Next &rarr;
-                    </a>
-                </li>
-            {% else %}
-                <li class="disabled">
-                    <span>
-                        Next &rarr;
-                    </span>
-                </li>
-            {% endif %}
-        </ul>
+        {% partial __SELF__ ~ "::pagination-list" records=topics %}
     </div>
     <div class="col-md-4 text-right posts-total-summary">
         <p>{{ posts.firstItem }}-{{ posts.lastItem }} of {{ posts.total }}</p>
