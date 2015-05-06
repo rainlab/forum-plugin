@@ -1,9 +1,9 @@
 <?php namespace RainLab\Forum\Models;
 
+use Html;
 use Model;
 use Carbon\Carbon;
 use Markdown;
-use October\Rain\Html\Helper as HtmlHelper;
 
 /**
  * Post Model
@@ -140,7 +140,7 @@ class Post extends Model
 
     public function beforeSave()
     {
-        $this->content_html = HtmlHelper::clean(Markdown::parse(trim($this->content)));
+        $this->content_html = Html::clean(Markdown::parse(trim($this->content)));
     }
 
     public function afterCreate()

@@ -10,7 +10,7 @@
         {% set topic = post.topic %}
         <tr class="forum-topic">
             <td>
-                {{ str_limit_html(post.content_html, 100)|raw }}
+                {{ html_limit(post.content_html, 100)|raw }}
             </td>
             <td class="activity-column">
                 <p>
