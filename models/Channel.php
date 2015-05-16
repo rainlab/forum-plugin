@@ -13,6 +13,8 @@ class Channel extends Model
     use \October\Rain\Database\Traits\Validation;
     use \October\Rain\Database\Traits\NestedTree;
 
+    public $implement = ['@RainLab.Translate.Behaviors.TranslatableModel'];
+
     /**
      * @var boolean Channel has new posts for member, set by ChannelWatch model
      */
@@ -70,21 +72,8 @@ class Channel extends Model
     public $translatable = ['title', 'description'];
 
     /**
-     * Add translation support to this model, if available.
-     * @return void
+     * Apply embed code to channel.
      */
-    public static function boot()
-    {
-        parent::boot();
-
-        if (!class_exists('RainLab\Translate\Behaviors\TranslatableModel'))
-            return;
-
-        self::extend(function($model){
-            $model->implement[] = 'RainLab.Translate.Behaviors.TranslatableModel';
-        });
-    }
-
     public function scopeForEmbed($query, $channel, $code)
     {
         return $query
