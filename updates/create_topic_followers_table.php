@@ -13,6 +13,7 @@ class CreateTopicFollowersTable extends Migration
         Schema::create('rainlab_forum_topic_followers', function($table)
         {
             $table->engine = 'InnoDB';
+            $table->increments('id');
             $table->integer('topic_id')->unsigned();
             $table->integer('member_id')->unsigned();
             $table->primary(['topic_id', 'member_id']);
