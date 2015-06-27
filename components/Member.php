@@ -201,7 +201,8 @@ class Member extends ComponentBase
              * Save member
              */
             $data = array_except(post(), 'MailPreferences');
-            $member->save($data);
+            $member->fill($data);
+            $member->save();
 
             Flash::success(post('flash', 'Settings successfully saved!'));
 

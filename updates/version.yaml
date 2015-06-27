@@ -29,3 +29,4 @@
 1.0.11: Users can now quote other posts.
 1.0.12: Improve support for CDN asset hosting.
 1.0.13: Fixes a bug where channels cannot be selected in the Embed component inspector.
+1.0.14: Improve the pagination code used in the component default markup.
