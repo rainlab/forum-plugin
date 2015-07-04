@@ -15,6 +15,11 @@ class TopicFollow extends Model
     public $table = 'rainlab_forum_topic_followers';
 
     /**
+     * @var string Primary key, used to satisfy PostgreSQL
+     */
+    protected $primaryKey = 'member_id';
+
+    /**
      * Flag a topic as being followed by a member
      * @param Topic $topic   Forum topic
      * @param Member $member Forum member
