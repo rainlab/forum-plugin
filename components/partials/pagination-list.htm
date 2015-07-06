@@ -1,4 +1,8 @@
-{% set paginationEnabled = records.currentPage > 1 or records.lastPage > 1 or records.lastPage > records.currentPage %}
+{% set paginationEnabled =
+    records.currentPage > 1 or
+    records.lastPage > 1 or
+    records.lastPage > records.currentPage
+%}
 
 {% if paginationEnabled %}
     {# How many pages to display around the current page #}

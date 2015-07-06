@@ -1,4 +1,8 @@
-{% set paginationEnabled = topics.currentPage > 1 or topics.lastPage > 1 or topics.lastPage > topics.currentPage %}
+{% set paginationEnabled =
+	topics.currentPage > 1 or
+	topics.lastPage > 1 or
+	topics.lastPage > topics.currentPage
+%}
 
 <div class="row forum-pagination {{ paginationEnabled ? "enabled" : "disabled" }}">
     <div class="col-md-8">
