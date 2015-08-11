@@ -23,7 +23,7 @@ return [
     ],
     'channels'   => [
         'new_channel'  => 'Nuevo Canal',
-        'sure'         => '¿Está seguro?',
+        'delete_selected_confirm' => '¿Está seguro?',
         'delete'       => 'Borrar',
         'manage'       => 'Administrar orden del canal',
         'return'       => 'Volver a Canales',

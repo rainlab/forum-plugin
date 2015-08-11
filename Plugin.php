@@ -34,6 +34,10 @@ class Plugin extends PluginBase
     {
         User::extend(function($model) {
             $model->hasOne['forum_member'] = ['RainLab\Forum\Models\Member'];
+
+            $model->bindEvent('model.beforeDelete', function() use ($model) {
+                $model->forum_member && $model->forum_member->delete();
+            });
         });
 
         UsersController::extendFormFields(function($widget, $model, $context) {

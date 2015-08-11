@@ -23,7 +23,7 @@ return [
     ],
     'channels' => [
         'new_channel' => 'New Channel',
-        'sure' => 'Are you sure?',
+        'delete_selected_confirm' => 'Are you sure?',
         'delete' => 'Delete',
         'manage' => 'Manage Channel Order',
         'return' => 'Return to Channels',

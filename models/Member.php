@@ -112,6 +112,15 @@ class Member extends Model
         }
     }
 
+    public function beforeDelete()
+    {
+        if ($this->posts && $this->posts->count() > 0) {
+            foreach ($this->posts as $post) {
+                $post->delete();
+            }
+        }
+    }
+
     /**
      * Returns true if this member is following this topic.
      * @param  Topic  $topic

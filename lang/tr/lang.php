@@ -23,7 +23,7 @@ return [
     ],
     'channels' => [
         'new_channel' => 'Yeni Kanal',
-        'sure' => 'Emin misiniz?',
+        'delete_selected_confirm' => 'Emin misiniz?',
         'delete' => 'Sil',
         'manage' => 'Kanal Sırasını Değiştir',
         'return' => 'Kanallara Dön',
