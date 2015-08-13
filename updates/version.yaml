@@ -31,3 +31,4 @@
 1.0.13: Fixes a bug where channels cannot be selected in the Embed component inspector.
 1.0.14: Improve the pagination code used in the component default markup.
 1.0.15: When a User is deleted, their Member profile and posts is also deleted.
+1.0.16: Posting topics is now throttled allowing 3 new topics every 15 minutes.

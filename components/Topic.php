@@ -286,6 +286,9 @@ class Topic extends ComponentBase
             $member = $this->getMember();
             $channel = $this->getChannel();
 
+            if (TopicModel::checkThrottle($member))
+                throw new ApplicationException('Please wait a few minutes before posting another topic.');
+
             if ($member->is_banned)
                 throw new ApplicationException('You cannot create new topics: Your account is banned.');
 

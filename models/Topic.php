@@ -3,6 +3,7 @@
 use App;
 use Model;
 use Db;
+use Carbon\Carbon;
 use ApplicationException;
 
 /**
@@ -110,6 +111,27 @@ class Topic extends Model
         $member->touchActivity();
 
         return $topic;
+    }
+
+    /**
+     * Returns true if member is throttled and cannot post
+     * again. Maximum 3 posts every 15 minutes.
+     * @return bool
+     */
+    public static function checkThrottle($member)
+    {
+        if (!$member) {
+            return false;
+        }
+
+        $timeLimit = Carbon::now()->subMinutes(15);
+        $count = static::make()
+            ->where('start_member_id', $member->id)
+            ->where('created_at', '>', $timeLimit)
+            ->count()
+        ;
+
+        return $count > 2;
     }
 
     public function scopeForEmbed($query, $channel, $code)
