@@ -5,39 +5,4 @@
     </ul>
 <?php Block::endPut() ?>
 
-<?= $toolbar->render() ?>
-
-<div
-    id="reorderTreeList"
-    class="control-treelist"
-    data-control="treelist"
-    data-handle="a.move"
-    data-stripe-load-indicator>
-    <ol id="reorderRecords">
-        <?= $this->makePartial('reorder_records', ['records' => $records]) ?>
-    </ol>
-</div>
-
-<script>
-
-    /*
-     * Post back source and target nodes IDs and the move positioning.
-     */
-    $('#reorderTreeList').on('move.oc.treelist', function(ev, data){
-        var
-            $el,
-            $item = data.item,
-            moveData = { sourceNode: $item.data('recordId'), position: 'root', targetNode: 0 }
-
-        if (($el = $item.next()) && $el.length) moveData.position = 'before'
-        else if (($el = $item.prev()) && $el.length) moveData.position = 'after'
-        else if (($el = $item.parents('li:first')) && $el.length) moveData.position = 'child'
-
-        if ($el.length) moveData.targetNode = $el.data('recordId')
-
-        $('#reorderTreeList').request('onMove', {
-            data: moveData
-        })
-    })
-
-</script>
+<?= $this->reorderRender() ?>

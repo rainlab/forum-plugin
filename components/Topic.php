@@ -424,7 +424,7 @@ class Topic extends ComponentBase
         }
     }
 
-    public function onFollow($isAjax = true)
+    public function onFollow()
     {
         try {
             if (!$user = Auth::getUser())
@@ -437,12 +437,12 @@ class Topic extends ComponentBase
             $member->touchActivity();
         }
         catch (Exception $ex) {
-            if ($isAjax) throw $ex;
+            if (Request::ajax()) throw $ex;
             else Flash::error($ex->getMessage());
         }
     }
 
-    public function onSticky($isAjax = true)
+    public function onSticky()
     {
         try {
             $member = $this->getMember();
@@ -456,12 +456,12 @@ class Topic extends ComponentBase
             $this->page['topic']  = $topic;
         }
         catch (Exception $ex) {
-            if ($isAjax) throw $ex;
+            if (Request::ajax()) throw $ex;
             else Flash::error($ex->getMessage());
         }
     }
 
-    public function onLock($isAjax = true)
+    public function onLock()
     {
         try {
             $member = $this->getMember();
@@ -475,7 +475,7 @@ class Topic extends ComponentBase
             $this->page['topic']  = $topic;
         }
         catch (Exception $ex) {
-            if ($isAjax) throw $ex;
+            if (Request::ajax()) throw $ex;
             else Flash::error($ex->getMessage());
         }
     }

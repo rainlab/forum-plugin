@@ -12,12 +12,12 @@ class Channels extends ComponentBase
     /**
      * @var RainLab\Forum\Models\Member Member cache
      */
-    private $member;
+    protected $member;
 
     /**
      * @var RainLab\Forum\Models\Channel Channel collection cache
      */
-    private $channels;
+    protected $channels;
 
     /**
      * @var string Reference to the page name for linking to members.

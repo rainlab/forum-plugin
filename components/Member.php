@@ -3,6 +3,7 @@
 use Auth;
 use Mail;
 use Flash;
+use Request;
 use Redirect;
 use Cms\Classes\Page;
 use Cms\Classes\ComponentBase;
@@ -218,7 +219,7 @@ class Member extends ComponentBase
         return ['topic_reply' => 'rainlab.forum::mail.topic_reply'];
     }
 
-    public function onBan($isAjax = true)
+    public function onBan()
     {
         try {
             $otherMember = $this->getOtherMember();
@@ -231,7 +232,7 @@ class Member extends ComponentBase
             $this->prepareVars();
         }
         catch (Exception $ex) {
-            if ($isAjax) throw $ex;
+            if (Request::ajax()) throw $ex;
             else Flash::error($ex->getMessage());
         }
     }
