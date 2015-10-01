@@ -16,11 +16,25 @@ use RainLab\Forum\Models\Member as MemberModel;
  */
 class Topics extends ComponentBase
 {
-
     /**
      * @var RainLab\Forum\Models\Member Member cache
      */
     protected $member = null;
+
+    /**
+     * @var string Reference to the page name for linking to members.
+     */
+    public $memberPage;
+
+    /**
+     * @var string Reference to the page name for linking to topics.
+     */
+    public $topicPage;
+
+    /**
+     * @var int Number of topics to display per page.
+     */
+    public $topicsPerPage;
 
     public function componentDetails()
     {
