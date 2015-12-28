@@ -191,10 +191,10 @@ class Member extends ComponentBase
              * Process mail preferences
              */
             if ($member->user) {
-                MailBlocker::toggleBlocks(
-                    post('MailPreferences'),
+                MailBlocker::setPreferences(
                     $member->user,
-                    $this->getMailTemplates()
+                    post('MailPreferences'),
+                    ['aliases' => $this->getMailTemplates()]
                 );
             }
 
