@@ -15,6 +15,7 @@
                     {% if topic.sticky %}<strong>Sticky:</strong>{% endif %}
                     {% if topic.locked %}<strong>Locked:</strong>{% endif %}
                     <a href="{{ topic.url }}">{{ topic.subject }}</a>
+                    <br/><small>by <a href="{{ topic.start_member.url }}">{{ topic.start_member.username }}</a></small>
                 </h5>
             </td>
             <td>
