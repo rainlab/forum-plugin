@@ -41,6 +41,8 @@ class Plugin extends PluginBase
         });
 
         UsersController::extendFormFields(function($widget, $model, $context) {
+            // Prevent extending of related form instead of the intended User form
+            if (!$widget->model instanceof \RainLab\User\Models\User) return;
             if ($context != 'update') return;
             if (!Member::getFromUser($model)) return;
 
