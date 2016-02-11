@@ -10,6 +10,7 @@ use Carbon\Carbon;
  */
 class Member extends Model
 {
+    use \October\Rain\Database\Traits\Purgeable;
     use \October\Rain\Database\Traits\Sluggable;
 
     /**
@@ -31,6 +32,11 @@ class Member extends Model
      * @var array The attributes that should be visible in arrays.
      */
     protected $visible = ['username', 'slug'];
+
+    /**
+     * @var array List of attribute names which should not be saved to the database.
+     */
+     protected $purgeable = ['url'];
 
     /**
      * @var array Auto generated slug

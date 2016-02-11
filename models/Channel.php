@@ -9,6 +9,7 @@ use ApplicationException;
 class Channel extends Model
 {
 
+    use \October\Rain\Database\Traits\Purgeable;
     use \October\Rain\Database\Traits\Sluggable;
     use \October\Rain\Database\Traits\Validation;
     use \October\Rain\Database\Traits\NestedTree;
@@ -28,7 +29,7 @@ class Channel extends Model
     /**
      * @var array Guarded fields
      */
-    protected $guarded = ['*'];
+    protected $guarded = [];
 
     /**
      * @var array Fillable fields
@@ -39,6 +40,11 @@ class Channel extends Model
      * @var array The attributes that should be visible in arrays.
      */
     protected $visible = ['title', 'description'];
+
+    /**
+     * @var array List of attribute names which should not be saved to the database.
+     */
+     protected $purgeable = ['url'];
 
     /**
      * @var array Validation rules

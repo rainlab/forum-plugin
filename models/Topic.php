@@ -1,8 +1,8 @@
 <?php namespace RainLab\Forum\Models;
 
+use Db;
 use App;
 use Model;
-use Db;
 use Carbon\Carbon;
 use ApplicationException;
 
@@ -11,6 +11,7 @@ use ApplicationException;
  */
 class Topic extends Model
 {
+    use \October\Rain\Database\Traits\Purgeable;
     use \October\Rain\Database\Traits\Sluggable;
     use \October\Rain\Database\Traits\Validation;
 
@@ -28,6 +29,11 @@ class Topic extends Model
      * @var array Fillable fields
      */
     protected $fillable = ['subject'];
+
+    /**
+     * @var array List of attribute names which should not be saved to the database.
+     */
+     protected $purgeable = ['url'];
 
     /**
      * @var array Validation rules
