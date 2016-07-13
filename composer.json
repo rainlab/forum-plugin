@@ -1,0 +1,21 @@
+{
+    "name": "rainlab/forum-plugin",
+    "type": "october-plugin",
+    "description": "Forum plugin for October CMS",
+    "homepage": "https://octobercms.com/plugin/rainlab-forum",
+    "keywords": ["october", "octobercms", "blog", "forum"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Alexey Bobkov",
+            "email": "aleksey.bobkov@gmail.com",
+            "role": "Co-founder"
+        },
+        {
+            "name": "Samuel Georges",
+            "email": "daftspunky@gmail.com",
+            "role": "Co-founder"
+        }
+    ],
+    "minimum-stability": "dev"
+}
