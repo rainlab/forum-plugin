@@ -33,3 +33,4 @@
 1.0.15: When a User is deleted, their Member profile and posts is also deleted.
 1.0.16: Posting topics is now throttled allowing 3 new topics every 15 minutes.
 1.0.17: Update channel reorder page to new system reordering feature.
+1.0.18: Minor fix to embed topic component.
