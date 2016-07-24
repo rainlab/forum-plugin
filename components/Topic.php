@@ -5,6 +5,7 @@ use Flash;
 use Event;
 use Request;
 use Redirect;
+use Mail;
 use Cms\Classes\Page;
 use RainLab\User\Models\User as UserModel;
 use RainLab\User\Models\MailBlocker;
@@ -359,14 +360,14 @@ class Topic extends ComponentBase
         $topic = $this->getTopic();
         $post = PostModel::find(post('post'));
 
-        if (!$post->canEdit())
-            throw new ApplicationException('Permission denied.');
-
+      
         /*
          * Supported modes: edit, view, delete, save
          */
         $mode = post('mode', 'edit');
         if ($mode == 'save') {
+            if (!$post->canEdit())
+                throw new ApplicationException('Permission denied.');
 
             if (!$topic || !$topic->canPost()) {
                 throw new ApplicationException('You cannot edit posts or make replies.');
@@ -382,7 +383,39 @@ class Topic extends ComponentBase
             }
         }
         elseif ($mode == 'delete') {
+            if (!$post->canEdit())
+                throw new ApplicationException('Permission denied.');
+
             $post->delete();
+        }
+        elseif ($mode == 'report') {
+            if (!Auth::check())
+                throw new ApplicationException('You must be logged in to perform this action!');
+
+            Flash::success(post('flash', 'This post has been reported for spamming, thank-you for your assistance!'));
+
+            $moderators = UserModel::whereHas('forum_member', function($member){
+                $member->where('is_moderator', true);
+            })->lists('name', 'email');
+
+            if ($moderators) {
+                $memberUrl = $this->currentPageUrl(['slug' => $member->slug]);
+                $postmemberUrl = $this->currentPageUrl(['slug' => $post->member->slug]);
+                $postUrl = $this->currentPageUrl([$this->paramName('slug') => $topic->slug]).'?page=last#post-'.$post->id;
+
+                $params = [
+                    'member' => $post->member,
+                    'memberUrl' => $postmemberUrl,
+                    'postUrl' => $postUrl,
+                    'reportMessage' => post('content'),
+                    'post' => $post->content,
+                    'otherMember' => $member,
+                    'otherMemberUrl' => $memberUrl
+                ];
+
+                Mail::sendTo($moderators, 'rainlab.forum::mail.post_report', $params);
+            }
+
         }
 
         $this->page['mode'] = $mode;

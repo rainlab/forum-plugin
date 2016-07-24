@@ -66,6 +66,39 @@
             </div>
         {{ form_close() }}
 
+    {% elseif mode == 'report_post' %}
+       {{ form_open() }}
+            <!-- Passable fields -->
+            <input type="hidden" name="mode" value="report" />
+            <input type="hidden" name="post" value="{{ post.id }}" />
+
+            <div class="text">
+                <textarea
+                    rows="5"
+                    name="content"
+                    class="form-control"
+                    placeholder="Your message to moderators. Explain the reason to report the post."
+                    ></textarea>
+            </div>
+            <div class="actions">
+                <a
+                    href="javascript:;"
+                    data-request="{{ __SELF__ }}::onUpdate"
+                    data-request-data="post: {{ post.id }}"
+                    data-request-update="'{{ __SELF__ }}::post': '#post-{{ post.id }}'"
+                    class="save">
+                    Send
+                </a>
+
+                <a href="javascript:;"
+                    data-request="{{ __SELF__ }}::onUpdate"
+                    data-request-data="post: {{ post.id }}, mode: 'view'"
+                    data-request-update="'{{ __SELF__ }}::post': '#post-{{ post.id }}'"
+                    class="cancel">
+                    Cancel
+                </a>
+            </div>
+        {{ form_close() }}
     {% elseif mode == 'delete' %}
         <div class="text">
             <p><em>Post has been deleted</em></p>
@@ -95,6 +128,16 @@
                     data-request-update="'{{ __SELF__ ~ '::post' }}': '#post-{{ post.id }}'">
                     Edit
                 </a>
+            {% endif %}
+
+            {% if topic.canPost and post.member.id != member.id %}
+            <a href="javascript:;"
+                class="edit"
+                data-request="onUpdate"
+                data-request-data="post: {{ post.id }}, mode: 'report_post'"
+                data-request-update="'{{ __SELF__ ~ '::post' }}': '#post-{{ post.id }}'">
+                    Report Post
+            </a>
             {% endif %}
         </div>
     {% endif %}
