@@ -146,6 +146,9 @@ class Channel extends ComponentBase
 
                 if ($topic->last_post_member)
                     $topic->last_post_member->setUrl($this->memberPage, $this->controller);
+                    
+                if ($topic->start_member)
+                    $topic->start_member->setUrl($this->memberPage, $this->controller);
             });
 
             /*
