@@ -12,6 +12,7 @@ class Member extends Model
 {
     use \October\Rain\Database\Traits\Purgeable;
     use \October\Rain\Database\Traits\Sluggable;
+    use \October\Rain\Database\Traits\Validation;
 
     /**
      * @var string The database table used by the model.
@@ -44,6 +45,10 @@ class Member extends Model
     public $slugs = ['slug' => 'username'];
 
     public $dates = ['last_active_at'];
+
+    public $rules = [
+        'username' => 'required|between:2,20|unique:rainlab_forum_members|alpha_num',
+    ];
 
     /**
      * @var array Relations
