@@ -465,12 +465,7 @@ class Topic extends ComponentBase
             $member->touchActivity();
         }
         catch (Exception $ex) {
-            if (Request::ajax()) {
-                throw $ex;
-            }
-            else {
-                Flash::error($ex->getMessage());
-            }
+            if (Request::ajax()) throw $ex; else Flash::error($ex->getMessage());
         }
     }
 
@@ -490,12 +485,7 @@ class Topic extends ComponentBase
             $this->page['topic']  = $topic;
         }
         catch (Exception $ex) {
-            if (Request::ajax()) {
-                throw $ex;
-            }
-            else {
-                Flash::error($ex->getMessage());
-            }
+            if (Request::ajax()) throw $ex; else Flash::error($ex->getMessage());
         }
     }
 
@@ -515,12 +505,7 @@ class Topic extends ComponentBase
             $this->page['topic']  = $topic;
         }
         catch (Exception $ex) {
-            if (Request::ajax()) {
-                throw $ex;
-            }
-            else {
-                Flash::error($ex->getMessage());
-            }
+            if (Request::ajax()) throw $ex; else Flash::error($ex->getMessage());
         }
     }
 }

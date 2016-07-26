@@ -244,12 +244,7 @@ class Member extends ComponentBase
             $this->prepareVars();
         }
         catch (Exception $ex) {
-            if (Request::ajax()) {
-                throw $ex;
-            }
-            else {
-                Flash::error($ex->getMessage());
-            }
+            if (Request::ajax()) throw $ex; else Flash::error($ex->getMessage());
         }
     }
 
