@@ -162,12 +162,10 @@ class Topic extends ComponentBase
         if ($topic = $this->getTopic()) {
             $channel = $topic->channel;
         }
-
         elseif ($channelId = input('channel')) {
             $channel = ChannelModel::find($channelId);
         }
-
-        else
+        else {
             $channel = null;
         }
 
