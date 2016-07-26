@@ -186,19 +186,20 @@ class Topic extends Model
          * Default options
          */
         extract(array_merge([
-            'page'       => 1,
-            'perPage'    => 20,
-            'sort'       => 'created_at',
-            'channels'   => null,
-            'search'     => ''
+            'page'     => 1,
+            'perPage'  => 20,
+            'sort'     => 'created_at',
+            'channels' => null,
+            'search'   => ''
         ], $options));
 
         /*
          * Sorting
          */
         $allowedSortingOptions = ['created_at', 'updated_at', 'subject'];
-        if (!in_array($sort, $allowedSortingOptions))
+        if (!in_array($sort, $allowedSortingOptions)) {
             $sort = $allowedSortingOptions[0];
+        }
 
         $query->orderBy('is_sticky', 'desc');
         $query->orderBy($sort, in_array($sort, ['created_at', 'updated_at']) ? 'desc' : 'asc');
@@ -209,7 +210,7 @@ class Topic extends Model
         $search = trim($search);
         if (strlen($search)) {
             $query->where(function($query) use ($search) {
-                $query->whereHas('posts', function($query) use ($search){
+                $query->whereHas('posts', function($query) use ($search) {
                     $query->searchWhere($search, ['subject', 'content']);
                 });
 
@@ -221,8 +222,9 @@ class Topic extends Model
          * Channels
          */
         if ($channels !== null) {
-            if (!is_array($channels))
+            if (!is_array($channels)) {
                 $channels = [$channels];
+            }
 
             $query->whereIn('channel_id', $channels);
         }
@@ -266,17 +268,21 @@ class Topic extends Model
 
     public function canPost($member = null)
     {
-        if (!$member)
+        if (!$member) {
             $member = Member::getFromUser();
+        }
 
-        if (!$member)
+        if (!$member) {
             return false;
+        }
 
-        if ($member->is_banned)
+        if ($member->is_banned) {
             return false;
+        }
 
-        if ($this->is_locked && !$member->is_moderator)
+        if ($this->is_locked && !$member->is_moderator) {
             return false;
+        }
 
         return true;
     }
@@ -289,7 +295,7 @@ class Topic extends Model
     public function setUrl($pageName, $controller)
     {
         $params = [
-            'id' => $this->id,
+            'id'   => $this->id,
             'slug' => $this->slug,
         ];
 

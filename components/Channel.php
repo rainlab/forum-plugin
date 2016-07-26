@@ -13,7 +13,7 @@ use RainLab\Forum\Models\Member as MemberModel;
 
 /**
  * Channel component
- * 
+ *
  * Displays a list of posts belonging to a channel.
  */
 class Channel extends ComponentBase
@@ -56,8 +56,8 @@ class Channel extends ComponentBase
     public function componentDetails()
     {
         return [
-            'name'           => 'rainlab.forum::lang.channel.component_name',
-            'description'    => 'rainlab.forum::lang.channel.component_description',
+            'name'        => 'rainlab.forum::lang.channel.component_name',
+            'description' => 'rainlab.forum::lang.channel.component_description',
         ];
     }
 
@@ -96,6 +96,7 @@ class Channel extends ComponentBase
 
         $this->prepareVars();
         $this->page['channel'] = $this->getChannel();
+
         return $this->prepareTopicList();
     }
 
@@ -110,11 +111,13 @@ class Channel extends ComponentBase
 
     public function getChannel()
     {
-        if ($this->channel !== null)
+        if ($this->channel !== null) {
             return $this->channel;
+        }
 
-        if (!$slug = $this->property('slug'))
+        if (!$slug = $this->property('slug')) {
             return null;
+        }
 
         return $this->channel = ChannelModel::whereSlug($slug)->first();
     }
@@ -125,7 +128,6 @@ class Channel extends ComponentBase
          * If channel exists, load the topics
          */
         if ($channel = $this->getChannel()) {
-
             $currentPage = input('page');
             $searchString = trim(input('search'));
             $topics = TopicModel::with('last_post_member')->listFrontEnd([
@@ -139,16 +141,20 @@ class Channel extends ComponentBase
              * Add a "url" helper attribute for linking to each topic
              */
             $topics->each(function($topic) {
-                if ($this->embedMode)
+                if ($this->embedMode) {
                     $topic->url = $this->pageUrl($this->topicPage, [$this->embedTopicParam => $topic->slug]);
-                else
+                }
+                else {
                     $topic->setUrl($this->topicPage, $this->controller);
+                }
 
-                if ($topic->last_post_member)
+                if ($topic->last_post_member) {
                     $topic->last_post_member->setUrl($this->memberPage, $this->controller);
-                    
-                if ($topic->start_member)
+                }
+
+                if ($topic->start_member) {
                     $topic->start_member->setUrl($this->memberPage, $this->controller);
+                }
             });
 
             /*
@@ -168,19 +174,20 @@ class Channel extends ComponentBase
              */
             if ($topics) {
                 $queryArr = [];
-                if ($searchString) $queryArr['search'] = $searchString;
+                if ($searchString) {
+                    $queryArr['search'] = $searchString;
+                }
                 $queryArr['page'] = '';
                 $paginationUrl = Request::url() . '?' . http_build_query($queryArr);
 
-                if ($currentPage > ($lastPage = $topics->lastPage()) && $currentPage > 1)
+                if ($currentPage > ($lastPage = $topics->lastPage()) && $currentPage > 1) {
                     return Redirect::to($paginationUrl . $lastPage);
+                }
 
                 $this->page['paginationUrl'] = $paginationUrl;
             }
         }
 
-
         $this->page['isGuest'] = !Auth::check();
     }
-
 }

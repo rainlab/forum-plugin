@@ -63,11 +63,13 @@ class Member extends Model
      */
     public static function getFromUser($user = null)
     {
-        if ($user === null)
+        if ($user === null) {
             $user = Auth::getUser();
+        }
 
-        if (!$user)
+        if (!$user) {
             return null;
+        }
 
         if (!$user->forum_member) {
             $generatedUsername = explode('@', $user->email);
@@ -92,17 +94,21 @@ class Member extends Model
      */
     public function canEdit($member = null)
     {
-        if (!$member)
+        if (!$member) {
             $member = Member::getFromUser();
+        }
 
-        if (!$member)
+        if (!$member) {
             return false;
+        }
 
-        if ($this->id == $member->id)
+        if ($this->id == $member->id) {
             return true;
+        }
 
-        if ($member->is_moderator)
+        if ($member->is_moderator) {
             return true;
+        }
 
         return false;
     }
@@ -153,7 +159,7 @@ class Member extends Model
     public function setUrl($pageName, $controller)
     {
         $params = [
-            'id' => $this->id,
+            'id'   => $this->id,
             'slug' => $this->slug,
         ];
 

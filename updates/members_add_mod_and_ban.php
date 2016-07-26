@@ -5,7 +5,6 @@ use October\Rain\Database\Updates\Migration;
 
 class MembersAddModAndBan extends Migration
 {
-
     public function up()
     {
         Schema::table('rainlab_forum_members', function($table)

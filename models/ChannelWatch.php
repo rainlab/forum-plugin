@@ -43,7 +43,9 @@ class ChannelWatch extends Model
      */
     public static function setFlagsOnChannels($channels, $member)
     {
-        if (!count($channels)) return;
+        if (!count($channels)) {
+            return;
+        }
 
         $modelKeys = [];
         foreach ($channels as $channel) {
@@ -69,5 +71,4 @@ class ChannelWatch extends Model
 
         return $channels;
     }
-
 }

@@ -9,7 +9,6 @@ use October\Rain\Database\Updates\Seeder;
 
 class SeedAllTables extends Seeder
 {
-
     public function run()
     {
         $orange = Channel::create([
@@ -65,7 +64,6 @@ class SeedAllTables extends Seeder
 
         // $member = Member::getFromUser($user);
         // Topic::createInChannel($october, $member, ['subject' => 'First post!', 'content' => 'Welcome to the forum!']);
-
 
         // $topic = Topic::createInChannel($october, $member, ['subject' => 'Lots of posts in here!', 'content' => 'Another post!']);
 
@@ -124,7 +122,5 @@ class SeedAllTables extends Seeder
         // Topic::createInChannel($autumn, $member, ['subject' => 'htm - for HTML markup', 'content' => 'Another post content']);
         // Topic::createInChannel($autumn, $member, ['subject' => 'txt - for plain text', 'content' => 'Another post content']);
         // Topic::createInChannel($autumn, $member, ['subject' => 'md - for Markdown syntax', 'content' => 'Another post content']);
-
     }
-
 }

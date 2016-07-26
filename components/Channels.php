@@ -8,7 +8,6 @@ use RainLab\Forum\Models\Member as MemberModel;
 
 class Channels extends ComponentBase
 {
-
     /**
      * @var RainLab\Forum\Models\Member Member cache
      */
@@ -88,28 +87,30 @@ class Channels extends ComponentBase
 
     public function listChannels()
     {
-        if ($this->channels !== null)
+        if ($this->channels !== null) {
             return $this->channels;
+        }
 
         $channels = Channel::with('first_topic')->isVisible()->get();
 
         /*
          * Add a "url" helper attribute for linking to each channel
          */
-        $channels->each(function($channel){
+        $channels->each(function($channel) {
             $channel->setUrl($this->channelPage, $this->controller);
 
-            if ($channel->first_topic)
+            if ($channel->first_topic) {
                 $channel->first_topic->setUrl($this->topicPage, $this->controller);
+            }
         });
 
         $this->page['member'] = $this->member = MemberModel::getFromUser();
-        if ($this->member)
+        if ($this->member) {
             $channels = ChannelWatch::setFlagsOnChannels($channels, $this->member);
+        }
 
         $channels = $channels->toNested();
 
         return $this->channels = $channels;
     }
-
 }

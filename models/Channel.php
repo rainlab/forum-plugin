@@ -117,6 +117,7 @@ class Channel extends Model
     {
         $this->count_topics = $this->topics()->count();
         $this->count_posts = $this->topics()->sum('count_posts');
+
         return $this;
     }
 
@@ -130,8 +131,9 @@ class Channel extends Model
 
     public function afterDelete()
     {
-        foreach ($this->topics as $topic)
+        foreach ($this->topics as $topic) {
             $topic->delete();
+        }
     }
 
     /**
@@ -142,11 +144,10 @@ class Channel extends Model
     public function setUrl($pageName, $controller)
     {
         $params = [
-            'id' => $this->id,
+            'id'   => $this->id,
             'slug' => $this->slug,
         ];
 
         return $this->url = $controller->pageUrl($pageName, $params);
     }
-
 }

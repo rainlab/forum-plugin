@@ -7,7 +7,7 @@ https://vimeo.com/97088926
 
 ## Configuration
 
-The forum does not require immediate configuation to operate. However the following options are available.
+The forum does not require immediate configuration to operate. However the following options are available.
 
 * Forum categories (Channels) can be managed via the System > Channels menu.
 * Forum members can be managed via the User menu.

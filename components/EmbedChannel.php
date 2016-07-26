@@ -8,7 +8,6 @@ use Exception;
 
 class EmbedChannel extends ComponentBase
 {
-
     /**
      * @var boolean Determine if this component is being used by the EmbedChannel component.
      */
@@ -26,28 +25,28 @@ class EmbedChannel extends ComponentBase
     {
         return [
             'embedCode' => [
-                'title'             => 'rainlab.forum::lang.embedch.embed_title',
-                'description'       => 'rainlab.forum::lang.embedch.embed_desc',
-                'type'              => 'string',
-                'group'             => 'Parameters',
+                'title'       => 'rainlab.forum::lang.embedch.embed_title',
+                'description' => 'rainlab.forum::lang.embedch.embed_desc',
+                'type'        => 'string',
+                'group'       => 'Parameters',
             ],
             'channelSlug' => [
-                'title'             => 'rainlab.forum::lang.embedch.channel_title',
-                'description'       => 'rainlab.forum::lang.embedch.channel_desc',
-                'type'              => 'dropdown'
+                'title'       => 'rainlab.forum::lang.embedch.channel_title',
+                'description' => 'rainlab.forum::lang.embedch.channel_desc',
+                'type'        => 'dropdown'
             ],
             'topicSlug' => [
-                'title'             => 'rainlab.forum::lang.embedch.topic_name',
-                'description'       => 'rainlab.forum::lang.embedch.topic_desc',
-                'type'              => 'string',
-                'default'           => '{{ :topicSlug }}',
-                'group'             => 'Parameters',
+                'title'       => 'rainlab.forum::lang.embedch.topic_name',
+                'description' => 'rainlab.forum::lang.embedch.topic_desc',
+                'type'        => 'string',
+                'default'     => '{{ :topicSlug }}',
+                'group'       => 'Parameters',
             ],
             'memberPage' => [
-                'title'             => 'rainlab.forum::lang.member.page_name',
-                'description'       => 'rainlab.forum::lang.member.page_help',
-                'type'              => 'dropdown',
-                'group'             => 'Links',
+                'title'       => 'rainlab.forum::lang.member.page_name',
+                'description' => 'rainlab.forum::lang.member.page_help',
+                'type'        => 'dropdown',
+                'group'       => 'Links',
             ],
         ];
     }
@@ -66,15 +65,17 @@ class EmbedChannel extends ComponentBase
     {
         $code = $this->property('embedCode');
 
-        if (!$code)
+        if (!$code) {
             throw new Exception('No code specified for the Forum Embed component');
+        }
 
         $parentChannel = ($channelSlug = $this->property('channelSlug'))
             ? ChannelModel::whereSlug($channelSlug)->first()
             : null;
 
-        if (!$parentChannel)
+        if (!$parentChannel) {
             throw new Exception('No channel specified for Forum Embed component');
+        }
 
         $properties = $this->getProperties();
 
@@ -116,14 +117,17 @@ class EmbedChannel extends ComponentBase
         /*
          * Set the default embedding mode
          */
-        if (input('channel'))
+        if (input('channel')) {
             $component->embedMode = 'post';
-        elseif (input('search'))
+        }
+        elseif (input('search')) {
             $component->embedMode = 'search';
-        elseif ($this->property('topicSlug'))
+        }
+        elseif ($this->property('topicSlug')) {
             $component->embedMode = 'topic';
-        else
+        }
+        else {
             $component->embedMode = 'channel';
+        }
     }
-
 }

@@ -11,7 +11,7 @@ use RainLab\Forum\Models\Member as MemberModel;
 
 /**
  * Topic list component
- * 
+ *
  * Displays a list of all topics.
  */
 class Topics extends ComponentBase
@@ -39,8 +39,8 @@ class Topics extends ComponentBase
     public function componentDetails()
     {
         return [
-            'name'           => 'rainlab.forum::lang.topics.component_name',
-            'description'    => 'rainlab.forum::lang.topics.component_description',
+            'name'        => 'rainlab.forum::lang.topics.component_name',
+            'description' => 'rainlab.forum::lang.topics.component_description',
         ];
     }
 
@@ -77,6 +77,7 @@ class Topics extends ComponentBase
         $this->addCss('assets/css/forum.css');
 
         $this->prepareVars();
+
         return $this->prepareTopicList();
     }
 
@@ -95,23 +96,25 @@ class Topics extends ComponentBase
         $currentPage = input('page');
         $searchString = trim(input('search'));
         $topics = TopicModel::with('last_post_member')->listFrontEnd([
-            'page' => $currentPage,
+            'page'    => $currentPage,
             'perPage' => $this->topicsPerPage,
-            'sort' => 'updated_at',
-            'search' => $searchString,
+            'sort'    => 'updated_at',
+            'search'  => $searchString,
         ]);
 
         /*
          * Add a "url" helper attribute for linking to each topic
          */
-        $topics->each(function($topic){
+        $topics->each(function($topic) {
             $topic->setUrl($this->topicPage, $this->controller);
 
-            if ($topic->last_post_member)
+            if ($topic->last_post_member) {
                 $topic->last_post_member->setUrl($this->memberPage, $this->controller);
-                
-            if ($topic->start_member)
+            }
+
+            if ($topic->start_member) {
                 $topic->start_member->setUrl($this->memberPage, $this->controller);
+            }
         });
 
         /*
@@ -130,15 +133,17 @@ class Topics extends ComponentBase
          */
         if ($topics) {
             $queryArr = [];
-            if ($searchString) $queryArr['search'] = $searchString;
+            if ($searchString) {
+                $queryArr['search'] = $searchString;
+            }
             $queryArr['page'] = '';
             $paginationUrl = Request::url() . '?' . http_build_query($queryArr);
 
-            if ($currentPage > ($lastPage = $topics->lastPage()) && $currentPage > 1)
+            if ($currentPage > ($lastPage = $topics->lastPage()) && $currentPage > 1) {
                 return Redirect::to($paginationUrl . $lastPage);
+            }
 
             $this->page['paginationUrl'] = $paginationUrl;
         }
     }
-
 }

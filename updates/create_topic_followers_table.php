@@ -7,7 +7,6 @@ use RainLab\Forum\Models\TopicFollow;
 
 class CreateTopicFollowersTable extends Migration
 {
-
     public function up()
     {
         Schema::create('rainlab_forum_topic_followers', function($table)
@@ -35,16 +34,17 @@ class CreateTopicFollowersTable extends Migration
         $migrated = [];
         foreach (Post::all() as $post) {
             $code = $post->topic_id.'!'.$post->member_id;
-            if (isset($migrated[$code])) continue;
+            if (isset($migrated[$code])) {
+                continue;
+            }
             $migrated[$code] = true;
 
             TopicFollow::insert([
-                'topic_id' => $post->topic_id,
-                'member_id' => $post->member_id,
+                'topic_id'   => $post->topic_id,
+                'member_id'  => $post->member_id,
                 'created_at' => $post->created_at,
                 'updated_at' => $post->updated_at
             ]);
         }
     }
-
 }

@@ -8,7 +8,6 @@ use Exception;
 
 class EmbedTopic extends ComponentBase
 {
-
     /**
      * @var boolean Determine if this component is being used by the EmbedChannel component.
      */
@@ -26,20 +25,20 @@ class EmbedTopic extends ComponentBase
     {
         return [
             'embedCode' => [
-                'title'             => 'rainlab.forum::lang.embedtopic.embed_title',
-                'description'       => 'rainlab.forum::lang.embedtopic.embed_desc',
-                'type'              => 'string',
+                'title'       => 'rainlab.forum::lang.embedtopic.embed_title',
+                'description' => 'rainlab.forum::lang.embedtopic.embed_desc',
+                'type'        => 'string',
             ],
             'channelSlug' => [
-                'title'             => 'rainlab.forum::lang.embedtopic.target_name',
-                'description'       => 'rainlab.forum::lang.embedtopic.target_desc',
-                'type'              => 'dropdown'
+                'title'       => 'rainlab.forum::lang.embedtopic.target_name',
+                'description' => 'rainlab.forum::lang.embedtopic.target_desc',
+                'type'        => 'dropdown'
             ],
             'memberPage' => [
-                'title'             => 'rainlab.forum::lang.member.page_name',
-                'description'       => 'rainlab.forum::lang.member.page_help',
-                'type'              => 'dropdown',
-                'group'             => 'Links',
+                'title'       => 'rainlab.forum::lang.member.page_name',
+                'description' => 'rainlab.forum::lang.member.page_help',
+                'type'        => 'dropdown',
+                'group'       => 'Links',
             ],
         ];
     }
@@ -59,15 +58,17 @@ class EmbedTopic extends ComponentBase
         $mode = $this->property('mode');
         $code = $this->property('embedCode');
 
-        if (!$code)
+        if (!$code) {
             throw new Exception('No code specified for the Forum Embed component');
+        }
 
         $channel = ($channelSlug = $this->property('channelSlug'))
             ? ChannelModel::whereSlug($channelSlug)->first()
             : null;
 
-        if (!$channel)
+        if (!$channel) {
             throw new Exception('No channel specified for Forum Embed component');
+        }
 
         $properties = $this->getProperties();
 
@@ -99,7 +100,5 @@ class EmbedTopic extends ComponentBase
          * Set the embedding mode: Single topic
          */
         $component->embedMode = 'single';
-
     }
-
 }

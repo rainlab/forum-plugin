@@ -5,7 +5,6 @@ use October\Rain\Database\Updates\Migration;
 
 class CreateMembersTable extends Migration
 {
-
     public function up()
     {
         Schema::create('rainlab_forum_members', function($table)
@@ -26,5 +25,4 @@ class CreateMembersTable extends Migration
     {
         Schema::drop('rainlab_forum_members');
     }
-
 }
