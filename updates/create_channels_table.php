@@ -5,7 +5,6 @@ use October\Rain\Database\Updates\Migration;
 
 class CreateChannelsTable extends Migration
 {
-
     public function up()
     {
         Schema::create('rainlab_forum_channels', function($table)
@@ -29,5 +28,4 @@ class CreateChannelsTable extends Migration
     {
         Schema::drop('rainlab_forum_channels');
     }
-
 }

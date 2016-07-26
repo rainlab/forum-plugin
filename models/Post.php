@@ -36,16 +36,16 @@ class Post extends Model
      * @var array Validation rules
      */
     public $rules = [
-        'topic_id' => 'required',
+        'topic_id'  => 'required',
         'member_id' => 'required',
-        'content' => 'required'
+        'content'   => 'required'
     ];
 
     /**
      * @var array Relations
      */
     public $belongsTo = [
-        'topic' => ['RainLab\Forum\Models\Topic'],
+        'topic'  => ['RainLab\Forum\Models\Topic'],
         'member' => ['RainLab\Forum\Models\Member'],
     ];
 
@@ -67,6 +67,7 @@ class Post extends Model
 
         TopicFollow::follow($topic, $member);
         $member->touchActivity();
+
         return $post;
     }
 
@@ -86,19 +87,20 @@ class Post extends Model
          * Default options
          */
         extract(array_merge([
-            'page'       => 1,
-            'perPage'    => 30,
-            'sort'       => 'created_at',
-            'topic'      => null,
-            'search'     => ''
+            'page'    => 1,
+            'perPage' => 30,
+            'sort'    => 'created_at',
+            'topic'   => null,
+            'search'  => ''
         ], $options));
 
         /*
          * Sorting
          */
         $allowedSortingOptions = ['created_at', 'updated_at'];
-        if (!in_array($sort, $allowedSortingOptions))
+        if (!in_array($sort, $allowedSortingOptions)) {
             $sort = $allowedSortingOptions[0];
+        }
 
         $query->orderBy($sort, 'asc');
 
@@ -122,14 +124,17 @@ class Post extends Model
 
     public function canEdit($member = null)
     {
-        if ($member === null)
+        if ($member === null) {
             $member = Member::getFromUser();
+        }
 
-        if (!$member)
+        if (!$member) {
             return false;
+        }
 
-        if ($member->is_moderator)
+        if ($member->is_moderator) {
             return true;
+        }
 
         return $this->member_id == $member->id;
     }
@@ -162,8 +167,8 @@ class Post extends Model
         $this->topic->channel()->decrement('count_posts');
 
         // If the topic has no more posts, delete it
-        if ($this->topic->count_posts <= 0)
+        if ($this->topic->count_posts <= 0) {
             $this->topic->delete();
+        }
     }
-
 }

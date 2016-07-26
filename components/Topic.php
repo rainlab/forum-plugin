@@ -112,6 +112,7 @@ class Topic extends ComponentBase
         $this->page['topic']   = $topic = $this->getTopic();
         $this->page['member']  = $member = $this->getMember();
         $this->handleOptOutLinks();
+
         return $this->preparePostList();
     }
 
@@ -126,45 +127,54 @@ class Topic extends ComponentBase
 
     public function getTopic()
     {
-        if ($this->topic !== null)
+        if ($this->topic !== null) {
             return $this->topic;
+        }
 
-        if (!$slug = $this->property('slug'))
+        if (!$slug = $this->property('slug')) {
             return null;
+        }
 
         $topic = TopicModel::whereSlug($slug)->first();
 
-        if ($topic)
+        if ($topic) {
             $topic->increaseViewCount();
+        }
 
         return $this->topic = $topic;
     }
 
     public function getMember()
     {
-        if ($this->member !== null)
+        if ($this->member !== null) {
             return $this->member;
+        }
 
         return $this->member = MemberModel::getFromUser();
     }
 
     public function getChannel()
     {
-        if ($this->channel !== null)
+        if ($this->channel !== null) {
             return $this->channel;
+        }
 
-        if ($topic = $this->getTopic())
+        if ($topic = $this->getTopic()) {
             $channel = $topic->channel;
+        }
 
-        elseif ($channelId = input('channel'))
+        elseif ($channelId = input('channel')) {
             $channel = ChannelModel::find($channelId);
+        }
 
         else
             $channel = null;
+        }
 
         // Add a "url" helper attribute for linking to the category
-        if ($channel)
+        if ($channel) {
             $channel->setUrl($this->channelPage, $this->controller);
+        }
 
         return $this->channel = $channel;
     }
@@ -180,7 +190,6 @@ class Topic extends ComponentBase
          * If topic exists, loads the posts
          */
         if ($topic = $this->getTopic()) {
-
             $currentPage = input('page');
             $searchString = trim(input('search'));
             $posts = PostModel::with('member.user.avatar')->listFrontEnd([
@@ -205,13 +214,16 @@ class Topic extends ComponentBase
              * Pagination
              */
             $queryArr = [];
-            if ($searchString) $queryArr['search'] = $searchString;
+            if ($searchString) {
+                $queryArr['search'] = $searchString;
+            }
             $queryArr['page'] = '';
             $paginationUrl = Request::url() . '?' . http_build_query($queryArr);
 
             $lastPage = $posts->lastPage();
-            if ($currentPage == 'last' || $currentPage > $lastPage && $currentPage > 1)
+            if ($currentPage == 'last' || $currentPage > $lastPage && $currentPage > 1) {
                 return Redirect::to($paginationUrl . $lastPage);
+            }
 
             $this->page['paginationUrl'] = $paginationUrl;
         }
@@ -219,19 +231,23 @@ class Topic extends ComponentBase
         /*
          * Set topic as watched
          */
-        if ($this->topic && $this->member)
+        if ($this->topic && $this->member) {
             TopicWatch::flagAsWatched($this->topic, $this->member);
+        }
 
         /*
          * Return URL
          */
         if ($this->getChannel()) {
-            if ($this->embedMode == 'single')
+            if ($this->embedMode == 'single') {
                 $returnUrl = null;
-            elseif ($this->embedMode)
+            }
+            elseif ($this->embedMode) {
                 $returnUrl = $this->currentPageUrl([$this->paramName('slug') => null]);
-            else
+            }
+            else {
                 $returnUrl = $this->channel->url;
+            }
 
              $this->returnUrl = $this->page['returnUrl'] = $returnUrl;
          }
@@ -247,10 +263,16 @@ class Topic extends ComponentBase
          * Attempt to find member using dry authentication
          */
         if (!$member = $this->getMember()) {
-            if (!($authCode = post('auth')) || !strpos($authCode, '!')) return;
+            if (!($authCode = post('auth')) || !strpos($authCode, '!')) {
+                return;
+            }
             list($hash, $userId) = explode('!', $authCode);
-            if (!$user = UserModel::find($userId)) return;
-            if (!$member = MemberModel::getFromUser($user)) return;
+            if (!$user = UserModel::find($userId)) {
+                return;
+            }
+            if (!$member = MemberModel::getFromUser($user)) {
+                return;
+            }
 
             $expectedCode = TopicFollow::makeAuthCode($action, $topic, $member);
             if ($authCode != $expectedCode) {
@@ -280,17 +302,20 @@ class Topic extends ComponentBase
     public function onCreate()
     {
         try {
-            if (!$user = Auth::getUser())
+            if (!$user = Auth::getUser()) {
                 throw new ApplicationException('You should be logged in.');
+            }
 
             $member = $this->getMember();
             $channel = $this->getChannel();
 
-            if (TopicModel::checkThrottle($member))
+            if (TopicModel::checkThrottle($member)) {
                 throw new ApplicationException('Please wait a few minutes before posting another topic.');
+            }
 
-            if ($member->is_banned)
+            if ($member->is_banned) {
                 throw new ApplicationException('You cannot create new topics: Your account is banned.');
+            }
 
             $topic = TopicModel::createInChannel($channel, $member, post());
             $topicUrl = $this->currentPageUrl([$this->paramName('slug') => $topic->slug]);
@@ -325,8 +350,9 @@ class Topic extends ComponentBase
             $member = $this->getMember();
             $topic = $this->getTopic();
 
-            if (!$topic || !$topic->canPost())
+            if (!$topic || !$topic->canPost()) {
                 throw new ApplicationException('You cannot edit posts or make replies.');
+            }
 
             $post = PostModel::createInTopic($topic, $member, post());
             $postUrl = $this->currentPageUrl([$this->paramName('slug') => $topic->slug]);
@@ -359,15 +385,15 @@ class Topic extends ComponentBase
         $topic = $this->getTopic();
         $post = PostModel::find(post('post'));
 
-        if (!$post->canEdit())
+        if (!$post->canEdit()) {
             throw new ApplicationException('Permission denied.');
+        }
 
         /*
          * Supported modes: edit, view, delete, save
          */
         $mode = post('mode', 'edit');
         if ($mode == 'save') {
-
             if (!$topic || !$topic->canPost()) {
                 throw new ApplicationException('You cannot edit posts or make replies.');
             }
@@ -402,6 +428,7 @@ class Topic extends ComponentBase
 
         $result = $post->toArray();
         $result['author'] = $post->member ? $post->member->username : '???';
+
         return $result;
     }
 
@@ -427,8 +454,9 @@ class Topic extends ComponentBase
     public function onFollow()
     {
         try {
-            if (!$user = Auth::getUser())
+            if (!$user = Auth::getUser()) {
                 throw new ApplicationException('You should be logged in.');
+            }
 
             $this->page['member'] = $member = $this->getMember();
             $this->page['topic'] = $topic = $this->getTopic();
@@ -437,8 +465,12 @@ class Topic extends ComponentBase
             $member->touchActivity();
         }
         catch (Exception $ex) {
-            if (Request::ajax()) throw $ex;
-            else Flash::error($ex->getMessage());
+            if (Request::ajax()) {
+                throw $ex;
+            }
+            else {
+                Flash::error($ex->getMessage());
+            }
         }
     }
 
@@ -446,18 +478,24 @@ class Topic extends ComponentBase
     {
         try {
             $member = $this->getMember();
-            if (!$member || !$member->is_moderator)
+            if (!$member || !$member->is_moderator) {
                 throw new ApplicationException('Access denied');
+            }
 
-            if ($topic = $this->getTopic())
+            if ($topic = $this->getTopic()) {
                 $topic->stickyTopic();
+            }
 
             $this->page['member'] = $member;
             $this->page['topic']  = $topic;
         }
         catch (Exception $ex) {
-            if (Request::ajax()) throw $ex;
-            else Flash::error($ex->getMessage());
+            if (Request::ajax()) {
+                throw $ex;
+            }
+            else {
+                Flash::error($ex->getMessage());
+            }
         }
     }
 
@@ -465,18 +503,24 @@ class Topic extends ComponentBase
     {
         try {
             $member = $this->getMember();
-            if (!$member || !$member->is_moderator)
+            if (!$member || !$member->is_moderator) {
                 throw new ApplicationException('Access denied');
+            }
 
-            if ($topic = $this->getTopic())
+            if ($topic = $this->getTopic()) {
                 $topic->lockTopic();
+            }
 
             $this->page['member'] = $member;
             $this->page['topic']  = $topic;
         }
         catch (Exception $ex) {
-            if (Request::ajax()) throw $ex;
-            else Flash::error($ex->getMessage());
+            if (Request::ajax()) {
+                throw $ex;
+            }
+            else {
+                Flash::error($ex->getMessage());
+            }
         }
     }
 }

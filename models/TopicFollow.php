@@ -85,20 +85,20 @@ class TopicFollow extends Model
         $members = $topic->followers;
 
         $data = [
-            'member' => null,
-            'post' => $post,
-            'topic' => $topic,
+            'member'  => null,
+            'post'    => $post,
+            'topic'   => $topic,
             'channel' => $topic->channel,
             'postUrl' => $postUrl . '?' . http_build_query(['page' => 'last']),
         ];
 
         foreach ($members as $member) {
-
             /*
              * Not notifying self
              */
-            if ($post->member->id == $member->id)
+            if ($post->member->id == $member->id) {
                 continue;
+            }
 
             /*
              * Already notified
@@ -125,11 +125,12 @@ class TopicFollow extends Model
             ]);
 
             $vars = [
-                'name' => $member->username,
+                'name'  => $member->username,
                 'email' => $member->user->email
             ];
 
-            Mail::queue('rainlab.forum::mail.topic_reply', $data, function($message) use ($vars) {
+            Mail::queue('rainlab.forum::mail.topic_reply', $data, function($message) use ($vars)
+            {
                 extract($vars);
                 $message->to($email, $name);
             });
@@ -146,7 +147,7 @@ class TopicFollow extends Model
             .$member->user->created_at
             .$member->user->persist_code
         );
+
         return $hash.'!'.$member->id;
     }
-
 }

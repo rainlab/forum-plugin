@@ -15,7 +15,6 @@ use Exception;
 
 class Member extends ComponentBase
 {
-
     /**
      * @var RainLab\Forum\Models\Member Member cache
      */
@@ -116,7 +115,7 @@ class Member extends ComponentBase
         $member = $this->getMember();
         $posts = $member->posts()->with('topic')->limit(10)->get();
 
-        $posts->each(function($post){
+        $posts->each(function($post) {
             $post->topic->setUrl($this->topicPage, $this->controller);
         });
 
@@ -125,33 +124,39 @@ class Member extends ComponentBase
 
     public function getMember()
     {
-        if ($this->member !== null)
+        if ($this->member !== null) {
             return $this->member;
+        }
 
-        if (!$slug = $this->property('slug'))
+        if (!$slug = $this->property('slug')) {
             $member = MemberModel::getFromUser();
-        else
+        }
+        else {
             $member = MemberModel::whereSlug($slug)->first();
+        }
 
         return $this->member = $member;
     }
 
     public function getOtherMember()
     {
-        if ($this->otherMember !== null)
+        if ($this->otherMember !== null) {
             return $this->otherMember;
+        }
 
         return $this->otherMember = MemberModel::getFromUser();
     }
 
     public function getMailPreferences()
     {
-        if ($this->mailPreferences !== null)
+        if ($this->mailPreferences !== null) {
             return $this->mailPreferences;
+        }
 
         $member = $this->getMember();
-        if (!$member || !$member->user)
+        if (!$member || !$member->user) {
             return [];
+        }
 
         $preferences = [];
         $blocked = MailBlocker::checkAllForUser($member->user);
@@ -169,11 +174,13 @@ class Member extends ComponentBase
 
     public function canEdit()
     {
-        if ($this->property('viewMode') == 'view')
+        if ($this->property('viewMode') == 'view') {
             return false;
+        }
 
-        if (!$member = $this->getMember())
+        if (!$member = $this->getMember()) {
             return false;
+        }
 
         return $member->canEdit(MemberModel::getFromUser());
     }
@@ -181,11 +188,14 @@ class Member extends ComponentBase
     public function onUpdate()
     {
         try {
-            if (!$this->canEdit())
+            if (!$this->canEdit()) {
                 throw new ApplicationException('Permission denied.');
+            }
 
             $member = $this->getMember();
-            if (!$member) return;
+            if (!$member) {
+                return;
+            }
 
             /*
              * Process mail preferences
@@ -223,28 +233,35 @@ class Member extends ComponentBase
     {
         try {
             $otherMember = $this->getOtherMember();
-            if (!$otherMember || !$otherMember->is_moderator)
+            if (!$otherMember || !$otherMember->is_moderator) {
                 throw new ApplicationException('Access denied');
+            }
 
-            if ($member = $this->getMember())
+            if ($member = $this->getMember()) {
                 $member->banMember();
+            }
 
             $this->prepareVars();
         }
         catch (Exception $ex) {
-            if (Request::ajax()) throw $ex;
-            else Flash::error($ex->getMessage());
+            if (Request::ajax()) {
+                throw $ex;
+            }
+            else {
+                Flash::error($ex->getMessage());
+            }
         }
     }
 
     public function onReport()
     {
-        if (!Auth::check())
+        if (!Auth::check()) {
             throw new ApplicationException('You must be logged in to perform this action!');
+        }
 
         Flash::success(post('flash', 'User has been reported for spamming, thank-you for your assistance!'));
 
-        $moderators = UserModel::whereHas('forum_member', function($member){
+        $moderators = UserModel::whereHas('forum_member', function($member) {
             $member->where('is_moderator', true);
         })->lists('name', 'email');
 
@@ -254,9 +271,9 @@ class Member extends ComponentBase
             $otherMember = $this->getOtherMember();
             $otherMemberUrl = $this->currentPageUrl(['slug' => $otherMember->slug]);
             $params = [
-                'member' => $member,
-                'memberUrl' => $memberUrl,
-                'otherMember' => $otherMember,
+                'member'         => $member,
+                'memberUrl'      => $memberUrl,
+                'otherMember'    => $otherMember,
                 'otherMemberUrl' => $otherMemberUrl,
             ];
             Mail::sendTo($moderators, 'rainlab.forum::mail.member_report', $params);
@@ -267,8 +284,9 @@ class Member extends ComponentBase
 
     protected function redirectToSelf()
     {
-        if (!$member = $this->getMember())
+        if (!$member = $this->getMember()) {
             return false;
+        }
 
         /*
          * Redirect to the intended page after successful update
@@ -279,5 +297,4 @@ class Member extends ComponentBase
 
         return Redirect::to($redirectUrl);
     }
-
 }

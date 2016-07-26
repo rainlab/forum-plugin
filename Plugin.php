@@ -42,9 +42,15 @@ class Plugin extends PluginBase
 
         UsersController::extendFormFields(function($widget, $model, $context) {
             // Prevent extending of related form instead of the intended User form
-            if (!$widget->model instanceof \RainLab\User\Models\User) return;
-            if ($context != 'update') return;
-            if (!Member::getFromUser($model)) return;
+            if (!$widget->model instanceof \RainLab\User\Models\User) {
+                return;
+            }
+            if ($context != 'update') {
+                return;
+            }
+            if (!Member::getFromUser($model)) {
+                return;
+            }
 
             $widget->addFields([
                 'forum_member[username]' => [
@@ -70,7 +76,9 @@ class Plugin extends PluginBase
         });
 
         UsersController::extendListColumns(function($widget, $model) {
-            if (!$model instanceof \RainLab\User\Models\User) return;
+            if (!$model instanceof \RainLab\User\Models\User) {
+                return;
+            }
 
             $widget->addColumns([
                 'forum_member_username' => [
@@ -113,7 +121,7 @@ class Plugin extends PluginBase
     public function registerMailTemplates()
     {
         return [
-            'rainlab.forum::mail.topic_reply' => 'Notification to followers when a post is made to a topic.',
+            'rainlab.forum::mail.topic_reply'   => 'Notification to followers when a post is made to a topic.',
             'rainlab.forum::mail.member_report' => 'Notification to moderators when a member is reported to be a spammer.'
         ];
     }

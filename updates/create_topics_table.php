@@ -5,7 +5,6 @@ use October\Rain\Database\Updates\Migration;
 
 class CreateTopicsTable extends Migration
 {
-
     public function up()
     {
         Schema::create('rainlab_forum_topics', function($table)
@@ -33,5 +32,4 @@ class CreateTopicsTable extends Migration
     {
         Schema::drop('rainlab_forum_topics');
     }
-
 }

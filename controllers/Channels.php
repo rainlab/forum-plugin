@@ -32,10 +32,10 @@ class Channels extends Controller
     public function index_onDelete()
     {
         if (($checkedIds = post('checked')) && is_array($checkedIds) && count($checkedIds)) {
-
             foreach ($checkedIds as $channelId) {
-                if (!$channel = Channel::find($channelId))
+                if (!$channel = Channel::find($channelId)) {
                     continue;
+                }
 
                 $channel->delete();
             }

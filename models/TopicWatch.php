@@ -43,7 +43,9 @@ class TopicWatch extends Model
      */
     public static function setFlagsOnTopics($topics, $member)
     {
-        if (!count($topics)) return;
+        if (!count($topics)) {
+            return;
+        }
 
         $modelKeys = [];
         foreach ($topics as $topic) {
@@ -66,5 +68,4 @@ class TopicWatch extends Model
 
         return $topics;
     }
-
 }
