@@ -37,3 +37,6 @@
 1.0.19:
     - Database maintenance. Updated all timestamp columns to be nullable.
     - update_timestamp_nullable.php
+1.1.0:
+    - Major performance enhancements
+    - drop_watches_tables.php

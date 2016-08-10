@@ -3,8 +3,8 @@
 use Cms\Classes\Page;
 use Cms\Classes\ComponentBase;
 use RainLab\Forum\Models\Channel;
-use RainLab\Forum\Models\ChannelWatch;
 use RainLab\Forum\Models\Member as MemberModel;
+use RainLab\Forum\Classes\TopicTracker;
 
 class Channels extends ComponentBase
 {
@@ -105,8 +105,9 @@ class Channels extends ComponentBase
         });
 
         $this->page['member'] = $this->member = MemberModel::getFromUser();
+
         if ($this->member) {
-            $channels = ChannelWatch::setFlagsOnChannels($channels, $this->member);
+            $channels = TopicTracker::instance()->setFlagsOnChannels($channels, $this->member);
         }
 
         $channels = $channels->toNested();

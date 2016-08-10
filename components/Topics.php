@@ -5,9 +5,9 @@ use Request;
 use Redirect;
 use Cms\Classes\Page;
 use Cms\Classes\ComponentBase;
-use RainLab\Forum\Models\TopicWatch;
 use RainLab\Forum\Models\Topic as TopicModel;
 use RainLab\Forum\Models\Member as MemberModel;
+use RainLab\Forum\Classes\TopicTracker;
 
 /**
  * Topic list component
@@ -121,9 +121,10 @@ class Topics extends ComponentBase
          * Signed in member
          */
         $this->page['member'] = $this->member = MemberModel::getFromUser();
+
         if ($this->member) {
             $this->member->setUrl($this->memberPage, $this->controller);
-            $topics = TopicWatch::setFlagsOnTopics($topics, $this->member);
+            $topics = TopicTracker::instance()->setFlagsOnTopics($topics, $this->member);
         }
 
         $this->page['topics'] = $this->topics = $topics;

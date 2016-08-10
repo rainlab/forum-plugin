@@ -71,7 +71,10 @@ class Member extends Model
             return null;
         }
 
-        if (!$user->forum_member) {
+        if ($member = $user->forum_member) {
+            $member->setRelation('user', $user);
+        }
+        else {
             $generatedUsername = explode('@', $user->email);
             $generatedUsername = array_shift($generatedUsername);
             $generatedUsername = Str::limit($generatedUsername, 24, '') . $user->id;
@@ -84,7 +87,7 @@ class Member extends Model
             $user->forum_member = $member;
         }
 
-        return $user->forum_member;
+        return $member;
     }
 
     /**

@@ -23,6 +23,6 @@ class CreateMembersTable extends Migration
 
     public function down()
     {
-        Schema::drop('rainlab_forum_members');
+        Schema::dropIfExists('rainlab_forum_members');
     }
 }

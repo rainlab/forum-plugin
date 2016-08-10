@@ -85,9 +85,9 @@ class Topic extends Model
     ];
 
     /**
-     * @var boolean Topic has new posts for member, set by TopicWatch model
+     * @var boolean Topic has new posts for member, set by TopicTracker model
      */
-    public $hasNew = true;
+    public $hasNew = false;
 
     /**
      * Creates a topic and a post inside a channel
@@ -263,7 +263,6 @@ class Topic extends Model
         $this->channel()->decrement('count_posts', $this->posts()->count());
         $this->posts()->delete();
         $this->followers()->detach();
-        TopicWatch::where('topic_id', $this->id)->delete();
     }
 
     public function canPost($member = null)

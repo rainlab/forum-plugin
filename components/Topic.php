@@ -14,8 +14,8 @@ use RainLab\Forum\Models\Topic as TopicModel;
 use RainLab\Forum\Models\Channel as ChannelModel;
 use RainLab\Forum\Models\Member as MemberModel;
 use RainLab\Forum\Models\Post as PostModel;
-use RainLab\Forum\Models\TopicWatch;
 use RainLab\Forum\Models\TopicFollow;
+use RainLab\Forum\Classes\TopicTracker;
 use Exception;
 
 class Topic extends ComponentBase
@@ -230,7 +230,7 @@ class Topic extends ComponentBase
          * Set topic as watched
          */
         if ($this->topic && $this->member) {
-            TopicWatch::flagAsWatched($this->topic, $this->member);
+            TopicTracker::instance()->markTopicTracked($this->topic);
         }
 
         /*

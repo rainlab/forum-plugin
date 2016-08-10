@@ -20,6 +20,6 @@ class CreateChannelWatchesTable extends Migration
 
     public function down()
     {
-        Schema::drop('rainlab_forum_channel_watches');
+        Schema::dropIfExists('rainlab_forum_channel_watches');
     }
 }

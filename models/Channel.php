@@ -17,11 +17,6 @@ class Channel extends Model
     public $implement = ['@RainLab.Translate.Behaviors.TranslatableModel'];
 
     /**
-     * @var boolean Channel has new posts for member, set by ChannelWatch model
-     */
-    public $hasNew = true;
-
-    /**
      * @var string The database table used by the model.
      */
     public $table = 'rainlab_forum_channels';
@@ -76,6 +71,11 @@ class Channel extends Model
      * @var array Attributes that support translation, if available.
      */
     public $translatable = ['title', 'description'];
+
+    /**
+     * @var boolean Channel has new posts for member, set by TopicTracker model
+     */
+    public $hasNew = false;
 
     /**
      * Apply embed code to channel.
