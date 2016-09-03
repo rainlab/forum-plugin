@@ -55,7 +55,8 @@ class TopicTracker
                 ? Carbon::createFromTimestamp($trackedTopics['topics'][$topic->id])
                 : null;
 
-            $topic->hasNew = $topic->last_post_at->gt($lastLogin) &&
+            $topic->hasNew = $topic->last_post_at &&
+                $topic->last_post_at->gt($lastLogin) &&
                 (!$trackedTopic || $topic->last_post_at->gt($trackedTopic));
         }
 
@@ -103,7 +104,8 @@ class TopicTracker
                 ? Carbon::createFromTimestamp($trackedTopics['channels'][$channel->id])
                 : null;
 
-            $newPosts = $firstTopic->last_post_at->gt($lastLogin) &&
+            $newPosts = $firstTopic->last_post_at &&
+                $firstTopic->last_post_at->gt($lastLogin) &&
                 (!$trackedChannel || $firstTopic->last_post_at->gt($trackedChannel));
 
             /*
