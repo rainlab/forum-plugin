@@ -383,7 +383,7 @@ class Topic extends ComponentBase
         $topic = $this->getTopic();
         $post = PostModel::find(post('post'));
 
-        if (!$post->canEdit()) {
+        if (!$post || !$post->canEdit()) {
             throw new ApplicationException('Permission denied.');
         }
 
