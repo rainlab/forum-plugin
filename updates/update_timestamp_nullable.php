@@ -1,8 +1,7 @@
 <?php namespace RainLab\Forum\Updates;
 
-use Schema;
-use DbDongle;
 use October\Rain\Database\Updates\Migration;
+use DbDongle;
 
 class UpdateTimestampsNullable extends Migration
 {
