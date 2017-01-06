@@ -191,7 +191,7 @@ class Topic extends ComponentBase
             $currentPage = input('page');
             if ($currentPage == 'last') {
                 $totalTopicCount = PostModel::where('topic_id', $topic->id)->count();
-                $perPage = ($this->property('postsPerPage') != null) ? $this->property('postsPerPage') : 30;
+                $perPage = ($this->property('postsPerPage') != null) ? $this->property('postsPerPage') : 20;
                 $currentPage = floor($totalTopicCount / $perPage);
             }
             $searchString = trim(input('search'));
