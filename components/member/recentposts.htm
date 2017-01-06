@@ -16,7 +16,7 @@
                 <p>
                     Posted in
                     <a href="{{ topic.url }}?page=last#post-{{ post.id }}">{{ topic.subject }}</a>
-                    {{ post.updated_at.diffForHumans }}
+                    {% partial __SELF__ ~ "::timestamp" date=post.updated_at %}
                 </p>
             </td>
         </tr>

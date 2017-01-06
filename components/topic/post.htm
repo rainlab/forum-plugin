@@ -5,7 +5,9 @@
     <a href="{{ post.member.url }}" class="author">{{ post.member.username }}</a>
     <div class="metadata">
         <div class="date">
-            <a href="#post-{{ post.id }}">{{ post.created_at.diffForHumans }}</a>
+            <a href="#post-{{ post.id }}">
+                {% partial __SELF__ ~ "::timestamp" date=post.created_at %}
+            </a>
         </div>
         {% if post.member.is_banned %}
             <div class="status text-danger">
@@ -75,7 +77,9 @@
             {{ post.content_html|raw }}
 
             {% if post.created_at != post.updated_at %}
-                <p><small class="text text-muted">Last updated {{ post.updated_at.diffForHumans }}</small></p>
+                <p><small class="text text-muted">
+                    Last updated {% partial __SELF__ ~ "::timestamp" date=post.updated_at %}
+                </small></p>
             {% endif %}
         </div>
         <div class="actions">

@@ -53,9 +53,11 @@
                             {% if channel.first_topic %}
                                 <p>
                                     <a href="{{ channel.first_topic.url }}?page=last#post-{{ channel.first_topic.last_post_id }}">
-                                       {{ channel.first_topic.subject }}
-                                   </a>
-                                   <small>{{ channel.first_topic.last_post_at.diffForHumans }}</small>
+                                        {{ channel.first_topic.subject }}
+                                    </a>
+                                    <small>
+                                        {% partial __SELF__ ~ "::timestamp" date=channel.first_topic.last_post_at %}
+                                    </small>
                                 </p>
                             {% endif %}
                         </td>
