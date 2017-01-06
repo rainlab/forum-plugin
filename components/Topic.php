@@ -189,6 +189,11 @@ class Topic extends ComponentBase
          */
         if ($topic = $this->getTopic()) {
             $currentPage = input('page');
+            if ($currentPage == 'last') {
+                $totalTopicCount = PostModel::where('topic_id', $topic->id)->count();
+                $perPage = ($this->property('postsPerPage') != null) ? $this->property('postsPerPage') : 30;
+                $currentPage = floor($totalTopicCount / $perPage);
+            }
             $searchString = trim(input('search'));
             $posts = PostModel::with('member.user.avatar')->listFrontEnd([
                 'page'    => $currentPage,
@@ -219,7 +224,7 @@ class Topic extends ComponentBase
             $paginationUrl = Request::url() . '?' . http_build_query($queryArr);
 
             $lastPage = $posts->lastPage();
-            if ($currentPage == 'last' || $currentPage > $lastPage && $currentPage > 1) {
+            if ($currentPage > $lastPage && $currentPage > 1) {
                 return Redirect::to($paginationUrl . $lastPage);
             }
 
