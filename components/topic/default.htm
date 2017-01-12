@@ -33,15 +33,12 @@
                 {% if not topic.canPost %}
                     <p>
                         You cannot edit posts or make replies:
+                        {% if not member %}You should be logged in before you can post.{% endif %}
                         {% if member.is_banned %}Your account is banned.{% endif %}
                         {% if topic.is_locked %}This topic is locked.{% endif %}
                     </p>
                 {% else %}
-                    {% if member %}
-                        {% partial "@postform" %}
-                    {% else %}
-                        <p>You should be logged in before you can post.</p>
-                    {% endif %}
+                    {% partial "@postform" %}
                 {% endif %}
 
             </div>
