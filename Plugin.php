@@ -2,7 +2,7 @@
 
 use Event;
 use Backend;
-use RainLab\User\Models\User;
+use October\Rain\Auth\Models\User;
 use RainLab\Forum\Models\Member;
 use System\Classes\PluginBase;
 use RainLab\User\Controllers\Users as UsersController;
