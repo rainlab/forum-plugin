@@ -306,6 +306,10 @@ class Topic extends ComponentBase
 
             $member = $this->getMember();
             $channel = $this->getChannel();
+            
+            if ($channel->is_moderated && !$member->is_moderator) {
+                throw new ApplicationException('You cannot create a topic in this channel.');
+            }
 
             if (TopicModel::checkThrottle($member)) {
                 throw new ApplicationException('Please wait a few minutes before posting another topic.');
