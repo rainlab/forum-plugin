@@ -20,6 +20,8 @@ class Channels extends Controller
     public $formConfig = 'config_form.yaml';
     public $listConfig = 'config_list.yaml';
     public $reorderConfig = 'config_reorder.yaml';
+    
+    public $requiredPermissions = ['rainlab.forum::lang.settings.channels'];
 
     public function __construct()
     {

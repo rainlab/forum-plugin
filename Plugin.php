@@ -103,6 +103,16 @@ class Plugin extends PluginBase
            '\RainLab\Forum\Components\EmbedChannel' => 'forumEmbedChannel'
         ];
     }
+    
+    public function registerPermissions() 
+    {
+        return [
+            'rainlab.forum::lang.settings.channels' => [
+                'tab'   => 'rainlab.forum::lang.settings.channels',
+                'label' => 'rainlab.forum::lang.settings.channels_desc'
+            ]
+        ];
+    }
 
     public function registerSettings()
     {
@@ -113,7 +123,8 @@ class Plugin extends PluginBase
                 'icon'        => 'icon-comments',
                 'url'         => Backend::url('rainlab/forum/channels'),
                 'category'    => 'Forum',
-                'order'       => 500
+                'order'       => 500,
+                'permissions' => ['rainlab.forum::lang.settings.channels'],
             ]
         ];
     }
