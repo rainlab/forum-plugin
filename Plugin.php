@@ -123,7 +123,7 @@ class Plugin extends PluginBase
                 'description' => 'rainlab.forum::lang.settings.channels_desc',
                 'icon'        => 'icon-comments',
                 'url'         => Backend::url('rainlab/forum/channels'),
-                'category'    => rainlab.forum::lang.plugin.name',
+                'category'    => 'rainlab.forum::lang.plugin.name',
                 'order'       => 500,
                 'permissions' => ['rainlab.forum::lang.settings.channels'],
             ]
