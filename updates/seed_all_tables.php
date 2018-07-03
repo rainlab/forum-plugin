@@ -18,7 +18,7 @@ class SeedAllTables extends Seeder
 
         $autumn = $orange->children()->create([
             'title' => 'Autumn Leaves',
-            'description' => 'Disccusion about the season of falling leaves.'
+            'description' => 'Discussion about the season of falling leaves.'
         ]);
 
         $autumn->children()->create([
@@ -38,7 +38,7 @@ class SeedAllTables extends Seeder
 
         $orange->children()->create([
             'title' => 'Summer Breeze',
-            'description' => 'Disccusion about the wind at the ocean.'
+            'description' => 'Discussion about the wind at the ocean.'
         ]);
 
         $green = Channel::create([
@@ -48,12 +48,12 @@ class SeedAllTables extends Seeder
 
         $green->children()->create([
             'title' => 'Winter Snow',
-            'description' => 'Disccusion about the frosty snow flakes.'
+            'description' => 'Discussion about the frosty snow flakes.'
         ]);
 
         $green->children()->create([
             'title' => 'Spring Trees',
-            'description' => 'Disccusion about the blooming gardens.'
+            'description' => 'Discussion about the blooming gardens.'
         ]);
 
         // if (!Schema::hasTable('users'))
