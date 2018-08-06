@@ -229,6 +229,29 @@ class Member extends ComponentBase
         return ['topic_reply' => 'rainlab.forum::mail.topic_reply'];
     }
 
+    public function onPurgePosts()
+    {
+        try {
+            $otherMember = $this->getOtherMember();
+            if (!$otherMember || !$otherMember->is_moderator) {
+                throw new ApplicationException('Access denied');
+            }
+
+            if ($member = $this->getMember()) {
+                foreach ($member->posts as $post) {
+                    $post->delete();
+                }
+            }
+
+            Flash::success(post('flash', 'Posts deleted!'));
+
+            return $this->redirectToSelf();
+        }
+        catch (Exception $ex) {
+            Flash::error($ex->getMessage());
+        }
+    }
+
     public function onBan()
     {
         try {
