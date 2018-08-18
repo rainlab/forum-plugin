@@ -1,5 +1,6 @@
 <?php namespace RainLab\Forum\Models;
 
+use Config;
 use Db;
 use App;
 use Model;
@@ -129,15 +130,16 @@ class Topic extends Model
         if (!$member) {
             return false;
         }
+        $throttleCount = Config::get('rainlab.forum::throttleCount', 2);
+        $throttleMinutes = Config::get('rainlab.forum::throttleMinutes', 15);
 
-        $timeLimit = Carbon::now()->subMinutes(15);
+        $timeLimit = Carbon::now()->subMinutes($throttleMinutes);
         $count = static::make()
             ->where('start_member_id', $member->id)
             ->where('created_at', '>', $timeLimit)
-            ->count()
-        ;
+            ->count();
 
-        return $count > 2;
+        return $count > $throttleCount;
     }
 
     public function scopeForEmbed($query, $channel, $code)
