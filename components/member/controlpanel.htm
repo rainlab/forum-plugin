@@ -5,6 +5,17 @@
             <a
                 href="javascript:;"
                 class="list-group-item"
+                data-request="onApprove"
+                data-request-update="'@controlpanel': '#memberControlPanel'">
+                {% if not member.is_approved %}
+                    Approve member
+                {% else %}
+                    Unapprove member
+                {% endif %}
+            </a>
+            <a
+                href="javascript:;"
+                class="list-group-item"
                 data-request="onBan"
                 data-request-update="'@controlpanel': '#memberControlPanel'">
                 {% if member.is_banned %}

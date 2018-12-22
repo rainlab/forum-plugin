@@ -6,6 +6,9 @@
         <img src="{{ member.user.avatarThumb(50) }}" />
     </p>
     <p>Member since: {{ member.created_at|date('M Y') }}</p>
+    {% if not member.is_approved %}
+        <p>{{ member.username }} requires approval before posting in guarded channels</p>
+    {% endif %}
     {% if member.is_banned %}
         <p>{{ member.username }} has been banned from posting</p>
     {% endif %}

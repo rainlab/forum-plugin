@@ -18,11 +18,6 @@ class CreatePostsTable extends Migration
             $table->integer('member_id')->unsigned()->index()->nullable();
             $table->integer('edit_user_id')->nullable();
             $table->integer('delete_user_id')->nullable();
-
-            // @todo Move to upgrade script
-            // $table->dateTime('edited_at')->nullable();
-            // $table->dateTime('deleted_at')->nullable();
-
             $table->timestamps();
         });
     }

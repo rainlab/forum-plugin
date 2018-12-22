@@ -126,6 +126,9 @@
 .rainlab-forum .forum-posts .forum-post img {
   max-width: 100%;
 }
+.rainlab-forum .forum-posts .forum-post.is-guarded {
+  opacity: .7;
+}
 .rainlab-forum .forum-posts .forum-post:first-child {
   margin-top: 0;
   padding-top: 0;

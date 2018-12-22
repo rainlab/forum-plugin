@@ -169,6 +169,12 @@ class Member extends Model
         return $this->url = $controller->pageUrl($pageName, $params);
     }
 
+    public function approveMember()
+    {
+        $this->is_approved = ($this->is_approved == 1 ? 0 : 1);
+        $this->save();
+    }
+
     public function banMember()
     {
         $this->is_banned = ($this->is_banned == 1 ? 0 : 1);

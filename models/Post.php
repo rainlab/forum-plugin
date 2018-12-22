@@ -87,11 +87,12 @@ class Post extends Model
          * Default options
          */
         extract(array_merge([
-            'page'    => 1,
-            'perPage' => 30,
-            'sort'    => 'created_at',
-            'topic'   => null,
-            'search'  => ''
+            'page'      => 1,
+            'perPage'   => 30,
+            'sort'      => 'created_at',
+            'direction' => 'asc',
+            'topic'     => null,
+            'search'    => ''
         ], $options));
 
         /*
@@ -102,7 +103,7 @@ class Post extends Model
             $sort = $allowedSortingOptions[0];
         }
 
-        $query->orderBy($sort, 'asc');
+        $query->orderBy($sort, $direction == 'desc' ? 'desc' : 'asc');
 
         /*
          * Search
@@ -122,7 +123,7 @@ class Post extends Model
         /*
          * Pagination
          */
-        if (!is_int($page)) {
+        if (intval($page) === 0) {
             $page = 1;
         }
 

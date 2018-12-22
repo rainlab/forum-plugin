@@ -13,6 +13,10 @@
             <div class="status text-danger">
                 <i class="icon-exclamation"></i> Banned
             </div>
+        {% elseif topic.channel.is_guarded and not post.member.is_approved %}
+            <div class="status text-warning">
+                <i class="icon-lock"></i> Unapproved
+            </div>
         {% elseif post.member.is_moderator %}
             <div class="status">
                 <i class="icon-star"></i> Moderator

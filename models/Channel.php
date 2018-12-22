@@ -94,7 +94,7 @@ class Channel extends Model
      * @param  string $title         Title for the channel (if created)
      * @return self
      */
-    public static function createForEmbed($code, $parentChannel, $title = null)
+    public static function createForEmbed($code, $parentChannel, $title = null, $isGuarded = false)
     {
         $channel = self::forEmbed($parentChannel, $code)->first();
 
@@ -103,6 +103,7 @@ class Channel extends Model
             $channel->title = $title;
             $channel->embed_code = $code;
             $channel->parent = $parentChannel;
+            $channel->is_guarded = $isGuarded;
             $channel->save();
         }
 

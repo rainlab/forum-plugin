@@ -34,3 +34,9 @@ fields:
         comment: rainlab.forum::lang.data.is_hidden
         type: checkbox
         span: auto
+
+    is_guarded:
+        label: rainlab.forum::lang.data.guarded
+        comment: rainlab.forum::lang.data.is_guarded
+        type: checkbox
+        span: full

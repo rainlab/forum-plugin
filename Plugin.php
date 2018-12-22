@@ -99,6 +99,7 @@ class Plugin extends PluginBase
            '\RainLab\Forum\Components\Channel'      => 'forumChannel',
            '\RainLab\Forum\Components\Topic'        => 'forumTopic',
            '\RainLab\Forum\Components\Topics'       => 'forumTopics',
+           '\RainLab\Forum\Components\Posts'        => 'forumPosts',
            '\RainLab\Forum\Components\Member'       => 'forumMember',
            '\RainLab\Forum\Components\EmbedTopic'   => 'forumEmbedTopic',
            '\RainLab\Forum\Components\EmbedChannel' => 'forumEmbedChannel'

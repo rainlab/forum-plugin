@@ -67,7 +67,9 @@ return [
         'moderated' => 'Moderated',
         'is_mod' => 'Only moderators can post to this channel.',
         'hidden' => 'Hidden',
-        'is_hidden' => 'Hide this category from the main category list.'
+        'is_hidden' => 'Hide this category from the main category list.',
+        'guarded' => 'Spam Guarded',
+        'is_guarded' => 'Members must be approved by moderators before their posts appear to unregistered users.'
     ],
     'settings' => [
         'username' => 'Username',

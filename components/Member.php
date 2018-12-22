@@ -252,6 +252,25 @@ class Member extends ComponentBase
         }
     }
 
+    public function onApprove()
+    {
+        try {
+            $otherMember = $this->getOtherMember();
+            if (!$otherMember || !$otherMember->is_moderator) {
+                throw new ApplicationException('Access denied');
+            }
+
+            if ($member = $this->getMember()) {
+                $member->approveMember();
+            }
+
+            $this->prepareVars();
+        }
+        catch (Exception $ex) {
+            if (Request::ajax()) throw $ex; else Flash::error($ex->getMessage());
+        }
+    }
+
     public function onBan()
     {
         try {

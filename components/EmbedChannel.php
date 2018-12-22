@@ -48,6 +48,13 @@ class EmbedChannel extends ComponentBase
                 'type'        => 'dropdown',
                 'group'       => 'Links',
             ],
+            'isGuarded' => [
+                'title'       => 'Spam Guarded Channel',
+                'description' => 'Newly created channels will have spam guard enabled',
+                'type'        => 'checkbox',
+                'default'     => 0,
+                'group'       => 'Parameters',
+            ],
         ];
     }
 
@@ -106,7 +113,12 @@ class EmbedChannel extends ComponentBase
             if (!$channel) {
                 $this->controller->bindEvent('page.end', function() use ($component, $parentChannel, $code) {
                     if ($component->embedMode !== false) {
-                        $channel = ChannelModel::createForEmbed($code, $parentChannel, $this->page->title);
+                        $channel = ChannelModel::createForEmbed(
+                            $code,
+                            $parentChannel,
+                            $this->page->title,
+                            (bool) $this->property('isGuarded')
+                        );
                         $component->setProperty('slug', $channel->slug);
                         $component->onRun();
                     }
