@@ -119,6 +119,13 @@ class Post extends Model
             $query->where('topic_id', $topic);
         }
 
+        /*
+         * Pagination
+         */
+        if (!is_int($page)) {
+            $page = 1;
+        }
+
         return $query->paginate($perPage, $page);
     }
 
