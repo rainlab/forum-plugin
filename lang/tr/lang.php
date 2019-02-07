@@ -5,21 +5,21 @@ return [
         'component_name' => 'Konu Listesi',
         'component_description' => 'Tüm konu başlıklarının bir listesini görüntüler.',
         'per_page' => 'Sayfa başına gösterilecek konu',
-        'per_page_validation' => 'Geçersiz değer girdiniz'
+        'per_page_validation' => 'Geçersiz değer girdiniz',
     ],
     'topic' => [
         'page_name' => 'Konu Sayfası',
-        'page_help' => 'Konu için kullanılacak sayfa adı.'
+        'page_help' => 'Konu için kullanılacak sayfa adı.',
     ],
     'member' => [
         'page_name' => 'Üyeler Sayfası',
-        'page_help' => 'Her bir üye için kullanılacak sayfa adı.'
+        'page_help' => 'Her bir üye için kullanılacak sayfa adı.',
     ],
     'channel' => [
         'component_name' => 'Kanal',
         'component_description' => 'Bir kanala ait mesajların listesini görüntüler.',
         'page_name' => 'Kanal Sayfası',
-        'page_help' => 'Kanal için kullanılacak sayfa adı.'
+        'page_help' => 'Kanal için kullanılacak sayfa adı.',
     ],
     'channels' => [
         'new_channel' => 'Yeni Kanal',
@@ -44,19 +44,19 @@ return [
         'deleting' => 'Kanal Siliniyor...',
         'really' => 'Silmek istediğinize emin misiniz?',
         'list_name' => 'Kanal Listesi',
-        'list_desc' => 'Tüm görülebilir kanalların listesini gösterir.'
+        'list_desc' => 'Tüm görülebilir kanalların listesini gösterir.',
     ],
     'slug' => [
         'name' => 'Takma ad',
-        'desc' => 'URL rota parametresi kanalı takma adına göre bulmaya yarar. Takma adı direk yazabilirsiniz.'
+        'desc' => 'URL rota parametresi kanalı takma adına göre bulmaya yarar. Takma adı direk yazabilirsiniz.',
     ],
     'frontend' => [
-        'notopic' => 'Bu kanalda konu yok.'
+        'notopic' => 'Bu kanalda konu yok.',
     ],
 
     'plugin' => [
         'name' => 'Forum',
-        'description' => 'Basit, sayfa içerisine gömülebilir forum'
+        'description' => 'Basit, sayfa içerisine gömülebilir forum',
     ],
     'data' => [
         'title' => 'Başlık',
@@ -67,7 +67,9 @@ return [
         'moderated' => 'Sadece Yöneticiler',
         'is_mod' => 'Bu kanalı sadece yöneticiler görebilir.',
         'hidden' => 'Gizli',
-        'is_hidden' => 'Bu kanalı ana listeden gizle.'
+        'is_hidden' => 'Bu kanalı ana listeden gizle.',
+        'guarded' => 'Spam Koruması',
+        'is_guarded' => 'Üyeler, gönderileri diğer üyelere görünmeden önce moderatörler tarafından onaylanmalıdır.',
     ],
     'settings' => [
         'username' => 'Kullanıcı Adı',
@@ -78,7 +80,7 @@ return [
         'banned_comment' => 'Eğer bu üyenin forumda banlı olmasını istiyorsanız kutuyu işaretleyin.',
         'forum_username' => 'Forum Kullanıcı Adı',
         'channels' => 'Forum kanalları',
-        'channels_desc' => 'Forum kanallarını bu bölümden yönetebilirsiniz.'
+        'channels_desc' => 'Forum kanallarını bu bölümden yönetebilirsiniz.',
     ],
     'embedch' => [
         'channel_name' => 'Sayfaya Kanal Göm',
@@ -88,7 +90,7 @@ return [
         'embed_title' => 'Embed kod parametresi',
         'embed_desc' => 'Oluşturulan kanal için eşsiz bir kod. Yönlendirme parametresi kullanılabilir.',
         'topic_name' => 'Konu kod parametresi',
-        'topic_desc' => 'URL rota parametresi kanalı takma adına göre bulmaya yarar.'
+        'topic_desc' => 'URL rota parametresi kanalı takma adına göre bulmaya yarar.',
     ],
     'embedtopic' => [
         'topic_name' => 'Konu Göm',
@@ -108,14 +110,14 @@ return [
         'ch_title' => 'Kanal sayfası',
         'ch_desc' => 'Kanal için bir sayfa adı belirleyin.',
         'topic_title' => 'Konu sayfası',
-        'topic_desc' => 'Konu için bir sayfa adı belirleyin.'
+        'topic_desc' => 'Konu için bir sayfa adı belirleyin.',
     ],
     'topicpage' => [
         'name' => 'Konu',
-        'desc' => 'Bir konuyu ve mesajlarını gösterir.',
+        'self_desc' => 'Bir konuyu ve mesajlarını gösterir.',
         'slug_name' => 'Takma ad parametresi',
         'slug_desc' => 'Oluşturulan konu için eşsiz bir kod. Yönlendirme parametresi kullanılabilir.',
         'channel_title' => 'Kanal Sayfası',
         'channel_desc' => 'Kanal için bir sayfa adı belirleyin.',
-    ]
+    ],
 ];
