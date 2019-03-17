@@ -187,7 +187,6 @@ class TopicTracker
             switch (substr($idData, 0, 1)) {
                 case 'c': $type = 'channels'; break;
                 case 't': $type = 'topics'; break;
-                default: continue;
             }
 
             $id = intval(substr($idData, 1));
