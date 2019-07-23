@@ -15,7 +15,7 @@ return [
         'component_name' => 'Posts List',
         'component_description' => 'Displays a list of all posts.',
         'per_page' => 'Posts per page',
-        'per_page_validation' => 'Invalid format of the posts per page value'
+        'per_page_validation' => 'Posts per page must be a number'
     ],
     'member' => [
         'page_name' => 'Member Page',
