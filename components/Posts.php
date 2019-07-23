@@ -43,8 +43,8 @@ class Posts extends ComponentBase
     public function componentDetails()
     {
         return [
-            'name'        => 'rainlab.forum::lang.topics.component_name',
-            'description' => 'rainlab.forum::lang.topics.component_description',
+            'name'        => 'rainlab.forum::lang.posts.component_name',
+            'description' => 'rainlab.forum::lang.posts.component_description',
         ];
     }
 
@@ -62,10 +62,10 @@ class Posts extends ComponentBase
                 'type'        => 'dropdown',
             ],
             'postsPerPage' =>  [
-                'title'             => 'rainlab.forum::lang.topics.per_page',
+                'title'             => 'rainlab.forum::lang.posts.per_page',
                 'type'              => 'string',
                 'validationPattern' => '^[0-9]+$',
-                'validationMessage' => 'rainlab.forum::lang.topics.per_page_validation',
+                'validationMessage' => 'rainlab.forum::lang.posts.per_page_validation',
                 'default'           => '20',
             ]
         ];
