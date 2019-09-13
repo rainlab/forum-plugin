@@ -45,3 +45,4 @@
 1.2.0:
     - Added spam guarding features.
     - members_add_spam_guard.php
+1.2.1: Made plugin compatible with PHP 7.3. Improved translations.
