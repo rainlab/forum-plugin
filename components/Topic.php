@@ -78,9 +78,11 @@ class Topic extends ComponentBase
                 'type'        => 'string',
             ],
             'postsPerPage' => [
-                'title'       => 'rainlab.forum::lang.topicpage.pagination_name',
-                'default'     => '20',
-                'type'        => 'string',
+                'title'             => 'rainlab.forum::lang.posts.per_page',
+                'type'              => 'string',
+                'validationPattern' => '^[0-9]+$',
+                'validationMessage' => 'rainlab.forum::lang.posts.per_page_validation',
+                'default'           => '20',
             ],
             'memberPage' => [
                 'title'       => 'rainlab.forum::lang.member.page_name',
@@ -306,7 +308,7 @@ class Topic extends ComponentBase
 
             $member = $this->getMember();
             $channel = $this->getChannel();
-            
+
             if ($channel->is_moderated && !$member->is_moderator) {
                 throw new ApplicationException('You cannot create a topic in this channel.');
             }
