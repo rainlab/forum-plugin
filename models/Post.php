@@ -153,7 +153,7 @@ class Post extends Model
 
     public function beforeSave()
     {
-        $this->content_html = Html::clean(Markdown::parse(trim($this->content)));
+        $this->content_html = Html::clean(Markdown::parseClean(trim($this->content)));
     }
 
     public function afterCreate()
