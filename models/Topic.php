@@ -192,7 +192,8 @@ class Topic extends Model
             'perPage'  => 20,
             'sort'     => 'created_at',
             'channels' => null,
-            'search'   => ''
+            'search'   => '',
+            'sticky'   => true,
         ], $options));
 
         /*
@@ -203,7 +204,10 @@ class Topic extends Model
             $sort = $allowedSortingOptions[0];
         }
 
-        $query->orderBy('is_sticky', 'desc');
+        if ($sticky) {
+            $query->orderBy('is_sticky', 'desc');
+        }
+
         $query->orderBy($sort, in_array($sort, ['created_at', 'updated_at']) ? 'desc' : 'asc');
 
         /*

@@ -102,11 +102,12 @@ class Plugin extends PluginBase
            '\RainLab\Forum\Components\Posts'        => 'forumPosts',
            '\RainLab\Forum\Components\Member'       => 'forumMember',
            '\RainLab\Forum\Components\EmbedTopic'   => 'forumEmbedTopic',
-           '\RainLab\Forum\Components\EmbedChannel' => 'forumEmbedChannel'
+           '\RainLab\Forum\Components\EmbedChannel' => 'forumEmbedChannel',
+           '\RainLab\Forum\Components\RssFeed'      => 'forumRssFeed'
         ];
     }
-    
-    public function registerPermissions() 
+
+    public function registerPermissions()
     {
         return [
             'rainlab.forum::lang.settings.channels' => [

@@ -26,6 +26,26 @@ You should tell this component about the other forum pages.
 * **topicPage** - the page used for viewing a discussion topic and posts.
 * **memberPage** - the page used for viewing a forum user.
 
+### RSS feed
+
+Use the `forumRssFeed` component to display an RSS feed containing the latest blog posts. The following properties are supported:
+
+* **channelFilter** - a channel slug to filter the topics by. If left blank, all topics are displayed.
+* **topicsPerPage** - how many topics to display on the feed. The default value is 20.
+* **forumPage** - path to the main forum page.
+* **topicPage** - path to the topic details page.
+
+The component can be used on any page, it will hijack the entire page cycle to display the feed in RSS format. The next example shows how to use it:
+
+    title = "RSS Feed"
+    url = "/forum/rss.xml"
+
+    [forumRssFeed]
+    forumPage = "forum"
+    topicPage = "forum/topic"
+    ==
+    <!-- This markup will never be displayed -->
+
 ## Example page structure
 
 #### forum/home.htm
