@@ -81,6 +81,12 @@ class Channel extends ComponentBase
                 'type'        => 'dropdown',
                 'group'       => 'Links',
             ],
+            'css' => [
+                'title'       => 'rainlab.forum::lang.prop.enable_css',
+                'description' => 'rainlab.forum::lang.prop.enable_css_desc',
+                'type'        => 'checkbox',
+                'default'     => true
+            ],
         ];
     }
 
@@ -91,7 +97,9 @@ class Channel extends ComponentBase
 
     public function onRun()
     {
-        $this->addCss('assets/css/forum.css');
+        if ($this->property('css')) {
+            $this->addCss('assets/css/forum.css');
+        }
 
         $this->prepareVars();
         $this->page['channel'] = $this->getChannel();

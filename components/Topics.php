@@ -63,7 +63,13 @@ class Topics extends ComponentBase
                 'validationPattern' => '^[0-9]+$',
                 'validationMessage' => 'rainlab.forum::lang.topics.per_page_validation',
                 'default'           => '20',
-            ]
+            ],
+            'css' => [
+                'title'       => 'rainlab.forum::lang.prop.enable_css',
+                'description' => 'rainlab.forum::lang.prop.enable_css_desc',
+                'type'        => 'checkbox',
+                'default'     => true
+            ],
         ];
     }
 
@@ -74,7 +80,9 @@ class Topics extends ComponentBase
 
     public function onRun()
     {
-        $this->addCss('assets/css/forum.css');
+        if ($this->property('css')) {
+            $this->addCss('assets/css/forum.css');
+        }
 
         $this->prepareVars();
 
