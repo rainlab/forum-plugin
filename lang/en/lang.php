@@ -133,7 +133,7 @@ return [
         'channel_desc' => 'Page name to use for clicking on a channel.'
     ],
     'prop' => [
-        'enable_css' => 'Enable CSS',
-        'enable_css_desc' => 'Include css file with default styles for forum'
+        'include_styles' => 'Enable CSS',
+        'include_styles_desc' => 'Include css file with default styles for forum'
     ]
 ];
