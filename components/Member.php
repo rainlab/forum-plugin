@@ -76,8 +76,8 @@ class Member extends ComponentBase
                 'group'       => 'Links',
             ],
             'includeStyles' => [
-                'title'       => 'rainlab.forum::lang.prop.include_styles',
-                'description' => 'rainlab.forum::lang.prop.include_styles_desc',
+                'title'       => 'rainlab.forum::components.general.properties.includeStyles',
+                'description' => 'rainlab.forum::components.general.properties.includeStyles_desc',
                 'type'        => 'checkbox',
                 'default'     => true
             ],

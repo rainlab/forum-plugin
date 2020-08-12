@@ -132,8 +132,12 @@ return [
         'channel_title' => 'Channel Page',
         'channel_desc' => 'Page name to use for clicking on a channel.'
     ],
-    'prop' => [
-        'include_styles' => 'Enable CSS',
-        'include_styles_desc' => 'Include css file with default styles for forum'
+    'components' => [
+        'general' => [
+            'properties' => [
+                'includeStyles' => 'Enable CSS',
+                'includeStyles_desc' => 'Include css file with default styles for forum'
+            ]
+        ]
     ]
 ];

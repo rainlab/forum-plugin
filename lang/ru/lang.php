@@ -132,8 +132,12 @@ return [
         'channel_title' => 'Страница Категории',
         'channel_desc' => 'Имя страницы, используемое при клике на категорию.'
     ],
-    'prop' => [
-        'include_styles' => 'Включить CSS',
-        'include_styles_desc' => 'Подключить css-файл с дефолтными стилями для форума'
+    'components' => [
+        'general' => [
+            'properties' => [
+                'includeStyles' => 'Включить CSS',
+                'includeStyles_desc' => 'Подключить css-файл с дефолтными стилями для форума'
+            ]
+        ]
     ]
 ];

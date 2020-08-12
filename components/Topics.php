@@ -65,8 +65,8 @@ class Topics extends ComponentBase
                 'default'           => '20',
             ],
             'includeStyles' => [
-                'title'       => 'rainlab.forum::lang.prop.include_styles',
-                'description' => 'rainlab.forum::lang.prop.include_styles_desc',
+                'title'       => 'rainlab.forum::lang.components.general.properties.includeStyles',
+                'description' => 'rainlab.forum::lang.components.general.properties.includeStyles_desc',
                 'type'        => 'checkbox',
                 'default'     => true
             ],

@@ -60,8 +60,8 @@ class Channels extends ComponentBase
                 'type'        => 'dropdown',
             ],
             'includeStyles' => [
-                'title'       => 'rainlab.forum::lang.prop.include_css',
-                'description' => 'rainlab.forum::lang.prop.include_css_desc',
+                'title'       => 'rainlab.forum::lang.components.general.properties.includeStyles',
+                'description' => 'rainlab.forum::lang.components.general.properties.includeStyles_desc',
                 'type'        => 'checkbox',
                 'default'     => true
             ],
