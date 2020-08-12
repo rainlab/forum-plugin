@@ -136,8 +136,8 @@ return [
         'general' => [
             'properties' => [
                 'includeStyles' => 'Включить CSS',
-                'includeStyles_desc' => 'Подключить css-файл с дефолтными стилями для форума'
-            ]
-        ]
-    ]
+                'includeStyles_desc' => 'Подключить css-файл с дефолтными стилями для форума',
+            ],
+        ],
+    ],
 ];
