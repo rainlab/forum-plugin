@@ -75,7 +75,7 @@ class Channels extends ComponentBase
 
     public function onRun()
     {
-        if ($this->property('includeStyles')) {
+        if ($this->property('includeStyles', true)) {
             $this->addCss('assets/css/forum.css');
         }
 
