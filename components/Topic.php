@@ -112,7 +112,7 @@ class Topic extends ComponentBase
 
     public function onRun()
     {
-        if ($this->property('includeStyles')) {
+        if ($this->property('includeStyles', true)) {
             $this->addCss('assets/css/forum.css');
         }
         $this->addJs('assets/js/forum.js');
