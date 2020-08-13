@@ -136,7 +136,7 @@ return [
         'general' => [
             'properties' => [
                 'includeStyles' => 'Enable CSS',
-                'includeStyles_desc' => 'Include the CSS files with default styles for forum',
+                'includeStyles_desc' => 'Include the CSS files with default styles for the forum',
             ],
         ],
     ],
