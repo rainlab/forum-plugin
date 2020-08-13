@@ -96,6 +96,12 @@ class Topic extends ComponentBase
                 'type'        => 'dropdown',
                 'group'       => 'Links',
             ],
+            'includeStyles' => [
+                'title'       => 'rainlab.forum::lang.components.general.properties.includeStyles',
+                'description' => 'rainlab.forum::lang.components.general.properties.includeStyles_desc',
+                'type'        => 'checkbox',
+                'default'     => true
+            ],
         ];
     }
 
@@ -106,7 +112,9 @@ class Topic extends ComponentBase
 
     public function onRun()
     {
-        $this->addCss('assets/css/forum.css');
+        if ($this->property('includeStyles', true)) {
+            $this->addCss('assets/css/forum.css');
+        }
         $this->addJs('assets/js/forum.js');
 
         $this->prepareVars();

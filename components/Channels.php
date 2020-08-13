@@ -59,6 +59,12 @@ class Channels extends ComponentBase
                 'description' => 'rainlab.forum::lang.topic.page_help',
                 'type'        => 'dropdown',
             ],
+            'includeStyles' => [
+                'title'       => 'rainlab.forum::lang.components.general.properties.includeStyles',
+                'description' => 'rainlab.forum::lang.components.general.properties.includeStyles_desc',
+                'type'        => 'checkbox',
+                'default'     => true
+            ],
         ];
     }
 
@@ -69,7 +75,9 @@ class Channels extends ComponentBase
 
     public function onRun()
     {
-        $this->addCss('assets/css/forum.css');
+        if ($this->property('includeStyles', true)) {
+            $this->addCss('assets/css/forum.css');
+        }
 
         $this->prepareVars();
         $this->page['channels'] = $this->listChannels();
