@@ -139,5 +139,49 @@ return [
                 'includeStyles_desc' => 'Include the CSS files with default styles for the forum',
             ],
         ],
+        'messages' => [
+            '' => 'You should be logged in.',
+            '' => 'Access denied',
+            '' => 'Permission denied.',
+            
+            'topic' => [
+                'handleOptOutLinks' => [
+                    '' => 'Invalid authentication code, please sign in and try the link again.',
+                    '' => 'You will no longer receive notifications about this topic.',
+                    '' => 'You will no longer receive notifications about any topics in this forum.',
+                ],
+                'onCreate' => [
+                    '' => 'You cannot create a topic in this channel.',
+                    '' => 'Please wait a few minutes before posting another topic.',
+                    '' => 'You cannot create new topics: Your account is banned.',
+                    '' => 'Topic created successfully!',
+                ],
+                'onPost' => [
+                    '' => 'You cannot edit posts or make replies.',
+                    '' => 'Response added successfully!',
+                ],
+                'onUpdate' => [
+                    '' => 'Permission denied.',
+                    '' => 'You cannot edit posts or make replies.',
+                ],
+                'onQuote' => [
+                    '' => 'Unable to find that post.',
+                ],
+                'onMove' => [
+                    '' => 'Post moved successfully!',
+                    '' => 'Unable to find a channel to move to.',
+                ],
+            ],
+            'member' => [
+                '' => 'Settings successfully saved!',
+                '' => 'Posts deleted!',
+                '' => 'You must be logged in to perform this action!',
+                '' => 'User has been reported for spamming, thank-you for your assistance!',
+            ],
+            'embedChannel&&&embedTopic' => [
+                '' => 'No code specified for the Forum Embed component',
+                '' => 'No channel specified for Forum Embed component',
+            ],
+        ],
     ],
 ];

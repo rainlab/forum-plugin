@@ -197,7 +197,7 @@ class Member extends ComponentBase
     {
         try {
             if (!$this->canEdit()) {
-                throw new ApplicationException('Permission denied.');
+                throw new ApplicationException('Permission denied.');// TODO
             }
 
             $member = $this->getMember();
@@ -223,7 +223,7 @@ class Member extends ComponentBase
             $member->fill($data);
             $member->save();
 
-            Flash::success(post('flash', 'Settings successfully saved!'));
+            Flash::success(post('flash', 'Settings successfully saved!'));// TODO
 
             return $this->redirectToSelf();
         }
@@ -242,7 +242,7 @@ class Member extends ComponentBase
         try {
             $otherMember = $this->getOtherMember();
             if (!$otherMember || !$otherMember->is_moderator) {
-                throw new ApplicationException('Access denied');
+                throw new ApplicationException('Access denied');// TODO
             }
 
             if ($member = $this->getMember()) {
@@ -251,7 +251,7 @@ class Member extends ComponentBase
                 }
             }
 
-            Flash::success(post('flash', 'Posts deleted!'));
+            Flash::success(post('flash', 'Posts deleted!'));// TODO
 
             return $this->redirectToSelf();
         }
@@ -265,7 +265,7 @@ class Member extends ComponentBase
         try {
             $otherMember = $this->getOtherMember();
             if (!$otherMember || !$otherMember->is_moderator) {
-                throw new ApplicationException('Access denied');
+                throw new ApplicationException('Access denied');// TODO
             }
 
             if ($member = $this->getMember()) {
@@ -284,7 +284,7 @@ class Member extends ComponentBase
         try {
             $otherMember = $this->getOtherMember();
             if (!$otherMember || !$otherMember->is_moderator) {
-                throw new ApplicationException('Access denied');
+                throw new ApplicationException('Access denied');// TODO
             }
 
             if ($member = $this->getMember()) {
@@ -301,10 +301,10 @@ class Member extends ComponentBase
     public function onReport()
     {
         if (!Auth::check()) {
-            throw new ApplicationException('You must be logged in to perform this action!');
+            throw new ApplicationException('You must be logged in to perform this action!');// TODO
         }
 
-        Flash::success(post('flash', 'User has been reported for spamming, thank-you for your assistance!'));
+        Flash::success(post('flash', 'User has been reported for spamming, thank-you for your assistance!'));// TODO
 
         $moderators = UserModel::whereHas('forum_member', function($member) {
             $member->where('is_moderator', true);

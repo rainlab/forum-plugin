@@ -284,7 +284,8 @@ class Topic extends ComponentBase
 
             $expectedCode = TopicFollow::makeAuthCode($action, $topic, $member);
             if ($authCode != $expectedCode) {
-                Flash::error('Invalid authentication code, please sign in and try the link again.');
+                Flash::error('Invalid authentication code, please sign in and try the link again.');//TODO
+                // Flash::error(Lang::get('rainlab.forum::lang.components.messages'));//TODO
                 return;
             }
         }
@@ -294,7 +295,7 @@ class Topic extends ComponentBase
          */
         if ($action == 'unfollow') {
             TopicFollow::unfollow($topic, $member);
-            Flash::success('You will no longer receive notifications about this topic.');
+            Flash::success('You will no longer receive notifications about this topic.');//TODO
         }
 
         /*
@@ -302,7 +303,7 @@ class Topic extends ComponentBase
          */
         if ($action == 'unsubscribe' && $member->user) {
             MailBlocker::addBlock('rainlab.forum::mail.topic_reply', $member->user);
-            Flash::success('You will no longer receive notifications about any topics in this forum.');
+            Flash::success('You will no longer receive notifications about any topics in this forum.');//TODO
         }
 
     }
@@ -311,28 +312,28 @@ class Topic extends ComponentBase
     {
         try {
             if (!$user = Auth::getUser()) {
-                throw new ApplicationException('You should be logged in.');
+                throw new ApplicationException('You should be logged in.');//TODO
             }
 
             $member = $this->getMember();
             $channel = $this->getChannel();
 
             if ($channel->is_moderated && !$member->is_moderator) {
-                throw new ApplicationException('You cannot create a topic in this channel.');
+                throw new ApplicationException('You cannot create a topic in this channel.');//TODO
             }
 
             if (TopicModel::checkThrottle($member)) {
-                throw new ApplicationException('Please wait a few minutes before posting another topic.');
+                throw new ApplicationException('Please wait a few minutes before posting another topic.');//TODO
             }
 
             if ($member->is_banned) {
-                throw new ApplicationException('You cannot create new topics: Your account is banned.');
+                throw new ApplicationException('You cannot create new topics: Your account is banned.');//TODO
             }
 
             $topic = TopicModel::createInChannel($channel, $member, post());
             $topicUrl = $this->currentPageUrl([$this->paramName('slug') => $topic->slug]);
 
-            Flash::success(post('flash', 'Topic created successfully!'));
+            Flash::success(post('flash', 'Topic created successfully!'));//TODO
 
             /*
              * Extensbility
@@ -356,21 +357,21 @@ class Topic extends ComponentBase
     {
         try {
             if (!$user = Auth::getUser()) {
-                throw new ApplicationException('You should be logged in.');
+                throw new ApplicationException('You should be logged in.');//TODO
             }
 
             $member = $this->getMember();
             $topic = $this->getTopic();
 
             if (!$topic || !$topic->canPost()) {
-                throw new ApplicationException('You cannot edit posts or make replies.');
+                throw new ApplicationException('You cannot edit posts or make replies.');//TODO
             }
 
             $post = PostModel::createInTopic($topic, $member, post());
             $postUrl = $this->currentPageUrl([$this->paramName('slug') => $topic->slug]);
 
             TopicFollow::sendNotifications($topic, $post, $postUrl);
-            Flash::success(post('flash', 'Response added successfully!'));
+            Flash::success(post('flash', 'Response added successfully!'));//TODO
 
             /*
              * Extensbility
@@ -398,7 +399,7 @@ class Topic extends ComponentBase
         $post = PostModel::find(post('post'));
 
         if (!$post || !$post->canEdit()) {
-            throw new ApplicationException('Permission denied.');
+            throw new ApplicationException('Permission denied.');//TODO
         }
 
         /*
@@ -407,7 +408,7 @@ class Topic extends ComponentBase
         $mode = post('mode', 'edit');
         if ($mode == 'save') {
             if (!$topic || !$topic->canPost()) {
-                throw new ApplicationException('You cannot edit posts or make replies.');
+                throw new ApplicationException('You cannot edit posts or make replies.');//TODO
             }
 
             $post->fill(post());
@@ -431,11 +432,11 @@ class Topic extends ComponentBase
     public function onQuote()
     {
         if (!$user = Auth::getUser()) {
-            throw new ApplicationException('You should be logged in.');
+            throw new ApplicationException('You should be logged in.');//TODO
         }
 
         if (!$post = PostModel::find(post('post'))) {
-            throw new ApplicationException('Unable to find that post.');
+            throw new ApplicationException('Unable to find that post.');//TODO
         }
 
         $result = $post->toArray();
@@ -448,7 +449,7 @@ class Topic extends ComponentBase
     {
         $member = $this->getMember();
         if (!$member->is_moderator) {
-            Flash::error('Access denied');
+            Flash::error('Access denied');//TODO
             return;
         }
 
@@ -456,10 +457,10 @@ class Topic extends ComponentBase
         $channel = ChannelModel::find($channelId);
         if ($channel) {
             $this->getTopic()->moveToChannel($channel);
-            Flash::success(post('flash', 'Post moved successfully!'));
+            Flash::success(post('flash', 'Post moved successfully!'));//TODO
         }
         else {
-            Flash::error('Unable to find a channel to move to.');
+            Flash::error('Unable to find a channel to move to.');//TODO
         }
     }
 
@@ -467,7 +468,7 @@ class Topic extends ComponentBase
     {
         try {
             if (!$user = Auth::getUser()) {
-                throw new ApplicationException('You should be logged in.');
+                throw new ApplicationException('You should be logged in.');//TODO
             }
 
             $this->page['member'] = $member = $this->getMember();
@@ -486,7 +487,7 @@ class Topic extends ComponentBase
         try {
             $member = $this->getMember();
             if (!$member || !$member->is_moderator) {
-                throw new ApplicationException('Access denied');
+                throw new ApplicationException('Access denied');//TODO
             }
 
             if ($topic = $this->getTopic()) {
@@ -506,7 +507,7 @@ class Topic extends ComponentBase
         try {
             $member = $this->getMember();
             if (!$member || !$member->is_moderator) {
-                throw new ApplicationException('Access denied');
+                throw new ApplicationException('Access denied');//TODO
             }
 
             if ($topic = $this->getTopic()) {

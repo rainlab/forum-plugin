@@ -73,7 +73,7 @@ class EmbedChannel extends ComponentBase
         $code = $this->property('embedCode');
 
         if (!$code) {
-            throw new Exception('No code specified for the Forum Embed component');
+            throw new Exception('No code specified for the Forum Embed component');// TODO
         }
 
         $parentChannel = ($channelSlug = $this->property('channelSlug'))
@@ -81,7 +81,7 @@ class EmbedChannel extends ComponentBase
             : null;
 
         if (!$parentChannel) {
-            throw new Exception('No channel specified for Forum Embed component');
+            throw new Exception('No channel specified for Forum Embed component');// TODO
         }
 
         $properties = $this->getProperties();

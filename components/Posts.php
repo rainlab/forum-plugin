@@ -172,13 +172,14 @@ class Posts extends ComponentBase
         try {
             $otherMember = $this->getOtherMember();
             if (!$otherMember || !$otherMember->is_moderator) {
-                throw new ApplicationException('Access denied');
+                throw new ApplicationException('Access denied');// TODO
+                // throw new ApplicationException(Lang::get('rainlab.forum::lang.components.messages.access_denied'));
             }
 
             $post = PostModel::find(post('post'));
 
             if (!$post || !$post->canEdit()) {
-                throw new ApplicationException('Permission denied.');
+                throw new ApplicationException('Permission denied.');// TODO
             }
 
             if ($member = $post->member) {
@@ -199,13 +200,13 @@ class Posts extends ComponentBase
         try {
             $otherMember = $this->getOtherMember();
             if (!$otherMember || !$otherMember->is_moderator) {
-                throw new ApplicationException('Access denied');
+                throw new ApplicationException('Access denied');// TODO
             }
 
             $post = PostModel::find(post('post'));
 
             if (!$post || !$post->canEdit()) {
-                throw new ApplicationException('Permission denied.');
+                throw new ApplicationException('Permission denied.');// TODO
             }
 
             if ($member = $post->member) {
