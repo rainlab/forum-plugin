@@ -17,6 +17,11 @@ use RainLab\Forum\Classes\TopicTracker;
 class Topics extends ComponentBase
 {
     /**
+     * @var RainLab\Forum\Models\Topic topics
+     */
+    protected $topics = null;
+
+    /**
      * @var RainLab\Forum\Models\Member Member cache
      */
     protected $member = null;
