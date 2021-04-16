@@ -1,6 +1,5 @@
 <?php namespace RainLab\Forum\Components;
 
-use Auth;
 use Request;
 use Redirect;
 use Cms\Classes\Page;
@@ -15,6 +14,11 @@ use RainLab\Forum\Models\Member as MemberModel;
  */
 class Posts extends ComponentBase
 {
+    /**
+     * @var RainLab\Forum\Models\Post posts
+     */
+    public $posts;
+
     /**
      * @var RainLab\Forum\Models\Member Member cache
      */

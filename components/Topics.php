@@ -19,7 +19,7 @@ class Topics extends ComponentBase
     /**
      * @var RainLab\Forum\Models\Topic topics
      */
-    protected $topics = null;
+    public $topics;
 
     /**
      * @var RainLab\Forum\Models\Member Member cache

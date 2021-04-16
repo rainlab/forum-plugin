@@ -10,8 +10,7 @@ use RainLab\Forum\Models\Channel as ForumChannel;
 class RssFeed extends ComponentBase
 {
     /**
-     * A collection of topics to display
-     * @var Collection
+     * @var Collection A collection of topics to display
      */
     public $topics;
 
