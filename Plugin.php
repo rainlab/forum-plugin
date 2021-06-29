@@ -110,7 +110,7 @@ class Plugin extends PluginBase
     public function registerPermissions()
     {
         return [
-            'rainlab.forum::lang.settings.channels' => [
+            'rainlab.forum.manage_channels' => [
                 'tab'   => 'rainlab.forum::lang.settings.channels',
                 'label' => 'rainlab.forum::lang.settings.channels_desc'
             ]
@@ -127,7 +127,7 @@ class Plugin extends PluginBase
                 'url'         => Backend::url('rainlab/forum/channels'),
                 'category'    => 'rainlab.forum::lang.plugin.name',
                 'order'       => 500,
-                'permissions' => ['rainlab.forum::lang.settings.channels'],
+                'permissions' => ['rainlab.forum.manage_channels'],
             ]
         ];
     }
