@@ -142,7 +142,7 @@ class TopicTracker
      */
     public function getNewTopics($member)
     {
-        $lastLogin = $member->user->last_login;
+        $lastLogin = $member->user->last_login ?: Carbon::now();
 
         $results = Db::table('rainlab_forum_topics')->select([
                 'rainlab_forum_topics.id',
@@ -164,7 +164,7 @@ class TopicTracker
     }
 
     /**
-     * Returns an array of tracked channels and topics from the 
+     * Returns an array of tracked channels and topics from the
      * user's cookie storage.
      */
     public function getTrackedTopics()

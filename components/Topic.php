@@ -310,7 +310,7 @@ class Topic extends ComponentBase
     public function onCreate()
     {
         try {
-            if (!$user = Auth::getUser()) {
+            if (!$user = Auth::user()) {
                 throw new ApplicationException('You should be logged in.');
             }
 
@@ -355,7 +355,7 @@ class Topic extends ComponentBase
     public function onPost()
     {
         try {
-            if (!$user = Auth::getUser()) {
+            if (!$user = Auth::user()) {
                 throw new ApplicationException('You should be logged in.');
             }
 
@@ -430,7 +430,7 @@ class Topic extends ComponentBase
 
     public function onQuote()
     {
-        if (!$user = Auth::getUser()) {
+        if (!$user = Auth::user()) {
             throw new ApplicationException('You should be logged in.');
         }
 
@@ -466,7 +466,7 @@ class Topic extends ComponentBase
     public function onFollow()
     {
         try {
-            if (!$user = Auth::getUser()) {
+            if (!$user = Auth::user()) {
                 throw new ApplicationException('You should be logged in.');
             }
 

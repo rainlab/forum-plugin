@@ -95,15 +95,15 @@ class Plugin extends PluginBase
     public function registerComponents()
     {
         return [
-           '\RainLab\Forum\Components\Channels'     => 'forumChannels',
-           '\RainLab\Forum\Components\Channel'      => 'forumChannel',
-           '\RainLab\Forum\Components\Topic'        => 'forumTopic',
-           '\RainLab\Forum\Components\Topics'       => 'forumTopics',
-           '\RainLab\Forum\Components\Posts'        => 'forumPosts',
-           '\RainLab\Forum\Components\Member'       => 'forumMember',
-           '\RainLab\Forum\Components\EmbedTopic'   => 'forumEmbedTopic',
-           '\RainLab\Forum\Components\EmbedChannel' => 'forumEmbedChannel',
-           '\RainLab\Forum\Components\RssFeed'      => 'forumRssFeed'
+           \RainLab\Forum\Components\Channels::class     => 'forumChannels',
+           \RainLab\Forum\Components\Channel::class      => 'forumChannel',
+           \RainLab\Forum\Components\Topic::class        => 'forumTopic',
+           \RainLab\Forum\Components\Topics::class       => 'forumTopics',
+           \RainLab\Forum\Components\Posts::class        => 'forumPosts',
+           \RainLab\Forum\Components\Member::class       => 'forumMember',
+           \RainLab\Forum\Components\EmbedTopic::class   => 'forumEmbedTopic',
+           \RainLab\Forum\Components\EmbedChannel::class => 'forumEmbedChannel',
+           \RainLab\Forum\Components\RssFeed::class      => 'forumRssFeed'
         ];
     }
 

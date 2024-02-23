@@ -64,7 +64,7 @@ class Member extends Model
     public static function getFromUser($user = null)
     {
         if ($user === null) {
-            $user = Auth::getUser();
+            $user = Auth::user();
         }
 
         if (!$user) {
