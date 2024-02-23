@@ -18,6 +18,9 @@ use RainLab\Forum\Models\TopicFollow;
 use RainLab\Forum\Classes\TopicTracker;
 use Exception;
 
+/**
+ * Topic
+ */
 class Topic extends ComponentBase
 {
     /**
@@ -201,11 +204,11 @@ class Topic extends ComponentBase
             $currentPage = input('page');
             $searchString = trim(input('search'));
             $posts = PostModel::with('member.user.avatar')->listFrontEnd([
-                'page'    => $currentPage,
+                'page' => $currentPage,
                 'perPage' => $this->property('postsPerPage'),
-                'sort'    => 'created_at',
-                'topic'   => $topic->id,
-                'search'  => $searchString,
+                'sort' => 'created_at',
+                'topic' => $topic->id,
+                'search' => $searchString,
             ]);
 
             /*
