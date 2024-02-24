@@ -47,4 +47,4 @@ v1.2.0:
     - members_add_spam_guard.php
 v1.2.1: Made plugin compatible with PHP 7.3. Improved translations.
 v1.2.2: The default CSS can now be disabled for all components. Changed `getChannelSlugOptions` method in EmbedChannel component from protected to public.
-# v1.4.0: Compatibility updates with October CMS v3.6
+v1.4.0: Compatibility updates with October CMS v3.6
