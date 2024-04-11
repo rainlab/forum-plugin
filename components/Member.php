@@ -43,7 +43,7 @@ class Member extends ComponentBase
     public function componentDetails()
     {
         return [
-            'name'        => 'rainlab.forum::lang.memberpage.name',
+            'name' => 'rainlab.forum::lang.memberpage.name',
             'description' => 'rainlab.forum::lang.memberpage.self_desc'
         ];
     }
@@ -52,34 +52,34 @@ class Member extends ComponentBase
     {
         return [
             'slug' => [
-                'title'       => 'rainlab.forum::lang.memberpage.slug_name',
+                'title' => 'rainlab.forum::lang.memberpage.slug_name',
                 'description' => 'rainlab.forum::lang.memberpage.slug_desc',
-                'default'     => '{{ :slug }}',
-                'type'        => 'string'
+                'default' => '{{ :slug }}',
+                'type' => 'string'
             ],
             'viewMode' => [
-                'title'       => 'rainlab.forum::lang.memberpage.view_title',
+                'title' => 'rainlab.forum::lang.memberpage.view_title',
                 'description' => 'rainlab.forum::lang.memberpage.view_desc',
-                'type'        => 'dropdown',
-                'default'     => ''
+                'type' => 'dropdown',
+                'default' => ''
             ],
             'channelPage' => [
-                'title'       => 'rainlab.forum::lang.memberpage.ch_title',
+                'title' => 'rainlab.forum::lang.memberpage.ch_title',
                 'description' => 'rainlab.forum::lang.memberpage.ch_desc',
-                'type'        => 'dropdown',
-                'group'       => 'Links',
+                'type' => 'dropdown',
+                'group' => 'Links',
             ],
             'topicPage' => [
-                'title'       => 'rainlab.forum::lang.memberpage.topic_title',
+                'title' => 'rainlab.forum::lang.memberpage.topic_title',
                 'description' => 'rainlab.forum::lang.memberpage.topic_desc',
-                'type'        => 'dropdown',
-                'group'       => 'Links',
+                'type' => 'dropdown',
+                'group' => 'Links',
             ],
             'includeStyles' => [
-                'title'       => 'rainlab.forum::components.general.properties.includeStyles',
+                'title' => 'rainlab.forum::components.general.properties.includeStyles',
                 'description' => 'rainlab.forum::components.general.properties.includeStyles_desc',
-                'type'        => 'checkbox',
-                'default'     => true
+                'type' => 'checkbox',
+                'default' => true
             ],
         ];
     }
@@ -111,9 +111,7 @@ class Member extends ComponentBase
         $this->page['canEdit'] = $this->canEdit();
         $this->page['mode'] = $this->getMode();
 
-        /*
-         * Page links
-         */
+        // Page links
         $this->topicPage = $this->page['topicPage'] = $this->property('topicPage');
         $this->channelPage = $this->page['channelPage'] = $this->property('channelPage');
     }
@@ -316,9 +314,9 @@ class Member extends ComponentBase
             $otherMember = $this->getOtherMember();
             $otherMemberUrl = $this->currentPageUrl(['slug' => $otherMember->slug]);
             $params = [
-                'member'         => $member,
-                'memberUrl'      => $memberUrl,
-                'otherMember'    => $otherMember,
+                'member' => $member,
+                'memberUrl' => $memberUrl,
+                'otherMember' => $otherMember,
                 'otherMemberUrl' => $otherMemberUrl,
             ];
             Mail::sendTo($moderators, 'rainlab.forum::mail.member_report', $params);
@@ -333,9 +331,7 @@ class Member extends ComponentBase
             return false;
         }
 
-        /*
-         * Redirect to the intended page after successful update
-         */
+        // Redirect to the intended page after successful update
         $redirectUrl = post('redirect', $this->currentPageUrl([
             'slug' => $member->slug
         ]));

@@ -18,83 +18,95 @@ use RainLab\Forum\Classes\TopicTracker;
 class Channel extends ComponentBase
 {
     /**
-     * @var boolean Determine if this component is being used by the EmbedChannel component.
+     * @var boolean embedMode determines if this component is being used by the EmbedChannel component.
      */
     public $embedMode = false;
 
     /**
-     * @var string If this channel is embedded, pass the topic slug to this route parameter for linking to topics.
+     * @var string embedTopicParam if this channel is embedded, pass the topic slug to this route parameter for linking to topics.
      */
     public $embedTopicParam = 'topicSlug';
 
     /**
-     * @var RainLab\Forum\Models\Member Member cache
+     * @var RainLab\Forum\Models\Member member cache
      */
     protected $member = null;
 
     /**
-     * @var RainLab\Forum\Models\Channel Channel cache
+     * @var RainLab\Forum\Models\Channel channel cache
      */
     protected $channel = null;
 
     /**
-     * @var string Reference to the page name for linking to members.
+     * @var string memberPage reference to the page name for linking to members.
      */
     public $memberPage;
 
     /**
-     * @var string Reference to the page name for linking to topics.
+     * @var string topicPage reference to the page name for linking to topics.
      */
     public $topicPage;
 
     /**
-     * @var Collection Topics cache for Twig access.
+     * @var Collection topics cache for Twig access.
      */
     public $topics = null;
 
+    /**
+     * componentDetails
+     */
     public function componentDetails()
     {
         return [
-            'name'        => 'rainlab.forum::lang.channel.component_name',
+            'name' => 'rainlab.forum::lang.channel.component_name',
             'description' => 'rainlab.forum::lang.channel.component_description',
         ];
     }
 
+    /**
+     * defineProperties
+     */
     public function defineProperties()
     {
         return [
             'slug' => [
-                'title'       => 'rainlab.forum::lang.slug.name',
+                'title' => 'rainlab.forum::lang.slug.name',
                 'description' => 'rainlab.forum::lang.slug.desc',
-                'default'     => '{{ :slug }}',
-                'type'        => 'string',
+                'default' => '{{ :slug }}',
+                'type' => 'string',
             ],
             'memberPage' => [
-                'title'       => 'rainlab.forum::lang.member.page_name',
+                'title' => 'rainlab.forum::lang.member.page_name',
                 'description' => 'rainlab.forum::lang.member.page_help',
-                'type'        => 'dropdown',
-                'group'       => 'Links',
+                'type' => 'dropdown',
+                'group' => 'Links',
             ],
             'topicPage' => [
-                'title'       => 'rainlab.forum::lang.topic.page_name',
+                'title' => 'rainlab.forum::lang.topic.page_name',
                 'description' => 'rainlab.forum::lang.topic.page_help',
-                'type'        => 'dropdown',
-                'group'       => 'Links',
+                'type' => 'dropdown',
+                'group' => 'Links',
             ],
             'includeStyles' => [
-                'title'       => 'rainlab.forum::lang.components.general.properties.includeStyles',
+                'title' => 'rainlab.forum::lang.components.general.properties.includeStyles',
                 'description' => 'rainlab.forum::lang.components.general.properties.includeStyles_desc',
-                'type'        => 'checkbox',
-                'default'     => true
+                'type' => 'checkbox',
+                'default' => true
             ],
         ];
     }
 
+    /**
+     * getPropertyOptions
+     */
     public function getPropertyOptions($property)
     {
         return Page::sortBy('baseFileName')->lists('baseFileName', 'baseFileName');
     }
 
+    /**
+     * onRun
+     */
     public function onRun()
     {
         if ($this->property('includeStyles', true)) {
@@ -107,15 +119,18 @@ class Channel extends ComponentBase
         return $this->prepareTopicList();
     }
 
+    /**
+     * prepareVars
+     */
     protected function prepareVars()
     {
-        /*
-         * Page links
-         */
         $this->topicPage = $this->page['topicPage'] = $this->property('topicPage');
         $this->memberPage = $this->page['memberPage'] = $this->property('memberPage');
     }
 
+    /**
+     * getChannel
+     */
     public function getChannel()
     {
         if ($this->channel !== null) {
@@ -129,24 +144,23 @@ class Channel extends ComponentBase
         return $this->channel = ChannelModel::whereSlug($slug)->first();
     }
 
+    /**
+     * prepareTopicList
+     */
     protected function prepareTopicList()
     {
-        /*
-         * If channel exists, load the topics
-         */
+        // If channel exists, load the topics
         if ($channel = $this->getChannel()) {
             $currentPage = input('page');
             $searchString = trim(input('search'));
             $topics = TopicModel::with('last_post_member')->listFrontEnd([
-                'page'     => $currentPage,
-                'sort'     => 'updated_at',
+                'page' => $currentPage,
+                'sort' => 'updated_at',
                 'channels' => $channel->id,
-                'search'   => $searchString,
+                'search' => $searchString,
             ]);
 
-            /*
-             * Add a "url" helper attribute for linking to each topic
-             */
+            // Add a "url" helper attribute for linking to each topic
             $topics->each(function($topic) {
                 if ($this->embedMode) {
                     $topic->url = $this->pageUrl($this->topicPage, [$this->embedTopicParam => $topic->slug]);
@@ -164,9 +178,7 @@ class Channel extends ComponentBase
                 }
             });
 
-            /*
-             * Signed in member
-             */
+            // Signed in member
             $this->page['member'] = $this->member = MemberModel::getFromUser();
 
             if ($this->member) {
@@ -176,9 +188,7 @@ class Channel extends ComponentBase
 
             $this->page['topics'] = $this->topics = $topics;
 
-            /*
-             * Pagination
-             */
+            // Pagination
             if ($topics) {
                 $queryArr = [];
                 if ($searchString) {
