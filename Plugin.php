@@ -34,6 +34,14 @@ class Plugin extends PluginBase
     }
 
     /**
+     * register the service provider.
+     */
+    public function register()
+    {
+        $this->registerSingletons();
+    }
+
+    /**
      * boot
      */
     public function boot()
@@ -96,6 +104,14 @@ class Plugin extends PluginBase
                 ]
             ]);
         });
+    }
+
+    /**
+     * registerSingletons
+     */
+    protected function registerSingletons()
+    {
+        $this->app->singleton('rainlab.forum.tracker', \RainLab\Forum\Classes\TopicTracker::class);
     }
 
     /**

@@ -1,23 +1,26 @@
 <?php namespace RainLab\Forum\Classes;
 
 use Db;
+use App;
 use Carbon\Carbon;
 use Cookie;
 
 /**
- * Topic tracker
+ * TopicTracker tracks read status of topics as a cookie
  */
 class TopicTracker
 {
-    use \October\Rain\Support\Traits\Singleton;
-
+    /**
+     * cookieName
+     */
     public $cookieName = 'forum_cookie_tracker';
 
     /**
-     * Initialize this singleton.
+     * instance creates a new instance of this singleton
      */
-    protected function init()
+    public static function instance(): static
     {
+        return App::make('rainlab.forum.tracker');
     }
 
     //
@@ -25,7 +28,7 @@ class TopicTracker
     //
 
     /**
-     * Flag a topic as being tracked by a member
+     * markTopicTracked flags a topic as being tracked by a member
      * @param Topic $topic   Forum topic
      */
     public function markTopicTracked($topic)
@@ -36,7 +39,7 @@ class TopicTracker
     }
 
     /**
-     * Sets the watched flag (hasNew) for an array of topics
+     * setFlagsOnTopics sets the watched flag (hasNew) for an array of topics
      * @param array $topics  Collection of topics
      * @param Member $member Forum member
      */
@@ -63,12 +66,8 @@ class TopicTracker
         return $topics;
     }
 
-    //
-    // Channels
-    //
-
     /**
-     * Flag a channel as being tracked by a member
+     * markChannelTracked flags a channel as being tracked by a member
      * @param Channel $channel   Forum channel
      */
     public function markChannelTracked($channel)
@@ -79,7 +78,7 @@ class TopicTracker
     }
 
     /**
-     * Sets the has new flag (hasNew) for an array of channels
+     * setFlagsOnChannels sets the has new flag (hasNew) for an array of channels
      * @param array $channels  Collection of channels
      * @param Member $member Forum member
      */
@@ -108,9 +107,7 @@ class TopicTracker
                 $firstTopic->last_post_at->gt($lastLogin) &&
                 (!$trackedChannel || $firstTopic->last_post_at->gt($trackedChannel));
 
-            /*
-             * There are new posts, check if they have been read already.
-             */
+            // There are new posts, check if they have been read already.
             if ($newPosts) {
                 $newChannelTopics = array_get($newTopics, $channel->id, []);
                 foreach ($newChannelTopics as $topicId => $timestamp) {
@@ -137,7 +134,7 @@ class TopicTracker
     }
 
     /**
-     * Returns new topics across all channels for a member
+     * getNewTopics returns new topics across all channels for a member
      * @param Member $member Forum member
      */
     public function getNewTopics($member)
@@ -164,7 +161,7 @@ class TopicTracker
     }
 
     /**
-     * Returns an array of tracked channels and topics from the
+     * getTrackedTopics returns an array of tracked channels and topics from the
      * user's cookie storage.
      */
     public function getTrackedTopics()
@@ -207,23 +204,18 @@ class TopicTracker
     }
 
     /**
-     * Sets the tracked topics in cookie storage.
+     * setTrackedTopics sets the tracked topics in cookie storage.
      */
     public function setTrackedTopics($trackedTopics)
     {
         $cookieData = '';
 
         if (!empty($trackedTopics)) {
-
-            /*
-             * Sort the arrays (latest read first)
-             */
+            // Sort the arrays (latest read first)
             arsort($trackedTopics['topics'], SORT_NUMERIC);
             arsort($trackedTopics['channels'], SORT_NUMERIC);
 
-            /*
-             * Homebrew serialization (to avoid having to run unserialize() on cookie data)
-             */
+            // Homebrew serialization (to avoid having to run unserialize() on cookie data)
             foreach ($trackedTopics['topics'] as $id => $timestamp) {
                 $cookieData .= 't'.$id.'='.$timestamp.';';
             }
@@ -232,9 +224,7 @@ class TopicTracker
                 $cookieData .= 'c'.$id.'='.$timestamp.';';
             }
 
-            /*
-             * Enforce a 4048 byte size limit (4096 minus some space for the cookie name)
-             */
+            // Enforce a 4048 byte size limit (4096 minus some space for the cookie name)
             if (strlen($cookieData) > 4048) {
                 $cookieData = substr($cookieData, 0, 4048);
                 $cookieData = substr($cookieData, 0, strrpos($cookieData, ';')).';';
@@ -243,5 +233,4 @@ class TopicTracker
 
         Cookie::queue($this->cookieName, $cookieData, 60);
     }
-
 }
