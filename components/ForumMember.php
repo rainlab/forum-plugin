@@ -49,8 +49,8 @@ class ForumMember extends ComponentBase
     public function componentDetails()
     {
         return [
-            'name' => 'rainlab.forum::lang.memberpage.name',
-            'description' => 'rainlab.forum::lang.memberpage.self_desc'
+            'name' => "Member",
+            'description' => "Displays form member information and activity."
         ];
     }
 
@@ -61,32 +61,32 @@ class ForumMember extends ComponentBase
     {
         return [
             'slug' => [
-                'title' => 'rainlab.forum::lang.memberpage.slug_name',
-                'description' => 'rainlab.forum::lang.memberpage.slug_desc',
+                'title' => "Slug param name",
+                'description' => "The URL route parameter used for looking up the forum member by their slug. A hard coded slug can also be used.",
                 'default' => '{{ :slug }}',
                 'type' => 'string'
             ],
             'viewMode' => [
-                'title' => 'rainlab.forum::lang.memberpage.view_title',
-                'description' => 'rainlab.forum::lang.memberpage.view_desc',
+                'title' => "View mode",
+                'description' => "Manually set the view mode for the member component.",
                 'type' => 'dropdown',
                 'default' => ''
             ],
             'channelPage' => [
-                'title' => 'rainlab.forum::lang.memberpage.ch_title',
-                'description' => 'rainlab.forum::lang.memberpage.ch_desc',
+                'title' => "Channel Page",
+                'description' => "Page name to use for clicking on a Channel.",
                 'type' => 'dropdown',
                 'group' => 'Links',
             ],
             'topicPage' => [
-                'title' => 'rainlab.forum::lang.memberpage.topic_title',
-                'description' => 'rainlab.forum::lang.memberpage.topic_desc',
+                'title' => "Topic Page",
+                'description' => "Page name to use for clicking on a conversation topic.",
                 'type' => 'dropdown',
                 'group' => 'Links',
             ],
             'includeStyles' => [
-                'title' => 'rainlab.forum::components.general.properties.includeStyles',
-                'description' => 'rainlab.forum::components.general.properties.includeStyles_desc',
+                'title' => "Enable CSS",
+                'description' => "Include the CSS files with default styles for the forum",
                 'type' => 'checkbox',
                 'default' => true
             ],

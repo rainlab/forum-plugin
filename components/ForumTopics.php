@@ -44,8 +44,8 @@ class ForumTopics extends ComponentBase
     public function componentDetails()
     {
         return [
-            'name' => 'rainlab.forum::lang.topics.component_name',
-            'description' => 'rainlab.forum::lang.topics.component_description',
+            'name' => "Topic List",
+            'description' => "Displays a list of all topics.",
         ];
     }
 
@@ -56,25 +56,25 @@ class ForumTopics extends ComponentBase
     {
         return [
             'memberPage' => [
-                'title' => 'rainlab.forum::lang.member.page_name',
-                'description' => 'rainlab.forum::lang.member.page_help',
+                'title' => "Member Page",
+                'description' => "Page name to use for clicking on a Member.",
                 'type' => 'dropdown'
             ],
             'topicPage' => [
-                'title' => 'rainlab.forum::lang.topic.page_name',
-                'description' => 'rainlab.forum::lang.topic.page_help',
+                'title' => "Topic Page",
+                'description' => "Page name to use for clicking on a conversation topic.",
                 'type' => 'dropdown',
             ],
-            'topicsPerPage' =>  [
-                'title' => 'rainlab.forum::lang.topics.per_page',
+            'topicsPerPage' => [
+                'title' => "Topics per page",
                 'type' => 'string',
                 'validationPattern' => '^[0-9]+$',
-                'validationMessage' => 'rainlab.forum::lang.topics.per_page_validation',
+                'validationMessage' => "Invalid format of the topics per page value",
                 'default' => '20',
             ],
             'includeStyles' => [
-                'title' => 'rainlab.forum::lang.components.general.properties.includeStyles',
-                'description' => 'rainlab.forum::lang.components.general.properties.includeStyles_desc',
+                'title' => "Enable CSS",
+                'description' => "Include the CSS files with default styles for the forum",
                 'type' => 'checkbox',
                 'default' => true
             ],

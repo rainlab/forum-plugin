@@ -42,8 +42,8 @@ class ForumChannels extends ComponentBase
     public function componentDetails()
     {
         return [
-            'name' => 'rainlab.forum::lang.channels.list_name',
-            'description' => 'rainlab.forum::lang.channels.list_desc'
+            'name' => "Channel List",
+            'description' => "Displays a list of all visible channels."
         ];
     }
 
@@ -51,23 +51,23 @@ class ForumChannels extends ComponentBase
     {
         return [
             'memberPage' => [
-                'title' => 'rainlab.forum::lang.member.page_name',
-                'description' => 'rainlab.forum::lang.member.page_help',
+                'title' => "Member Page",
+                'description' => "Page name to use for clicking on a Member.",
                 'type' => 'dropdown',
             ],
             'channelPage' => [
-                'title' => 'rainlab.forum::lang.channel.page_name',
-                'description' => 'rainlab.forum::lang.channel.page_help',
+                'title' => "Channel Page",
+                'description' => "Page name to use for clicking on a Channel.",
                 'type' => 'dropdown',
             ],
             'topicPage' => [
-                'title' => 'rainlab.forum::lang.topic.page_name',
-                'description' => 'rainlab.forum::lang.topic.page_help',
+                'title' => "Topic Page",
+                'description' => "Page name to use for clicking on a conversation topic.",
                 'type' => 'dropdown',
             ],
             'includeStyles' => [
-                'title' => 'rainlab.forum::lang.components.general.properties.includeStyles',
-                'description' => 'rainlab.forum::lang.components.general.properties.includeStyles_desc',
+                'title' => "Enable CSS",
+                'description' => "Include the CSS files with default styles for the forum",
                 'type' => 'checkbox',
                 'default' => true
             ],

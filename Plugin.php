@@ -24,8 +24,8 @@ class Plugin extends PluginBase
     public function pluginDetails()
     {
         return [
-            'name' => 'rainlab.forum::lang.plugin.name',
-            'description' => 'rainlab.forum::lang.plugin.description',
+            'name' => "Forum",
+            'description' => "A simple embeddable forum",
             'author' => 'Alexey Bobkov, Samuel Georges',
             'icon' => 'icon-comments',
             'homepage' => 'https://github.com/rainlab/forum-plugin'
@@ -38,7 +38,7 @@ class Plugin extends PluginBase
     public function boot()
     {
         User::extend(function($model) {
-            $model->hasOne['forum_member'] = ['RainLab\Forum\Models\Member'];
+            $model->hasOne['forum_member'] = \RainLab\Forum\Models\Member::class;
 
             $model->bindEvent('model.beforeDelete', function() use ($model) {
                 $model->forum_member && $model->forum_member->delete();
@@ -59,23 +59,23 @@ class Plugin extends PluginBase
 
             $widget->addFields([
                 'forum_member[username]' => [
-                    'label' => 'rainlab.forum::lang.settings.username',
-                    'tab' => 'Forum',
-                    'comment' => 'rainlab.forum::lang.settings.username_comment'
+                    'label' => "Username",
+                    'comment' => "The display to represent this user on the forum.",
+                    'tab' => 'Forum'
                 ],
                 'forum_member[is_moderator]' => [
-                    'label' => 'rainlab.forum::lang.settings.moderator',
+                    'label' => "Forum moderator",
+                    'comment' => "Place a tick in this box if this user can moderate the entire forum.",
                     'type' => 'checkbox',
                     'tab' => 'Forum',
-                    'span' => 'auto',
-                    'comment' => 'rainlab.forum::lang.settings.moderator_comment'
+                    'span' => 'auto'
                 ],
                 'forum_member[is_banned]' => [
-                    'label' => 'rainlab.forum::lang.settings.banned',
+                    'label' => "Banned from forum",
+                    'comment' => "Place a tick in this box if this user is banned from posting to the forum.",
                     'type' => 'checkbox',
                     'tab' => 'Forum',
-                    'span' => 'auto',
-                    'comment' => 'rainlab.forum::lang.settings.banned_comment'
+                    'span' => 'auto'
                 ]
             ], 'primary');
         });
@@ -87,7 +87,7 @@ class Plugin extends PluginBase
 
             $widget->addColumns([
                 'forum_member_username' => [
-                    'label' => 'rainlab.forum::lang.settings.forum_username',
+                    'label' => "Forum Username",
                     'relation' => 'forum_member',
                     'select' => 'username',
                     'searchable' => false,
@@ -122,8 +122,8 @@ class Plugin extends PluginBase
     {
         return [
             'rainlab.forum.manage_channels' => [
-                'tab' => 'rainlab.forum::lang.settings.channels',
-                'label' => 'rainlab.forum::lang.settings.channels_desc'
+                'tab' => "Forum channels",
+                'label' => "Manage available forum channels."
             ]
         ];
     }
@@ -135,11 +135,11 @@ class Plugin extends PluginBase
     {
         return [
             'settings' => [
-                'label' => 'rainlab.forum::lang.settings.channels',
-                'description' => 'rainlab.forum::lang.settings.channels_desc',
+                'label' => "Forum channels",
+                'description' => "Manage available forum channels.",
                 'icon' => 'icon-comments',
                 'url' => Backend::url('rainlab/forum/channels'),
-                'category' => 'rainlab.forum::lang.plugin.name',
+                'category' => "Forum",
                 'order' => 500,
                 'permissions' => ['rainlab.forum.manage_channels'],
             ]

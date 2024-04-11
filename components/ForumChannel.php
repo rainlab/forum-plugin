@@ -56,8 +56,8 @@ class ForumChannel extends ComponentBase
     public function componentDetails()
     {
         return [
-            'name' => 'rainlab.forum::lang.channel.component_name',
-            'description' => 'rainlab.forum::lang.channel.component_description',
+            'name' => "Channel",
+            'description' => "Displays a list of posts belonging to a channel.",
         ];
     }
 
@@ -68,26 +68,26 @@ class ForumChannel extends ComponentBase
     {
         return [
             'slug' => [
-                'title' => 'rainlab.forum::lang.slug.name',
-                'description' => 'rainlab.forum::lang.slug.desc',
+                'title' => "Slug param name",
+                'description' => "The URL route parameter used for looking up the channel by its slug. A hard coded slug can also be used.",
                 'default' => '{{ :slug }}',
                 'type' => 'string',
             ],
             'memberPage' => [
-                'title' => 'rainlab.forum::lang.member.page_name',
-                'description' => 'rainlab.forum::lang.member.page_help',
+                'title' => "Member Page",
+                'description' => "Page name to use for clicking on a Member.",
                 'type' => 'dropdown',
                 'group' => 'Links',
             ],
             'topicPage' => [
-                'title' => 'rainlab.forum::lang.topic.page_name',
-                'description' => 'rainlab.forum::lang.topic.page_help',
+                'title' => "Topic Page",
+                'description' => "Page name to use for clicking on a conversation topic.",
                 'type' => 'dropdown',
                 'group' => 'Links',
             ],
             'includeStyles' => [
-                'title' => 'rainlab.forum::lang.components.general.properties.includeStyles',
-                'description' => 'rainlab.forum::lang.components.general.properties.includeStyles_desc',
+                'title' => "Enable CSS",
+                'description' => "Include the CSS files with default styles for the forum",
                 'type' => 'checkbox',
                 'default' => true
             ],

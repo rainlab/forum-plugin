@@ -9,13 +9,13 @@ use Cms\Classes\Page;
 use RainLab\User\Models\User as UserModel;
 use RainLab\User\Models\MailBlocker;
 use Cms\Classes\ComponentBase;
-use ApplicationException;
 use RainLab\Forum\Models\Topic as TopicModel;
 use RainLab\Forum\Models\Channel as ChannelModel;
 use RainLab\Forum\Models\Member as MemberModel;
 use RainLab\Forum\Models\Post as PostModel;
 use RainLab\Forum\Models\TopicFollow;
 use RainLab\Forum\Classes\TopicTracker;
+use ApplicationException;
 use Exception;
 
 /**
@@ -69,8 +69,8 @@ class ForumTopic extends ComponentBase
     public function componentDetails()
     {
         return [
-            'name' => 'rainlab.forum::lang.topicpage.name',
-            'description' => 'rainlab.forum::lang.topicpage.self_desc'
+            'name' => "Topic",
+            'description' => "Displays a topic and posts."
         ];
     }
 
@@ -81,33 +81,33 @@ class ForumTopic extends ComponentBase
     {
         return [
             'slug' => [
-                'title' => 'rainlab.forum::lang.topicpage.slug_name',
-                'description' => 'rainlab.forum::lang.topicpage.slug_desc',
+                'title' => "Slug param name",
+                'description' => "The URL route parameter used for looking up the topic by its slug. A hard coded slug can also be used.",
                 'default' => '{{ :slug }}',
                 'type' => 'string',
             ],
             'postsPerPage' => [
-                'title' => 'rainlab.forum::lang.posts.per_page',
+                'title' => "Posts per page",
                 'type' => 'string',
                 'validationPattern' => '^[0-9]+$',
-                'validationMessage' => 'rainlab.forum::lang.posts.per_page_validation',
+                'validationMessage' => "Posts per page must be a number",
                 'default' => '20',
             ],
             'memberPage' => [
-                'title' => 'rainlab.forum::lang.member.page_name',
-                'description' => 'rainlab.forum::lang.member.page_help',
+                'title' => "Member Page",
+                'description' => "Page name to use for clicking on a Member.",
                 'type' => 'dropdown',
                 'group' => 'Links',
             ],
             'channelPage' => [
-                'title' => 'rainlab.forum::lang.topicpage.channel_title',
-                'description' => 'rainlab.forum::lang.topicpage.channel_desc',
+                'title' => "Channel Page",
+                'description' => "Page name to use for clicking on a Channel.",
                 'type' => 'dropdown',
                 'group' => 'Links',
             ],
             'includeStyles' => [
-                'title' => 'rainlab.forum::lang.components.general.properties.includeStyles',
-                'description' => 'rainlab.forum::lang.components.general.properties.includeStyles_desc',
+                'title' => "Enable CSS",
+                'description' => "Include the CSS files with default styles for the forum",
                 'type' => 'checkbox',
                 'default' => true
             ],

@@ -21,8 +21,8 @@ class ForumEmbedChannel extends ComponentBase
     public function componentDetails()
     {
         return [
-            'name' => 'rainlab.forum::lang.embedch.channel_name',
-            'description' => 'rainlab.forum::lang.embedch.channel_self_desc'
+            'name' => "Embed Channel",
+            'description' => "Attach a channel to any page."
         ];
     }
 
@@ -33,26 +33,26 @@ class ForumEmbedChannel extends ComponentBase
     {
         return [
             'embedCode' => [
-                'title' => 'rainlab.forum::lang.embedch.embed_title',
-                'description' => 'rainlab.forum::lang.embedch.embed_desc',
+                'title' => "Embed code param",
+                'description' => "A unique code for the generated channel. A routing parameter can also be used.",
                 'type' => 'string',
                 'group' => 'Parameters',
             ],
             'channelSlug' => [
-                'title' => 'rainlab.forum::lang.embedch.channel_title',
-                'description' => 'rainlab.forum::lang.embedch.channel_desc',
+                'title' => "Parent Channel",
+                'description' => "Specify the channel to create the new channel in",
                 'type' => 'dropdown'
             ],
             'topicSlug' => [
-                'title' => 'rainlab.forum::lang.embedch.topic_name',
-                'description' => 'rainlab.forum::lang.embedch.topic_desc',
+                'title' => "Topic code param",
+                'description' => "The URL route parameter used for looking up a topic by its slug.",
                 'type' => 'string',
                 'default' => '{{ :topicSlug }}',
                 'group' => 'Parameters',
             ],
             'memberPage' => [
-                'title' => 'rainlab.forum::lang.member.page_name',
-                'description' => 'rainlab.forum::lang.member.page_help',
+                'title' => "Member Page",
+                'description' => "Page name to use for clicking on a Member.",
                 'type' => 'dropdown',
                 'group' => 'Links',
             ],

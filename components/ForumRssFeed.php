@@ -37,8 +37,8 @@ class ForumRssFeed extends ComponentBase
     public function componentDetails()
     {
         return [
-            'name' => 'rainlab.forum::lang.settings.rssfeed_title',
-            'description' => 'rainlab.forum::lang.settings.rssfeed_description'
+            'name' => "RSS Feed",
+            'description' => "Generates an RSS feed containing topics from the forum."
         ];
     }
 
@@ -49,27 +49,27 @@ class ForumRssFeed extends ComponentBase
     {
         return [
             'channelFilter' => [
-                'title' => 'rainlab.forum::lang.settings.channels_filter',
-                'description' => 'rainlab.forum::lang.settings.channels_filter_description',
+                'title' => "Channel filter",
+                'description' => "Enter a category slug or URL parameter to filter the topics by. Leave empty to show all topics.",
                 'type' => 'string',
                 'default' => '',
             ],
             'topicsPerPage' => [
-                'title' => 'rainlab.forum::lang.topics.per_page',
+                'title' => "Topics per page",
                 'type' => 'string',
                 'validationPattern' => '^[0-9]+$',
-                'validationMessage' => 'rainlab.forum::lang.topics.per_page_validation',
+                'validationMessage' => "Invalid format of the topics per page value",
                 'default' => '20',
             ],
             'forumPage' => [
-                'title' => 'rainlab.forum::lang.settings.rssfeed_forum',
-                'description' => 'rainlab.forum::lang.settings.rssfeed_forum_description',
+                'title' => "Forum page",
+                'description' => "Name of the main forum page file for generating links. This property is used by the default component partial.",
                 'type' => 'dropdown',
                 'default' => 'blog/post',
             ],
             'topicPage' => [
-                'title' => 'rainlab.forum::lang.topic.page_name',
-                'description' => 'rainlab.forum::lang.topic.page_help',
+                'title' => "Topic Page",
+                'description' => "Page name to use for clicking on a conversation topic.",
                 'type' => 'dropdown',
             ],
         ];

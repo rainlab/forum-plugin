@@ -48,8 +48,8 @@ class ForumPosts extends ComponentBase
     public function componentDetails()
     {
         return [
-            'name' => 'rainlab.forum::lang.posts.component_name',
-            'description' => 'rainlab.forum::lang.posts.component_description',
+            'name' => "Posts List",
+            'description' => "Displays a list of all posts.",
         ];
     }
 
@@ -60,25 +60,25 @@ class ForumPosts extends ComponentBase
     {
         return [
             'memberPage' => [
-                'title' => 'rainlab.forum::lang.member.page_name',
-                'description' => 'rainlab.forum::lang.member.page_help',
+                'title' => "Member Page",
+                'description' => "Page name to use for clicking on a Member.",
                 'type' => 'dropdown'
             ],
             'topicPage' => [
-                'title' => 'rainlab.forum::lang.topic.page_name',
-                'description' => 'rainlab.forum::lang.topic.page_help',
+                'title' => "Topic Page",
+                'description' => "Page name to use for clicking on a conversation topic.",
                 'type' => 'dropdown',
             ],
             'postsPerPage' =>  [
-                'title' => 'rainlab.forum::lang.posts.per_page',
+                'title' => "Posts per page",
                 'type' => 'string',
                 'validationPattern' => '^[0-9]+$',
-                'validationMessage' => 'rainlab.forum::lang.posts.per_page_validation',
+                'validationMessage' => "Posts per page must be a number",
                 'default' => '20',
             ],
             'includeStyles' => [
-                'title' => 'rainlab.forum::lang.components.general.properties.includeStyles',
-                'description' => 'rainlab.forum::lang.components.general.properties.includeStyles_desc',
+                'title' => "Enable CSS",
+                'description' => "Include the CSS files with default styles for the forum",
                 'type' => 'checkbox',
                 'default' => true
             ],
