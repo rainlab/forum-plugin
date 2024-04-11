@@ -12,7 +12,7 @@ modelClass: RainLab\Forum\Models\Channel
 title: Manage Channels
 
 # Link URL for each record
-recordUrl: rainlab/forum/channels/update/:id
+recordOnClick: popup
 
 # Message to display if the list is empty
 noRecordsMessage: backend::lang.list.no_records
@@ -23,8 +23,6 @@ recordsPerPage: 20
 # Display checkboxes next to each record
 showCheckboxes: true
 
-showTree: true
-
 # Toolbar widget configuration
 toolbar:
     # Partial for toolbar buttons
@@ -33,3 +31,9 @@ toolbar:
     # Search widget configuration
     search:
         prompt: backend::lang.list.search_prompt
+
+# List Structure
+structure:
+    showTree: true
+    showReorder: true
+    maxDepth: 0

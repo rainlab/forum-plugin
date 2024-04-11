@@ -14,6 +14,11 @@ modelClass: RainLab\Forum\Models\Channel
 # Default redirect location
 defaultRedirect: rainlab/forum/channels
 
+# Form Design
+design:
+    displayMode: popup
+    size: 750
+
 # Create page
 create:
     title: Create

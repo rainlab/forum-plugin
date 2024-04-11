@@ -4,6 +4,7 @@ use Backend;
 use RainLab\User\Models\User;
 use RainLab\Forum\Models\Member;
 use System\Classes\PluginBase;
+use System\Classes\SettingsManager;
 use RainLab\User\Controllers\Users as UsersController;
 
 /**
@@ -139,7 +140,7 @@ class Plugin extends PluginBase
                 'description' => "Manage available forum channels.",
                 'icon' => 'icon-comments',
                 'url' => Backend::url('rainlab/forum/channels'),
-                'category' => "Forum",
+                'category' => SettingsManager::CATEGORY_USERS,
                 'order' => 500,
                 'permissions' => ['rainlab.forum.manage_channels'],
             ]
