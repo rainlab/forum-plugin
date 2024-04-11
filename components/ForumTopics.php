@@ -1,6 +1,5 @@
 <?php namespace RainLab\Forum\Components;
 
-use Auth;
 use Request;
 use Redirect;
 use Cms\Classes\Page;
@@ -10,11 +9,9 @@ use RainLab\Forum\Models\Member as MemberModel;
 use RainLab\Forum\Classes\TopicTracker;
 
 /**
- * Topic list component
- *
- * Displays a list of all topics.
+ * ForumTopics component displays a list of all topics.
  */
-class Topics extends ComponentBase
+class ForumTopics extends ComponentBase
 {
     /**
      * @var RainLab\Forum\Models\Topic topics
@@ -22,67 +19,79 @@ class Topics extends ComponentBase
     public $topics;
 
     /**
-     * @var RainLab\Forum\Models\Member Member cache
+     * @var RainLab\Forum\Models\Member member cache
      */
     protected $member = null;
 
     /**
-     * @var string Reference to the page name for linking to members.
+     * @var string memberPage reference to the page name for linking to members.
      */
     public $memberPage;
 
     /**
-     * @var string Reference to the page name for linking to topics.
+     * @var string topicPage reference to the page name for linking to topics.
      */
     public $topicPage;
 
     /**
-     * @var int Number of topics to display per page.
+     * @var int topicsPerPage number of topics to display per page.
      */
     public $topicsPerPage;
 
+    /**
+     * componentDetails
+     */
     public function componentDetails()
     {
         return [
-            'name'        => 'rainlab.forum::lang.topics.component_name',
+            'name' => 'rainlab.forum::lang.topics.component_name',
             'description' => 'rainlab.forum::lang.topics.component_description',
         ];
     }
 
+    /**
+     * defineProperties
+     */
     public function defineProperties()
     {
         return [
             'memberPage' => [
-                'title'       => 'rainlab.forum::lang.member.page_name',
+                'title' => 'rainlab.forum::lang.member.page_name',
                 'description' => 'rainlab.forum::lang.member.page_help',
-                'type'        => 'dropdown'
+                'type' => 'dropdown'
             ],
             'topicPage' => [
-                'title'       => 'rainlab.forum::lang.topic.page_name',
+                'title' => 'rainlab.forum::lang.topic.page_name',
                 'description' => 'rainlab.forum::lang.topic.page_help',
-                'type'        => 'dropdown',
+                'type' => 'dropdown',
             ],
             'topicsPerPage' =>  [
-                'title'             => 'rainlab.forum::lang.topics.per_page',
-                'type'              => 'string',
+                'title' => 'rainlab.forum::lang.topics.per_page',
+                'type' => 'string',
                 'validationPattern' => '^[0-9]+$',
                 'validationMessage' => 'rainlab.forum::lang.topics.per_page_validation',
-                'default'           => '20',
+                'default' => '20',
             ],
             'includeStyles' => [
-                'title'       => 'rainlab.forum::lang.components.general.properties.includeStyles',
+                'title' => 'rainlab.forum::lang.components.general.properties.includeStyles',
                 'description' => 'rainlab.forum::lang.components.general.properties.includeStyles_desc',
-                'type'        => 'checkbox',
-                'default'     => true
+                'type' => 'checkbox',
+                'default' => true
             ],
         ];
     }
 
+    /**
+     * getPropertyOptions
+     */
     public function getPropertyOptions($property)
     {
         return Page::sortBy('baseFileName')->lists('baseFileName', 'baseFileName');
     }
 
+    /**
+     * onRun
+     */
     public function onRun()
     {
         if ($this->property('includeStyles', true)) {
@@ -94,30 +103,31 @@ class Topics extends ComponentBase
         return $this->prepareTopicList();
     }
 
+    /**
+     * prepareVars
+     */
     protected function prepareVars()
     {
-        /*
-         * Page links
-         */
         $this->topicPage = $this->page['topicPage'] = $this->property('topicPage');
         $this->memberPage = $this->page['memberPage'] = $this->property('memberPage');
         $this->topicsPerPage = $this->page['topicsPerPage'] = $this->property('topicsPerPage');
     }
 
+    /**
+     * prepareTopicList
+     */
     protected function prepareTopicList()
     {
         $currentPage = input('page');
         $searchString = trim(input('search'));
         $topics = TopicModel::with('last_post_member')->listFrontEnd([
-            'page'    => $currentPage,
+            'page' => $currentPage,
             'perPage' => $this->topicsPerPage,
-            'sort'    => 'updated_at',
-            'search'  => $searchString,
+            'sort' => 'updated_at',
+            'search' => $searchString,
         ]);
 
-        /*
-         * Add a "url" helper attribute for linking to each topic
-         */
+        // Add a "url" helper attribute for linking to each topic
         $topics->each(function($topic) {
             $topic->setUrl($this->topicPage, $this->controller);
 
@@ -130,9 +140,7 @@ class Topics extends ComponentBase
             }
         });
 
-        /*
-         * Signed in member
-         */
+        // Signed in member
         $this->page['member'] = $this->member = MemberModel::getFromUser();
 
         if ($this->member) {
@@ -142,9 +150,7 @@ class Topics extends ComponentBase
 
         $this->page['topics'] = $this->topics = $topics;
 
-        /*
-         * Pagination
-         */
+        // Pagination
         if ($topics) {
             $queryArr = [];
             if ($searchString) {

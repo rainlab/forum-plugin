@@ -7,9 +7,9 @@ use RainLab\Forum\Models\Channel as ChannelModel;
 use Exception;
 
 /**
- * EmbedTopic on to any page
+ * ForumEmbedTopic on to any page
  */
-class EmbedTopic extends ComponentBase
+class ForumEmbedTopic extends ComponentBase
 {
     /**
      * @var bool embedMode determines if this component is being used by the EmbedChannel component.

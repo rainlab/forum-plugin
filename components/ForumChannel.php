@@ -11,11 +11,9 @@ use RainLab\Forum\Models\Member as MemberModel;
 use RainLab\Forum\Classes\TopicTracker;
 
 /**
- * Channel component
- *
- * Displays a list of posts belonging to a channel.
+ * ForumChannel component displays a list of posts belonging to a channel.
  */
-class Channel extends ComponentBase
+class ForumChannel extends ComponentBase
 {
     /**
      * @var boolean embedMode determines if this component is being used by the EmbedChannel component.

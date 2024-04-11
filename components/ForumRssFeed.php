@@ -1,80 +1,91 @@
 <?php namespace RainLab\Forum\Components;
 
-use Lang;
 use Response;
 use Cms\Classes\Page;
 use Cms\Classes\ComponentBase;
 use RainLab\Forum\Models\Topic as ForumTopic;
 use RainLab\Forum\Models\Channel as ForumChannel;
 
-class RssFeed extends ComponentBase
+/**
+ * ForumRssFeed component for displaying an RSS feed of conversations
+ */
+class ForumRssFeed extends ComponentBase
 {
     /**
-     * @var Collection A collection of topics to display
+     * @var Collection topics to display
      */
     public $topics;
 
     /**
-     * If the post list should be filtered by a channel, the model to use.
-     * @var Model
+     * @var Model channel to use, if the post list should be filtered by a channel.
      */
     public $channel;
 
     /**
-     * Reference to the page name for the main blog page.
-     * @var string
+     * @var string forumPage reference to the page name for the main blog page.
      */
     public $forumPage;
 
     /**
-     * Reference to the page name for linking to topics.
-     * @var string
+     * @var string topicPage reference to the page name for linking to topics.
      */
     public $topicPage;
 
+    /**
+     * componentDetails
+     */
     public function componentDetails()
     {
         return [
-            'name'        => 'rainlab.forum::lang.settings.rssfeed_title',
+            'name' => 'rainlab.forum::lang.settings.rssfeed_title',
             'description' => 'rainlab.forum::lang.settings.rssfeed_description'
         ];
     }
 
+    /**
+     * defineProperties
+     */
     public function defineProperties()
     {
         return [
             'channelFilter' => [
-                'title'       => 'rainlab.forum::lang.settings.channels_filter',
+                'title' => 'rainlab.forum::lang.settings.channels_filter',
                 'description' => 'rainlab.forum::lang.settings.channels_filter_description',
-                'type'        => 'string',
-                'default'     => '',
+                'type' => 'string',
+                'default' => '',
             ],
             'topicsPerPage' => [
-                'title'             => 'rainlab.forum::lang.topics.per_page',
-                'type'              => 'string',
+                'title' => 'rainlab.forum::lang.topics.per_page',
+                'type' => 'string',
                 'validationPattern' => '^[0-9]+$',
                 'validationMessage' => 'rainlab.forum::lang.topics.per_page_validation',
-                'default'           => '20',
+                'default' => '20',
             ],
             'forumPage' => [
-                'title'       => 'rainlab.forum::lang.settings.rssfeed_forum',
+                'title' => 'rainlab.forum::lang.settings.rssfeed_forum',
                 'description' => 'rainlab.forum::lang.settings.rssfeed_forum_description',
-                'type'        => 'dropdown',
-                'default'     => 'blog/post',
+                'type' => 'dropdown',
+                'default' => 'blog/post',
             ],
             'topicPage' => [
-                'title'       => 'rainlab.forum::lang.topic.page_name',
+                'title' => 'rainlab.forum::lang.topic.page_name',
                 'description' => 'rainlab.forum::lang.topic.page_help',
-                'type'        => 'dropdown',
+                'type' => 'dropdown',
             ],
         ];
     }
 
+    /**
+     * getPropertyOptions
+     */
     public function getPropertyOptions($property)
     {
         return Page::sortBy('baseFileName')->lists('baseFileName', 'baseFileName');
     }
 
+    /**
+     * onRun
+     */
     public function onRun()
     {
         $this->prepareVars();
@@ -84,6 +95,9 @@ class RssFeed extends ComponentBase
         return Response::make($xmlFeed, '200')->header('Content-Type', 'text/xml');
     }
 
+    /**
+     * prepareVars
+     */
     protected function prepareVars()
     {
         $this->forumPage = $this->page['forumPage'] = $this->property('forumPage');
@@ -95,22 +109,21 @@ class RssFeed extends ComponentBase
         $this->page['rssLink'] = $this->currentPageUrl();
     }
 
+    /**
+     * listTopics
+     */
     protected function listTopics()
     {
         $channel = $this->channel ? $this->channel->id : null;
 
-        /*
-         * List all the topics, eager load their categories
-         */
+        // List all the topics, eager load their categories
         $topics = ForumTopic::with('channel')->listFrontEnd([
             'perPage'  => $this->property('topicsPerPage'),
             'channels' => $channel,
             'sticky'   => false,
         ]);
 
-        /*
-         * Add a "url" helper attribute for linking to each post and channel
-         */
+        // Add a "url" helper attribute for linking to each post and channel
         $topics->each(function($post) {
             $post->setUrl($this->topicPage, $this->controller);
         });
@@ -118,6 +131,9 @@ class RssFeed extends ComponentBase
         return $topics;
     }
 
+    /**
+     * loadChannel
+     */
     protected function loadChannel()
     {
         if (!$channelId = $this->property('channelFilter')) {

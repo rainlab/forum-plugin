@@ -103,15 +103,15 @@ class Plugin extends PluginBase
     public function registerComponents()
     {
         return [
-           \RainLab\Forum\Components\Channels::class => 'forumChannels',
-           \RainLab\Forum\Components\Channel::class => 'forumChannel',
-           \RainLab\Forum\Components\Topic::class => 'forumTopic',
-           \RainLab\Forum\Components\Topics::class => 'forumTopics',
-           \RainLab\Forum\Components\Posts::class => 'forumPosts',
-           \RainLab\Forum\Components\Member::class => 'forumMember',
-           \RainLab\Forum\Components\EmbedTopic::class => 'forumEmbedTopic',
-           \RainLab\Forum\Components\EmbedChannel::class => 'forumEmbedChannel',
-           \RainLab\Forum\Components\RssFeed::class => 'forumRssFeed'
+           \RainLab\Forum\Components\ForumChannel::class => 'forumChannel',
+           \RainLab\Forum\Components\ForumChannels::class => 'forumChannels',
+           \RainLab\Forum\Components\ForumTopic::class => 'forumTopic',
+           \RainLab\Forum\Components\ForumTopics::class => 'forumTopics',
+           \RainLab\Forum\Components\ForumPosts::class => 'forumPosts',
+           \RainLab\Forum\Components\ForumMember::class => 'forumMember',
+           \RainLab\Forum\Components\ForumEmbedTopic::class => 'forumEmbedTopic',
+           \RainLab\Forum\Components\ForumEmbedChannel::class => 'forumEmbedChannel',
+           \RainLab\Forum\Components\ForumRssFeed::class => 'forumRssFeed'
         ];
     }
 

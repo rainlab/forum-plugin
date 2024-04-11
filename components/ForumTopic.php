@@ -19,100 +19,112 @@ use RainLab\Forum\Classes\TopicTracker;
 use Exception;
 
 /**
- * Topic
+ * ForumTopic component displays a forum conversation
  */
-class Topic extends ComponentBase
+class ForumTopic extends ComponentBase
 {
     /**
-     * @var boolean Determine if this component is being used by the EmbedChannel component.
+     * @var boolean embedMode determines if this component is being used by the EmbedChannel component.
      */
     public $embedMode = false;
 
     /**
-     * @var RainLab\Forum\Models\Topic Topic cache
+     * @var RainLab\Forum\Models\Topic topic cache
      */
     protected $topic = null;
 
     /**
-     * @var RainLab\Forum\Models\Channel Channel cache
+     * @var RainLab\Forum\Models\Channel channel cache
      */
     protected $channel = null;
 
     /**
-     * @var RainLab\Forum\Models\Member Member cache
+     * @var RainLab\Forum\Models\Member member cache
      */
     protected $member = null;
 
     /**
-     * @var string Reference to the page name for linking to members.
+     * @var Collection posts cache for Twig access.
+     */
+    public $posts = null;
+
+    /**
+     * @var string memberPage reference to the page name for linking to members.
      */
     public $memberPage;
 
     /**
-     * @var string Reference to the page name for linking to channels.
+     * @var string channelPage reference to the page name for linking to channels.
      */
     public $channelPage;
 
     /**
-     * @var string URL to redirect to after posting to the topic.
+     * @var string returnUrl to redirect to after posting to the topic.
      */
     public $returnUrl;
 
     /**
-     * @var Collection Posts cache for Twig access.
+     * componentDetails
      */
-    public $posts = null;
-
     public function componentDetails()
     {
         return [
-            'name'        => 'rainlab.forum::lang.topicpage.name',
+            'name' => 'rainlab.forum::lang.topicpage.name',
             'description' => 'rainlab.forum::lang.topicpage.self_desc'
         ];
     }
 
+    /**
+     * defineProperties
+     */
     public function defineProperties()
     {
         return [
             'slug' => [
-                'title'       => 'rainlab.forum::lang.topicpage.slug_name',
+                'title' => 'rainlab.forum::lang.topicpage.slug_name',
                 'description' => 'rainlab.forum::lang.topicpage.slug_desc',
-                'default'     => '{{ :slug }}',
-                'type'        => 'string',
+                'default' => '{{ :slug }}',
+                'type' => 'string',
             ],
             'postsPerPage' => [
-                'title'             => 'rainlab.forum::lang.posts.per_page',
-                'type'              => 'string',
+                'title' => 'rainlab.forum::lang.posts.per_page',
+                'type' => 'string',
                 'validationPattern' => '^[0-9]+$',
                 'validationMessage' => 'rainlab.forum::lang.posts.per_page_validation',
-                'default'           => '20',
+                'default' => '20',
             ],
             'memberPage' => [
-                'title'       => 'rainlab.forum::lang.member.page_name',
+                'title' => 'rainlab.forum::lang.member.page_name',
                 'description' => 'rainlab.forum::lang.member.page_help',
-                'type'        => 'dropdown',
-                'group'       => 'Links',
+                'type' => 'dropdown',
+                'group' => 'Links',
             ],
             'channelPage' => [
-                'title'       => 'rainlab.forum::lang.topicpage.channel_title',
+                'title' => 'rainlab.forum::lang.topicpage.channel_title',
                 'description' => 'rainlab.forum::lang.topicpage.channel_desc',
-                'type'        => 'dropdown',
-                'group'       => 'Links',
+                'type' => 'dropdown',
+                'group' => 'Links',
             ],
             'includeStyles' => [
-                'title'       => 'rainlab.forum::lang.components.general.properties.includeStyles',
+                'title' => 'rainlab.forum::lang.components.general.properties.includeStyles',
                 'description' => 'rainlab.forum::lang.components.general.properties.includeStyles_desc',
-                'type'        => 'checkbox',
-                'default'     => true
+                'type' => 'checkbox',
+                'default' => true
             ],
         ];
     }
 
+    /**
+     * getPropertyOptions
+     */
     public function getPropertyOptions($property)
     {
         return Page::sortBy('baseFileName')->lists('baseFileName', 'baseFileName');
     }
 
+    /**
+     * onRun
+     */
     public function onRun()
     {
         if ($this->property('includeStyles', true)) {
@@ -129,6 +141,9 @@ class Topic extends ComponentBase
         return $this->preparePostList();
     }
 
+    /**
+     * prepareVars
+     */
     protected function prepareVars()
     {
         /*
@@ -138,6 +153,9 @@ class Topic extends ComponentBase
         $this->channelPage  = $this->page['channelPage'] = $this->property('channelPage');
     }
 
+    /**
+     * getTopic
+     */
     public function getTopic()
     {
         if ($this->topic !== null) {
@@ -157,6 +175,9 @@ class Topic extends ComponentBase
         return $this->topic = $topic;
     }
 
+    /**
+     * getMember
+     */
     public function getMember()
     {
         if ($this->member !== null) {
@@ -166,6 +187,9 @@ class Topic extends ComponentBase
         return $this->member = MemberModel::getFromUser();
     }
 
+    /**
+     * getChannel
+     */
     public function getChannel()
     {
         if ($this->channel !== null) {
@@ -190,11 +214,17 @@ class Topic extends ComponentBase
         return $this->channel = $channel;
     }
 
+    /**
+     * getChannelList
+     */
     public function getChannelList()
     {
         return ChannelModel::make()->getRootList('title', 'id');
     }
 
+    /**
+     * preparePostList
+     */
     protected function preparePostList()
     {
         /*
@@ -264,6 +294,9 @@ class Topic extends ComponentBase
          }
     }
 
+    /**
+     * handleOptOutLinks
+     */
     protected function handleOptOutLinks()
     {
         if (!$topic = $this->getTopic()) return;
@@ -310,6 +343,9 @@ class Topic extends ComponentBase
 
     }
 
+    /**
+     * onCreate
+     */
     public function onCreate()
     {
         try {
@@ -355,6 +391,9 @@ class Topic extends ComponentBase
         }
     }
 
+    /**
+     * onPost
+     */
     public function onPost()
     {
         try {
@@ -393,6 +432,9 @@ class Topic extends ComponentBase
         }
     }
 
+    /**
+     * onUpdate
+     */
     public function onUpdate()
     {
         $this->page['member'] = $member = $this->getMember();
@@ -431,6 +473,9 @@ class Topic extends ComponentBase
         $this->page['topic'] = $topic;
     }
 
+    /**
+     * onQuote
+     */
     public function onQuote()
     {
         if (!$user = Auth::user()) {
@@ -447,6 +492,9 @@ class Topic extends ComponentBase
         return $result;
     }
 
+    /**
+     * onMove
+     */
     public function onMove()
     {
         $member = $this->getMember();
@@ -466,6 +514,9 @@ class Topic extends ComponentBase
         }
     }
 
+    /**
+     * onFollow
+     */
     public function onFollow()
     {
         try {
@@ -484,6 +535,9 @@ class Topic extends ComponentBase
         }
     }
 
+    /**
+     * onSticky
+     */
     public function onSticky()
     {
         try {
@@ -504,6 +558,9 @@ class Topic extends ComponentBase
         }
     }
 
+    /**
+     * onLock
+     */
     public function onLock()
     {
         try {

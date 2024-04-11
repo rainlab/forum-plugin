@@ -1,18 +1,19 @@
 <?php namespace RainLab\Forum\Components;
 
+use Flash;
 use Request;
 use Redirect;
 use Cms\Classes\Page;
 use Cms\Classes\ComponentBase;
 use RainLab\Forum\Models\Post as PostModel;
 use RainLab\Forum\Models\Member as MemberModel;
+use ApplicationException;
+use Exception;
 
 /**
- * Post list component
- *
- * Displays a list of all posts.
+ * ForumPosts displays a list of all posts.
  */
-class Posts extends ComponentBase
+class ForumPosts extends ComponentBase
 {
     /**
      * @var RainLab\Forum\Models\Post posts
@@ -20,72 +21,81 @@ class Posts extends ComponentBase
     public $posts;
 
     /**
-     * @var RainLab\Forum\Models\Member Member cache
+     * @var RainLab\Forum\Models\Member member cache
      */
     protected $member = null;
 
     /**
-     * @var RainLab\Forum\Models\Member Other member cache
+     * @var RainLab\Forum\Models\Member otherMember cache
      */
     protected $otherMember = null;
 
     /**
-     * @var string Reference to the page name for linking to members.
+     * @var string memberPage reference to the page name for linking to members.
      */
     public $memberPage;
 
     /**
-     * @var string Reference to the page name for linking to topics.
+     * @var string topicPage reference to the page name for linking to topics.
      */
     public $topicPage;
 
     /**
-     * @var int Number of posts to display per page.
+     * @var int postsPerPage number of posts to display per page.
      */
     public $postsPerPage;
 
     public function componentDetails()
     {
         return [
-            'name'        => 'rainlab.forum::lang.posts.component_name',
+            'name' => 'rainlab.forum::lang.posts.component_name',
             'description' => 'rainlab.forum::lang.posts.component_description',
         ];
     }
 
+    /**
+     * defineProperties
+     */
     public function defineProperties()
     {
         return [
             'memberPage' => [
-                'title'       => 'rainlab.forum::lang.member.page_name',
+                'title' => 'rainlab.forum::lang.member.page_name',
                 'description' => 'rainlab.forum::lang.member.page_help',
-                'type'        => 'dropdown'
+                'type' => 'dropdown'
             ],
             'topicPage' => [
-                'title'       => 'rainlab.forum::lang.topic.page_name',
+                'title' => 'rainlab.forum::lang.topic.page_name',
                 'description' => 'rainlab.forum::lang.topic.page_help',
-                'type'        => 'dropdown',
+                'type' => 'dropdown',
             ],
             'postsPerPage' =>  [
-                'title'             => 'rainlab.forum::lang.posts.per_page',
-                'type'              => 'string',
+                'title' => 'rainlab.forum::lang.posts.per_page',
+                'type' => 'string',
                 'validationPattern' => '^[0-9]+$',
                 'validationMessage' => 'rainlab.forum::lang.posts.per_page_validation',
-                'default'           => '20',
+                'default' => '20',
             ],
             'includeStyles' => [
-                'title'       => 'rainlab.forum::lang.components.general.properties.includeStyles',
+                'title' => 'rainlab.forum::lang.components.general.properties.includeStyles',
                 'description' => 'rainlab.forum::lang.components.general.properties.includeStyles_desc',
-                'type'        => 'checkbox',
-                'default'     => true
+                'type' => 'checkbox',
+                'default' => true
             ],
         ];
     }
 
+    /**
+     * getPropertyOptions
+     */
     public function getPropertyOptions($property)
     {
         return Page::sortBy('baseFileName')->lists('baseFileName', 'baseFileName');
     }
 
+    /**
+     * onRun
+     */
     public function onRun()
     {
         if ($this->property('includeStyles', true)) {
@@ -97,6 +107,9 @@ class Posts extends ComponentBase
         return $this->preparePostList();
     }
 
+    /**
+     * prepareVars
+     */
     protected function prepareVars()
     {
         $this->page['otherMember'] = $this->getOtherMember();
@@ -109,6 +122,9 @@ class Posts extends ComponentBase
         $this->postsPerPage = $this->page['postsPerPage'] = $this->property('postsPerPage');
     }
 
+    /**
+     * preparePostList
+     */
     protected function preparePostList()
     {
         $currentPage = (int) input('page');
@@ -121,16 +137,14 @@ class Posts extends ComponentBase
         });
 
         $posts = $posts->listFrontEnd([
-            'page'      => $currentPage,
-            'perPage'   => $this->postsPerPage,
-            'sort'      => 'created_at',
+            'page' => $currentPage,
+            'perPage' => $this->postsPerPage,
+            'sort' => 'created_at',
             'direction' => 'desc',
-            'search'    => $searchString,
+            'search' => $searchString,
         ]);
 
-        /*
-         * Add a "url" helper attribute for linking to each topic
-         */
+        // Add a "url" helper attribute for linking to each topic
         $posts->each(function($post) {
             if ($post->topic) {
                 $post->topic->setUrl($this->topicPage, $this->controller);
@@ -141,9 +155,7 @@ class Posts extends ComponentBase
             }
         });
 
-        /*
-         * Signed in member
-         */
+        // Signed in member
         $this->page['member'] = $this->member = MemberModel::getFromUser();
 
         if ($this->member) {
@@ -152,9 +164,7 @@ class Posts extends ComponentBase
 
         $this->page['posts'] = $this->posts = $posts;
 
-        /*
-         * Pagination
-         */
+        // Pagination
         if ($posts) {
             $queryArr = [];
             if ($searchString) {
@@ -171,33 +181,35 @@ class Posts extends ComponentBase
         }
     }
 
+    /**
+     * onApprove
+     */
     public function onApprove()
     {
-        try {
-            $otherMember = $this->getOtherMember();
-            if (!$otherMember || !$otherMember->is_moderator) {
-                throw new ApplicationException('Access denied');
-            }
-
-            $post = PostModel::find(post('post'));
-
-            if (!$post || !$post->canEdit()) {
-                throw new ApplicationException('Permission denied.');
-            }
-
-            if ($member = $post->member) {
-                $member->approveMember();
-            }
-
-            $this->prepareVars();
-
-            return $this->preparePostList();
+        $otherMember = $this->getOtherMember();
+        if (!$otherMember || !$otherMember->is_moderator) {
+            throw new ApplicationException('Access denied');
         }
-        catch (Exception $ex) {
-            if (Request::ajax()) throw $ex; else Flash::error($ex->getMessage());
+
+        $post = PostModel::find(post('post'));
+
+        if (!$post || !$post->canEdit()) {
+            throw new ApplicationException('Permission denied.');
         }
+
+        if ($member = $post->member) {
+            $member->approveMember();
+        }
+
+        $this->prepareVars();
+
+        return $this->preparePostList();
+
     }
 
+    /**
+     * onFlagSpam
+     */
     public function onFlagSpam()
     {
         try {
@@ -229,6 +241,9 @@ class Posts extends ComponentBase
         }
     }
 
+    /**
+     * getOtherMember
+     */
     public function getOtherMember()
     {
         if ($this->otherMember !== null) {

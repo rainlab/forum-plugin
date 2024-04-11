@@ -13,33 +13,39 @@ use RainLab\User\Models\User as UserModel;
 use RainLab\User\Models\MailBlocker;
 use Exception;
 
-class Member extends ComponentBase
+/**
+ * ForumMember component displays a forum member details
+ */
+class ForumMember extends ComponentBase
 {
     /**
-     * @var RainLab\Forum\Models\Member Member cache
+     * @var RainLab\Forum\Models\Member member cache
      */
     protected $member = null;
 
     /**
-     * @var RainLab\Forum\Models\Member Other member cache
+     * @var RainLab\Forum\Models\Member otherMember cache
      */
     protected $otherMember = null;
 
     /**
-     * @var array Mail preferences cache
+     * @var array mailPreferences cache
      */
     protected $mailPreferences = null;
 
     /**
-     * @var string Reference to the page name for linking to topics.
+     * @var string topicPage reference to the page name for linking to topics.
      */
     public $topicPage;
 
     /**
-     * @var string Reference to the page name for linking to channels.
+     * @var string channelPage reference to the page name for linking to channels.
      */
     public $channelPage;
 
+    /**
+     * componentDetails
+     */
     public function componentDetails()
     {
         return [
@@ -48,6 +54,9 @@ class Member extends ComponentBase
         ];
     }
 
+    /**
+     * defineProperties
+     */
     public function defineProperties()
     {
         return [
@@ -84,16 +93,25 @@ class Member extends ComponentBase
         ];
     }
 
+    /**
+     * getViewModeOptions
+     */
     public function getViewModeOptions()
     {
         return ['' => '- none -', 'view' => 'View', 'edit' => 'Edit'];
     }
 
+    /**
+     * getPropertyOptions
+     */
     public function getPropertyOptions($property)
     {
         return Page::sortBy('baseFileName')->lists('baseFileName', 'baseFileName');
     }
 
+    /**
+     * onRun
+     */
     public function onRun()
     {
         if ($this->property('includeStyles', true)) {
@@ -103,6 +121,9 @@ class Member extends ComponentBase
         $this->prepareVars();
     }
 
+    /**
+     * prepareVars
+     */
     protected function prepareVars()
     {
         $this->page['member'] = $this->getMember();
@@ -116,6 +137,9 @@ class Member extends ComponentBase
         $this->channelPage = $this->page['channelPage'] = $this->property('channelPage');
     }
 
+    /**
+     * getRecentPosts
+     */
     public function getRecentPosts()
     {
         $member = $this->getMember();
@@ -128,6 +152,9 @@ class Member extends ComponentBase
         return $posts;
     }
 
+    /**
+     * getMember
+     */
     public function getMember()
     {
         if ($this->member !== null) {
@@ -144,6 +171,9 @@ class Member extends ComponentBase
         return $this->member = $member;
     }
 
+    /**
+     * getOtherMember
+     */
     public function getOtherMember()
     {
         if ($this->otherMember !== null) {
@@ -153,6 +183,9 @@ class Member extends ComponentBase
         return $this->otherMember = MemberModel::getFromUser();
     }
 
+    /**
+     * getMailPreferences
+     */
     public function getMailPreferences()
     {
         if ($this->mailPreferences !== null) {
@@ -173,11 +206,17 @@ class Member extends ComponentBase
         return $this->mailPreferences = $preferences;
     }
 
+    /**
+     * getMode
+     */
     public function getMode()
     {
         return $this->property('viewMode') ?: input('mode', 'view');
     }
 
+    /**
+     * canEdit
+     */
     public function canEdit()
     {
         if ($this->property('viewMode') == 'view') {
@@ -191,6 +230,9 @@ class Member extends ComponentBase
         return $member->canEdit(MemberModel::getFromUser());
     }
 
+    /**
+     * onUpdate
+     */
     public function onUpdate()
     {
         try {
@@ -230,11 +272,17 @@ class Member extends ComponentBase
         }
     }
 
+    /**
+     * getMailTemplates
+     */
     protected function getMailTemplates()
     {
         return ['topic_reply' => 'rainlab.forum::mail.topic_reply'];
     }
 
+    /**
+     * onPurgePosts
+     */
     public function onPurgePosts()
     {
         try {
@@ -258,6 +306,9 @@ class Member extends ComponentBase
         }
     }
 
+    /**
+     * onApprove
+     */
     public function onApprove()
     {
         try {
@@ -277,6 +328,9 @@ class Member extends ComponentBase
         }
     }
 
+    /**
+     * onBan
+     */
     public function onBan()
     {
         try {
@@ -296,6 +350,9 @@ class Member extends ComponentBase
         }
     }
 
+    /**
+     * onReport
+     */
     public function onReport()
     {
         if (!Auth::check()) {
@@ -325,6 +382,9 @@ class Member extends ComponentBase
         return $this->redirectToSelf();
     }
 
+    /**
+     * redirectToSelf
+     */
     protected function redirectToSelf()
     {
         if (!$member = $this->getMember()) {

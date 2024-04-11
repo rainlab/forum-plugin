@@ -6,37 +6,43 @@ use RainLab\Forum\Models\Channel;
 use RainLab\Forum\Models\Member as MemberModel;
 use RainLab\Forum\Classes\TopicTracker;
 
-class Channels extends ComponentBase
+/**
+ * ForumChannels component displays a list of channels
+ */
+class ForumChannels extends ComponentBase
 {
     /**
-     * @var RainLab\Forum\Models\Member Member cache
+     * @var RainLab\Forum\Models\Member member cache
      */
     protected $member;
 
     /**
-     * @var RainLab\Forum\Models\Channel Channel collection cache
+     * @var RainLab\Forum\Models\Channel channels collection cache
      */
     protected $channels;
 
     /**
-     * @var string Reference to the page name for linking to members.
+     * @var string memberPage reference to the page name for linking to members.
      */
     public $memberPage;
 
     /**
-     * @var string Reference to the page name for linking to topics.
+     * @var string topicPage reference to the page name for linking to topics.
      */
     public $topicPage;
 
     /**
-     * @var string Reference to the page name for linking to channels.
+     * @var string channelPage reference to the page name for linking to channels.
      */
     public $channelPage;
 
+    /**
+     * componentDetails
+     */
     public function componentDetails()
     {
         return [
-            'name'        => 'rainlab.forum::lang.channels.list_name',
+            'name' => 'rainlab.forum::lang.channels.list_name',
             'description' => 'rainlab.forum::lang.channels.list_desc'
         ];
     }
@@ -45,34 +51,40 @@ class Channels extends ComponentBase
     {
         return [
             'memberPage' => [
-                'title'       => 'rainlab.forum::lang.member.page_name',
+                'title' => 'rainlab.forum::lang.member.page_name',
                 'description' => 'rainlab.forum::lang.member.page_help',
-                'type'        => 'dropdown',
+                'type' => 'dropdown',
             ],
             'channelPage' => [
-                'title'       => 'rainlab.forum::lang.channel.page_name',
+                'title' => 'rainlab.forum::lang.channel.page_name',
                 'description' => 'rainlab.forum::lang.channel.page_help',
-                'type'        => 'dropdown',
+                'type' => 'dropdown',
             ],
             'topicPage' => [
-                'title'       => 'rainlab.forum::lang.topic.page_name',
+                'title' => 'rainlab.forum::lang.topic.page_name',
                 'description' => 'rainlab.forum::lang.topic.page_help',
-                'type'        => 'dropdown',
+                'type' => 'dropdown',
             ],
             'includeStyles' => [
-                'title'       => 'rainlab.forum::lang.components.general.properties.includeStyles',
+                'title' => 'rainlab.forum::lang.components.general.properties.includeStyles',
                 'description' => 'rainlab.forum::lang.components.general.properties.includeStyles_desc',
-                'type'        => 'checkbox',
-                'default'     => true
+                'type' => 'checkbox',
+                'default' => true
             ],
         ];
     }
 
+    /**
+     * getPropertyOptions
+     */
     public function getPropertyOptions($property)
     {
         return Page::sortBy('baseFileName')->lists('baseFileName', 'baseFileName');
     }
 
+    /**
+     * onRun
+     */
     public function onRun()
     {
         if ($this->property('includeStyles', true)) {
@@ -83,16 +95,19 @@ class Channels extends ComponentBase
         $this->page['channels'] = $this->listChannels();
     }
 
+    /**
+     * prepareVars
+     */
     protected function prepareVars()
     {
-        /*
-         * Page links
-         */
         $this->memberPage = $this->page['memberPage'] = $this->property('memberPage');
         $this->channelPage = $this->page['channelPage'] = $this->property('channelPage');
         $this->topicPage = $this->page['topicPage'] = $this->property('topicPage');
     }
 
+    /**
+     * listChannels
+     */
     public function listChannels()
     {
         if ($this->channels !== null) {
@@ -101,9 +116,7 @@ class Channels extends ComponentBase
 
         $channels = Channel::with('first_topic')->isVisible()->get();
 
-        /*
-         * Add a "url" helper attribute for linking to each channel
-         */
+        // Add a "url" helper attribute for linking to each channel
         $channels->each(function($channel) {
             $channel->setUrl($this->channelPage, $this->controller);
 
