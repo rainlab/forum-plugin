@@ -232,11 +232,12 @@ class ForumMember extends ComponentBase
 
             // Process mail preferences
             if ($member->user) {
-                UserPreference::set($member->user_id, 'forum_notify_replies', (bool) post('MailPreferences'));
+                $shouldNotify = (bool) post('notify_replies');
+                UserPreference::setPreference($member->user_id, 'forum_notify_replies', $shouldNotify === true ? null : false);
             }
 
             // Save member
-            $data = array_except(post(), 'MailPreferences');
+            $data = array_except(post(), 'notify_replies');
             $member->fill($data);
             $member->save();
 

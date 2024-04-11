@@ -134,8 +134,8 @@ class ForumTopic extends ComponentBase
 
         $this->prepareVars();
         $this->page['channel'] = $this->getChannel();
-        $this->page['topic']   = $topic = $this->getTopic();
-        $this->page['member']  = $member = $this->getMember();
+        $this->page['topic'] = $this->getTopic();
+        $this->page['member'] = $this->getMember();
         $this->handleOptOutLinks();
 
         return $this->preparePostList();
@@ -168,7 +168,7 @@ class ForumTopic extends ComponentBase
 
         $topic = TopicModel::whereSlug($slug)->first();
 
-        if ($topic) {
+        if ($topic && !Request::ajax()) {
             $topic->increaseViewCount();
         }
 
@@ -227,9 +227,7 @@ class ForumTopic extends ComponentBase
      */
     protected function preparePostList()
     {
-        /*
-         * If topic exists, loads the posts
-         */
+        // If topic exists, loads the posts
         if ($topic = $this->getTopic()) {
             $currentPage = input('page');
             $searchString = trim(input('search'));
@@ -241,9 +239,7 @@ class ForumTopic extends ComponentBase
                 'search' => $searchString,
             ]);
 
-            /*
-             * Add a "url" helper attribute for linking to each member
-             */
+            // Add a "url" helper attribute for linking to each member
             $posts->each(function($post){
                 if ($post->member)
                     $post->member->setUrl($this->memberPage, $this->controller);
@@ -251,9 +247,7 @@ class ForumTopic extends ComponentBase
 
             $this->page['posts'] = $this->posts = $posts;
 
-            /*
-             * Pagination
-             */
+            // Pagination
             $queryArr = [];
             if ($searchString) {
                 $queryArr['search'] = $searchString;
@@ -269,16 +263,12 @@ class ForumTopic extends ComponentBase
             $this->page['paginationUrl'] = $paginationUrl;
         }
 
-        /*
-         * Set topic as watched
-         */
+        // Set topic as watched
         if ($this->topic && $this->member) {
             TopicTracker::instance()->markTopicTracked($this->topic);
         }
 
-        /*
-         * Return URL
-         */
+        // Return URL
         if ($this->getChannel()) {
             if ($this->embedMode == 'single') {
                 $returnUrl = null;
@@ -299,9 +289,17 @@ class ForumTopic extends ComponentBase
      */
     protected function handleOptOutLinks()
     {
-        if (!$topic = $this->getTopic()) return;
-        if (!$action = post('action')) return;
-        if (!in_array($action, ['unfollow', 'unsubscribe'])) return;
+        if (!$topic = $this->getTopic()) {
+            return;
+        }
+
+        if (!$action = post('action')) {
+            return;
+        }
+
+        if (!in_array($action, ['unfollow', 'unsubscribe'])) {
+            return;
+        }
 
         /*
          * Attempt to find member using dry authentication
@@ -333,10 +331,9 @@ class ForumTopic extends ComponentBase
 
         // Unsubscribe link
         if ($action == 'unsubscribe' && $member->user) {
-            UserPreference::set($member->user_id, 'forum_notify_replies', false);
+            UserPreference::setPreference($member->user_id, 'forum_notify_replies', false);
             Flash::success('You will no longer receive notifications about any topics in this forum.');
         }
-
     }
 
     /**
@@ -345,7 +342,7 @@ class ForumTopic extends ComponentBase
     public function onCreate()
     {
         try {
-            if (!$user = Auth::user()) {
+            if (!Auth::check()) {
                 throw new ApplicationException('You should be logged in.');
             }
 
@@ -389,7 +386,7 @@ class ForumTopic extends ComponentBase
     public function onPost()
     {
         try {
-            if (!$user = Auth::user()) {
+            if (!Auth::check()) {
                 throw new ApplicationException('You should be logged in.');
             }
 
@@ -406,15 +403,11 @@ class ForumTopic extends ComponentBase
             TopicFollow::sendNotifications($topic, $post, $postUrl);
             Flash::success(post('flash', 'Response added successfully!'));
 
-            /*
-             * Extensbility
-             */
+            // Extensibility
             Event::fire('rainlab.forum.topic.post', [$this, $post, $postUrl]);
             $this->fireEvent('topic.post', [$post, $postUrl]);
 
-            /*
-             * Redirect to the intended page after successful update
-             */
+            // Redirect to the intended page after successful update
             $redirectUrl = post('redirect', $postUrl);
 
             return Redirect::to($redirectUrl.'?page=last#post-'.$post->id);
@@ -429,8 +422,6 @@ class ForumTopic extends ComponentBase
      */
     public function onUpdate()
     {
-        $this->page['member'] = $member = $this->getMember();
-
         $topic = $this->getTopic();
         $post = PostModel::find(post('post'));
 
@@ -438,9 +429,7 @@ class ForumTopic extends ComponentBase
             throw new ApplicationException('Permission denied.');
         }
 
-        /*
-         * Supported modes: edit, view, delete, save
-         */
+        // Supported modes: edit, view, delete, save
         $mode = post('mode', 'edit');
         if ($mode == 'save') {
             if (!$topic || !$topic->canPost()) {
@@ -463,6 +452,7 @@ class ForumTopic extends ComponentBase
         $this->page['mode'] = $mode;
         $this->page['post'] = $post;
         $this->page['topic'] = $topic;
+        $this->page['member'] = $this->getMember();
     }
 
     /**
@@ -470,7 +460,7 @@ class ForumTopic extends ComponentBase
      */
     public function onQuote()
     {
-        if (!$user = Auth::user()) {
+        if (!Auth::check()) {
             throw new ApplicationException('You should be logged in.');
         }
 
@@ -511,7 +501,7 @@ class ForumTopic extends ComponentBase
      */
     public function onFollow()
     {
-        if (!$user = Auth::user()) {
+        if (!Auth::check()) {
             throw new ApplicationException('You should be logged in.');
         }
 

@@ -1,7 +1,5 @@
 <div class="reply-form" id="postForm">
-
-    {{ form_open({ request: 'onPost' }) }}
-
+    <form data-request="onPost" data-request-flash>
         <input type="hidden" name="topic" value="{{ topic.id }}" />
 
         <div class="member-area">
@@ -14,12 +12,19 @@
                 name="content"
                 rows="6"
                 class="form-control">{{ form_value('content') }}</textarea>
-            <span class="help-block">You can use <a href="http://daringfireball.net/projects/markdown/syntax" target="_blank">Markdown</a> syntax.</span>
+
+            <span class="help-block">
+                You can use <a href="http://daringfireball.net/projects/markdown/syntax" target="_blank">Markdown</a> syntax.
+            </span>
+
             <div class="post-buttons mt-3">
-                <button type="submit" class="btn btn-primary btn-lg">Post a Reply</button>
+                <button
+                    type="submit"
+                    class="btn btn-primary btn-lg"
+                    data-attach-loading>
+                    Post a Reply
+                </button>
             </div>
         </div>
-
-    {{ form_close() }}
-
+    </form>
 </div>

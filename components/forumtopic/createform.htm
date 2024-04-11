@@ -1,7 +1,8 @@
-{{ form_open({ request: 'onCreate' }) }}
+<form data-request="onCreate" data-request-flash>
+    <input type="hidden" name="channel" value="{{ channel.id }}" />
 
-    <div class="form-group">
-        <label for="topicSubject" class="control-label">Subject</label>
+    <div class="mb-3">
+        <label for="topicSubject" class="form-label">Subject</label>
         <input
             id="topicSubject"
             name="subject"
@@ -10,8 +11,8 @@
             value="{{ post('subject') }}" />
     </div>
 
-    <div class="form-group">
-        <label for="topicContent" class="control-label">Content</label>
+    <div class="mb-3">
+        <label for="topicContent" class="form-label">Content</label>
         <textarea
             id="topicContent"
             name="content"
@@ -21,13 +22,15 @@
         <span class="help-block">You can use <a href="http://daringfireball.net/projects/markdown/syntax" target="_blank">Markdown</a> syntax.</span>
     </div>
 
-    <div class="form-group post-buttons">
-        <button type="submit" class="btn btn-primary btn-lg">Post this topic</button>
+    <div class="mb-3 post-buttons">
+        <button
+            type="submit"
+            class="btn btn-primary btn-lg"
+            data-attach-loading>
+            Post this topic
+        </button>
         {% if returnUrl %}
             <a class="btn btn-link btn-lg" href="{{ returnUrl }}">Cancel</a>
         {% endif %}
     </div>
-
-    <input type="hidden" name="channel" value="{{ channel.id }}" />
-
-{{ form_close() }}
+</form>

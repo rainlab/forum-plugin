@@ -26,7 +26,7 @@
 
     {% if mode == 'edit' %}
 
-        {{ form_open() }}
+        <form>
             <!-- Passable fields -->
             <input type="hidden" name="mode" value="save" />
             <input type="hidden" name="post" value="{{ post.id }}" />
@@ -70,7 +70,7 @@
                     Cancel
                 </a>
             </div>
-        {{ form_close() }}
+        </form>
 
     {% elseif mode == 'delete' %}
         <div class="text">

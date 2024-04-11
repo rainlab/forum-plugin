@@ -3,7 +3,7 @@
 
         {% if member.is_moderator %}
             <div class="list-group-item">
-                {{ form_open({ request: 'onMove', 'data-request-confirm': "Are you sure?" }) }}
+                <form data-request="onMove" data-request-confirm="Are you sure?">
                     <label>Move to:</label>
                     <select name="channel" class="form-control input-sm">
                         {% for id, title in __SELF__.channelList %}
@@ -11,7 +11,7 @@
                         {% endfor %}
                     </select>
                     <button type="submit" class="btn btn-block btn-primary btn-sm">Move</button>
-                {{ form_close() }}
+                </form>
             </div>
 
             <a href="javascript:;"
