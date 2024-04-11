@@ -277,7 +277,7 @@ class ForumMember extends ComponentBase
      */
     protected function getMailTemplates()
     {
-        return ['topic_reply' => 'rainlab.forum::mail.topic_reply'];
+        return ['topic_reply' => 'rainlab.forum:topic_reply'];
     }
 
     /**
@@ -366,7 +366,7 @@ class ForumMember extends ComponentBase
                 'otherMember' => $otherMember,
                 'otherMemberUrl' => $otherMemberUrl,
             ];
-            Mail::sendTo($moderators, 'rainlab.forum::mail.member_report', $params);
+            Mail::sendTo($moderators, 'rainlab.forum:member_report', $params);
         }
 
         return $this->redirectToSelf();

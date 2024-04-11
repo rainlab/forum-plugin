@@ -337,7 +337,7 @@ class ForumTopic extends ComponentBase
          * Unsubscribe link
          */
         if ($action == 'unsubscribe' && $member->user) {
-            MailBlocker::addBlock('rainlab.forum::mail.topic_reply', $member->user);
+            MailBlocker::addBlock('rainlab.forum:topic_reply', $member->user);
             Flash::success('You will no longer receive notifications about any topics in this forum.');
         }
 

@@ -169,8 +169,8 @@ class Plugin extends PluginBase
     public function registerMailTemplates()
     {
         return [
-            'rainlab.forum::mail.topic_reply',
-            'rainlab.forum::mail.member_report'
+            'rainlab.forum:topic_reply' => 'rainlab.forum::mail.topic_reply',
+            'rainlab.forum:member_report' => 'rainlab.forum::mail.member_report'
         ];
     }
 }

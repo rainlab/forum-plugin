@@ -129,8 +129,7 @@ class TopicFollow extends Model
                 'email' => $member->user->email
             ];
 
-            Mail::queue('rainlab.forum::mail.topic_reply', $data, function($message) use ($vars)
-            {
+            Mail::queue('rainlab.forum:topic_reply', $data, function($message) use ($vars) {
                 extract($vars);
                 $message->to($email, $name);
             });
