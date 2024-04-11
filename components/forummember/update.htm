@@ -1,18 +1,18 @@
-{{ form_open({ request: 'onUpdate', model: member }) }}
+<form data-request="onUpdate">
 
     <div class="form-group">
         <label for="memberUsername">Username</label>
-        <input name="username" type="text" class="form-control" id="memberUsername" value="{{ form_value('username') }}">
+        <input name="username" type="text" class="form-control" id="memberUsername" value="{{ member.username }}">
     </div>
 
     <div class="form-group">
         <div class="checkbox">
-            <label for="mailPreferences-topicReply">
-                <input name="MailPreferences[topic_reply]" type="hidden" value="0" />
+            <label for="userPreferenceTopicReply">
+                <input name="UserPreference[forum_notify_replies]" type="hidden" value="0" />
                 <input
-                    id="mailPreferences-topicReply"
-                    name="MailPreferences[topic_reply]"
-                    {{ mailPreferences.topic_reply ? 'checked' }}
+                    id="userPreferenceTopicReply"
+                    name="UserPreference[forum_notify_replies]"
+                    {{ sendNotifications ? 'checked' }}
                     type="checkbox"
                     value="1" />
                 Notify me about replies to topics I am watching
@@ -20,6 +20,7 @@
         </div>
     </div>
 
-    <button type="submit" class="btn btn-default">Save</button>
-
-{{ form_close() }}
+    <button type="submit" class="btn btn-default">
+        Save
+    </button>
+</form>

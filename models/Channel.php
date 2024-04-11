@@ -17,7 +17,7 @@ class Channel extends Model
     public $implement = ['@RainLab.Translate.Behaviors.TranslatableModel'];
 
     /**
-     * @var string The database table used by the model.
+     * @var string table associated with the model
      */
     public $table = 'rainlab_forum_channels';
 

@@ -14,7 +14,7 @@ class Member extends Model
     use \October\Rain\Database\Traits\Sluggable;
 
     /**
-     * @var string The database table used by the model.
+     * @var string table associated with the model
      */
     public $table = 'rainlab_forum_members';
 

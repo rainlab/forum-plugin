@@ -10,7 +10,7 @@ use Cms\Classes\ComponentBase;
 use ApplicationException;
 use RainLab\Forum\Models\Member as MemberModel;
 use RainLab\User\Models\User as UserModel;
-use RainLab\User\Models\MailBlocker;
+use RainLab\User\Models\UserPreference;
 use Exception;
 
 /**
@@ -27,11 +27,6 @@ class ForumMember extends ComponentBase
      * @var RainLab\Forum\Models\Member otherMember cache
      */
     protected $otherMember = null;
-
-    /**
-     * @var array mailPreferences cache
-     */
-    protected $mailPreferences = null;
 
     /**
      * @var string topicPage reference to the page name for linking to topics.
@@ -128,7 +123,7 @@ class ForumMember extends ComponentBase
     {
         $this->page['member'] = $this->getMember();
         $this->page['otherMember'] = $this->getOtherMember();
-        $this->page['mailPreferences'] = $this->getMailPreferences();
+        $this->page['sendNotifications'] = $this->shouldSendNotifications();
         $this->page['canEdit'] = $this->canEdit();
         $this->page['mode'] = $this->getMode();
 
@@ -184,26 +179,16 @@ class ForumMember extends ComponentBase
     }
 
     /**
-     * getMailPreferences
+     * shouldSendNotifications
      */
-    public function getMailPreferences()
+    public function shouldSendNotifications()
     {
-        if ($this->mailPreferences !== null) {
-            return $this->mailPreferences;
-        }
-
         $member = $this->getMember();
         if (!$member || !$member->user) {
-            return [];
+            return false;
         }
 
-        $preferences = [];
-        $blocked = MailBlocker::checkAllForUser($member->user);
-        foreach ($this->getMailTemplates() as $alias => $template) {
-            $preferences[$alias] = !in_array($template, $blocked);
-        }
-
-        return $this->mailPreferences = $preferences;
+        return (bool) UserPreference::getPreference($member->user_id, 'forum_notify_replies', true);
     }
 
     /**
@@ -245,20 +230,12 @@ class ForumMember extends ComponentBase
                 return;
             }
 
-            /*
-             * Process mail preferences
-             */
+            // Process mail preferences
             if ($member->user) {
-                MailBlocker::setPreferences(
-                    $member->user,
-                    post('MailPreferences'),
-                    ['aliases' => $this->getMailTemplates()]
-                );
+                UserPreference::set($member->user_id, 'forum_notify_replies', (bool) post('MailPreferences'));
             }
 
-            /*
-             * Save member
-             */
+            // Save member
             $data = array_except(post(), 'MailPreferences');
             $member->fill($data);
             $member->save();
@@ -270,14 +247,6 @@ class ForumMember extends ComponentBase
         catch (Exception $ex) {
             Flash::error($ex->getMessage());
         }
-    }
-
-    /**
-     * getMailTemplates
-     */
-    protected function getMailTemplates()
-    {
-        return ['topic_reply' => 'rainlab.forum:topic_reply'];
     }
 
     /**

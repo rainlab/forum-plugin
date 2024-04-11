@@ -6,9 +6,9 @@ use Event;
 use Request;
 use Redirect;
 use Cms\Classes\Page;
-use RainLab\User\Models\User as UserModel;
-use RainLab\User\Models\MailBlocker;
 use Cms\Classes\ComponentBase;
+use RainLab\User\Models\User as UserModel;
+use RainLab\User\Models\UserPreference;
 use RainLab\Forum\Models\Topic as TopicModel;
 use RainLab\Forum\Models\Channel as ChannelModel;
 use RainLab\Forum\Models\Member as MemberModel;
@@ -325,19 +325,15 @@ class ForumTopic extends ComponentBase
             }
         }
 
-        /*
-         * Unfollow link
-         */
+        // Unfollow link
         if ($action == 'unfollow') {
             TopicFollow::unfollow($topic, $member);
             Flash::success('You will no longer receive notifications about this topic.');
         }
 
-        /*
-         * Unsubscribe link
-         */
+        // Unsubscribe link
         if ($action == 'unsubscribe' && $member->user) {
-            MailBlocker::addBlock('rainlab.forum:topic_reply', $member->user);
+            UserPreference::set($member->user_id, 'forum_notify_replies', false);
             Flash::success('You will no longer receive notifications about any topics in this forum.');
         }
 
