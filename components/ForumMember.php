@@ -3,14 +3,15 @@
 use Auth;
 use Mail;
 use Flash;
-use Request;
 use Redirect;
 use Cms\Classes\Page;
 use Cms\Classes\ComponentBase;
-use ApplicationException;
 use RainLab\Forum\Models\Member as MemberModel;
 use RainLab\User\Models\User as UserModel;
 use RainLab\User\Models\UserPreference;
+use RainLab\UserPlus\Models\UserNotification;
+use System\Classes\RateLimiter;
+use ApplicationException;
 use Exception;
 
 /**
@@ -213,6 +214,50 @@ class ForumMember extends ComponentBase
         }
 
         return $member->canEdit(MemberModel::getFromUser());
+    }
+
+    /**
+     * onPoke
+     */
+    public function onPoke()
+    {
+        try {
+            $member = $this->getMember();
+            $viewer = $this->getOtherMember();
+            if (!$viewer || !$member) {
+                throw new ApplicationException('Permission denied.');
+            }
+
+            $limiter = new RateLimiter('forum.poke:'.$viewer->getKey().'-'.$member->getKey());
+            if ($limiter->tooManyAttempts(1)) {
+                throw new ApplicationException('Too many pokes for this user. Please try again tomorrow!');
+            }
+
+            if (!class_exists(UserNotification::class)) {
+                throw new ApplicationException("Please install the RainLab.UserPlus plugin to enable this feature.");
+            }
+
+            if ($viewer->id === $member->id) {
+                UserNotification::createRecord($member->user_id, 'forum-poke', "You poked yourself!", [
+                    'icon' => 'hand-index'
+                ]);
+
+                $this->dispatchBrowserEvent('user:notification-count', ['unreadCount' => 1]);
+            }
+            else {
+                UserNotification::createRecord($member->user_id, 'forum-poke', "{$viewer->username} has poked you!", [
+                    'icon' => 'hand-index'
+                ]);
+            }
+
+            // One poke per day
+            $limiter->increment(86400);
+
+            Flash::success(post('flash', 'Sent a poke to this member!'));
+        }
+        catch (Exception $ex) {
+            Flash::error($ex->getMessage());
+        }
     }
 
     /**
