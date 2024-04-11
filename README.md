@@ -1,6 +1,6 @@
 # Forum plugin
 
-This plugin adds a simple embeddable forum to [OctoberCMS](http://octobercms.com).
+This plugin adds a simple embeddable forum to [October CMS](http://octobercms.com).
 
 A video demonstration of this plugin can be seen here:
 https://vimeo.com/97088926
@@ -37,14 +37,16 @@ Use the `forumRssFeed` component to display an RSS feed containing the latest bl
 
 The component can be used on any page, it will hijack the entire page cycle to display the feed in RSS format. The next example shows how to use it:
 
-    title = "RSS Feed"
-    url = "/forum/rss.xml"
+```
+title = "RSS Feed"
+url = "/forum/rss.xml"
 
-    [forumRssFeed]
-    forumPage = "forum"
-    topicPage = "forum/topic"
-    ==
-    <!-- This markup will never be displayed -->
+[forumRssFeed]
+forumPage = "forum"
+topicPage = "forum/topic"
+==
+<!-- This markup will never be displayed -->
+```
 
 ## Example page structure
 
@@ -112,3 +114,7 @@ topicPage = "forum/topic"
 <h1>{{ member.username }}</h1>
 {% component 'forumMember' %}
 ```
+
+### License
+
+This plugin is an official extension of the October CMS platform and is free to use if you have a platform license. See [EULA license](LICENSE.md) for more details.
