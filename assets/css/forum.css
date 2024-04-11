@@ -93,8 +93,7 @@
             text-align: right;
             width: 256px;
 
-            img.member-avatar {
-                border-radius: 999px;
+            img.img-thumbnail {
                 margin: 0 3px;
             }
         }
@@ -103,8 +102,7 @@
         td.member-column {
             width: 256px;
 
-            img.member-avatar {
-                border-radius: 999px;
+            img.img-thumbnail {
                 margin: 3px 0;
             }
         }
@@ -184,7 +182,6 @@
 
                     width: 50px;
                     height: 50px;
-                    border-radius: 500px;
                 }
             }
             > .content, > .avatar {
@@ -294,8 +291,7 @@
      */
 
     .reply-form {
-        img.member-avatar {
-            border-radius: 999px;
+        img.img-thumbnail {
             margin: 0 3px;
             float: left;
         }

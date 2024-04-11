@@ -222,19 +222,19 @@ class ForumMember extends ComponentBase
     public function onPoke()
     {
         try {
+            if (!class_exists(UserNotification::class)) {
+                throw new ApplicationException("Please install the RainLab.UserPlus plugin to enable this feature.");
+            }
+
             $member = $this->getMember();
             $viewer = $this->getOtherMember();
             if (!$viewer || !$member) {
                 throw new ApplicationException('Permission denied.');
             }
 
-            $limiter = new RateLimiter('forum.poke:'.$viewer->getKey().'-'.$member->getKey());
+            $limiter = new RateLimiter('forum.poke:'.$viewer->getKey().'|'.$member->getKey());
             if ($limiter->tooManyAttempts(1)) {
-                throw new ApplicationException('Too many pokes for this user. Please try again tomorrow!');
-            }
-
-            if (!class_exists(UserNotification::class)) {
-                throw new ApplicationException("Please install the RainLab.UserPlus plugin to enable this feature.");
+                throw new ApplicationException("You have poked {$member->username} too many times. Come back tomorrow!");
             }
 
             if ($viewer->id === $member->id) {
@@ -242,18 +242,20 @@ class ForumMember extends ComponentBase
                     'icon' => 'hand-index'
                 ]);
 
+                Flash::success(post('flash', "You poked yourself!"));
                 $this->dispatchBrowserEvent('user:notification-count', ['unreadCount' => 1]);
             }
             else {
                 UserNotification::createRecord($member->user_id, 'forum-poke', "{$viewer->username} has poked you!", [
                     'icon' => 'hand-index'
                 ]);
+
+                Flash::success(post('flash', "Sent a poke to {$member->username}!"));
             }
 
             // One poke per day
             $limiter->increment(86400);
 
-            Flash::success(post('flash', 'Sent a poke to this member!'));
         }
         catch (Exception $ex) {
             Flash::error($ex->getMessage());
@@ -368,7 +370,7 @@ class ForumMember extends ComponentBase
 
         $moderators = UserModel::whereHas('forum_member', function($member) {
             $member->where('is_moderator', true);
-        })->lists('name', 'email');
+        })->lists('first_name', 'email');
 
         if ($moderators) {
             $member = $this->getMember();
