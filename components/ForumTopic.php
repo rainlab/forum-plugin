@@ -373,15 +373,11 @@ class ForumTopic extends ComponentBase
 
             Flash::success(post('flash', 'Topic created successfully!'));
 
-            /*
-             * Extensbility
-             */
+            // Extensibility
             Event::fire('rainlab.forum.topic.create', [$this, $topic, $topicUrl]);
             $this->fireEvent('topic.create', [$topic, $topicUrl]);
 
-            /*
-             * Redirect to the intended page after successful update
-             */
+            // Redirect to the intended page after successful update
             $redirectUrl = post('redirect', $topicUrl);
 
             return Redirect::to($redirectUrl);
@@ -519,20 +515,15 @@ class ForumTopic extends ComponentBase
      */
     public function onFollow()
     {
-        try {
-            if (!$user = Auth::user()) {
-                throw new ApplicationException('You should be logged in.');
-            }
-
-            $this->page['member'] = $member = $this->getMember();
-            $this->page['topic'] = $topic = $this->getTopic();
-
-            TopicFollow::toggle($topic, $member);
-            $member->touchActivity();
+        if (!$user = Auth::user()) {
+            throw new ApplicationException('You should be logged in.');
         }
-        catch (Exception $ex) {
-            if (Request::ajax()) throw $ex; else Flash::error($ex->getMessage());
-        }
+
+        $this->page['member'] = $member = $this->getMember();
+        $this->page['topic'] = $topic = $this->getTopic();
+
+        TopicFollow::toggle($topic, $member);
+        $member->touchActivity();
     }
 
     /**
@@ -540,22 +531,17 @@ class ForumTopic extends ComponentBase
      */
     public function onSticky()
     {
-        try {
-            $member = $this->getMember();
-            if (!$member || !$member->is_moderator) {
-                throw new ApplicationException('Access denied');
-            }
-
-            if ($topic = $this->getTopic()) {
-                $topic->stickyTopic();
-            }
-
-            $this->page['member'] = $member;
-            $this->page['topic']  = $topic;
+        $member = $this->getMember();
+        if (!$member || !$member->is_moderator) {
+            throw new ApplicationException('Access denied');
         }
-        catch (Exception $ex) {
-            if (Request::ajax()) throw $ex; else Flash::error($ex->getMessage());
+
+        if ($topic = $this->getTopic()) {
+            $topic->stickyTopic();
         }
+
+        $this->page['member'] = $member;
+        $this->page['topic']  = $topic;
     }
 
     /**
@@ -563,21 +549,16 @@ class ForumTopic extends ComponentBase
      */
     public function onLock()
     {
-        try {
-            $member = $this->getMember();
-            if (!$member || !$member->is_moderator) {
-                throw new ApplicationException('Access denied');
-            }
-
-            if ($topic = $this->getTopic()) {
-                $topic->lockTopic();
-            }
-
-            $this->page['member'] = $member;
-            $this->page['topic']  = $topic;
+        $member = $this->getMember();
+        if (!$member || !$member->is_moderator) {
+            throw new ApplicationException('Access denied');
         }
-        catch (Exception $ex) {
-            if (Request::ajax()) throw $ex; else Flash::error($ex->getMessage());
+
+        if ($topic = $this->getTopic()) {
+            $topic->lockTopic();
         }
+
+        $this->page['member'] = $member;
+        $this->page['topic']  = $topic;
     }
 }

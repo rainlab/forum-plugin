@@ -212,33 +212,28 @@ class ForumPosts extends ComponentBase
      */
     public function onFlagSpam()
     {
-        try {
-            $otherMember = $this->getOtherMember();
-            if (!$otherMember || !$otherMember->is_moderator) {
-                throw new ApplicationException('Access denied');
-            }
-
-            $post = PostModel::find(post('post'));
-
-            if (!$post || !$post->canEdit()) {
-                throw new ApplicationException('Permission denied.');
-            }
-
-            if ($member = $post->member) {
-                foreach ($member->posts as $post) {
-                    $post->delete();
-                }
-
-                $member->banMember();
-            }
-
-            $this->prepareVars();
-
-            return $this->preparePostList();
+        $otherMember = $this->getOtherMember();
+        if (!$otherMember || !$otherMember->is_moderator) {
+            throw new ApplicationException('Access denied');
         }
-        catch (Exception $ex) {
-            if (Request::ajax()) throw $ex; else Flash::error($ex->getMessage());
+
+        $post = PostModel::find(post('post'));
+
+        if (!$post || !$post->canEdit()) {
+            throw new ApplicationException('Permission denied.');
         }
+
+        if ($member = $post->member) {
+            foreach ($member->posts as $post) {
+                $post->delete();
+            }
+
+            $member->banMember();
+        }
+
+        $this->prepareVars();
+
+        return $this->preparePostList();
     }
 
     /**
