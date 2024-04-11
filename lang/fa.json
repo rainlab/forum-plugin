@@ -9,7 +9,7 @@
   "Place a tick in this box if this user is banned from posting to the forum.": "اگر میخواهید کاربر به انجمن دسترسی پیدا نکنداین گزینه را فعال نمایید.",
   "Forum Username": "نام کاربری انجمن",
   "Manage available forum channels.": "مدیریت دسته بندی های موجود در انجمن",
-  "Forum channels": "دسته بندی های انجمن",
+  "Forum Channels": "دسته بندی های انجمن",
   "Channel": "دسته بندی",
   "Displays a list of posts belonging to a channel.": "نمایش لیست پست هایی که به یک دسته بندی تعلق دارند.",
   "Slug param name": "نام پارامتر آدرس",

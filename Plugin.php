@@ -122,7 +122,7 @@ class Plugin extends PluginBase
     {
         return [
             'rainlab.forum.manage_channels' => [
-                'tab' => "Forum channels",
+                'tab' => "Forum Channels",
                 'label' => "Manage available forum channels."
             ]
         ];
@@ -135,7 +135,7 @@ class Plugin extends PluginBase
     {
         return [
             'settings' => [
-                'label' => "Forum channels",
+                'label' => "Forum Channels",
                 'description' => "Manage available forum channels.",
                 'icon' => 'icon-comments',
                 'url' => Backend::url('rainlab/forum/channels'),

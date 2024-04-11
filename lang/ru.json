@@ -9,7 +9,7 @@
   "Place a tick in this box if this user is banned from posting to the forum.": "Поставьте галочку, чтобы заблокировать отправку сообщений пользователю.",
   "Forum Username": "Имя на форуме",
   "Manage available forum channels.": "Управление имеющимся на форуме категориями.",
-  "Forum channels": "Категории форума",
+  "Forum Channels": "Категории форума",
   "Channel": "Категория",
   "Displays a list of posts belonging to a channel.": "Отображает список тем, относящихся к категории.",
   "Slug param name": "Имя параметра URL",
