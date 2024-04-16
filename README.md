@@ -1,9 +1,13 @@
 # Forum plugin
 
-This plugin adds a simple embeddable forum to [October CMS](http://octobercms.com).
+This plugin adds a simple embeddable forum to [October CMS](https://octobercms.com).
 
 A video demonstration of this plugin can be seen here:
-https://vimeo.com/97088926
+- https://vimeo.com/97088926
+
+View this plugin on the October CMS marketplace:
+
+- https://octobercms.com/plugin/rainlab-forum
 
 ## Configuration
 
