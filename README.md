@@ -6,7 +6,6 @@ A video demonstration of this plugin can be seen here:
 - https://vimeo.com/97088926
 
 View this plugin on the October CMS marketplace:
-
 - https://octobercms.com/plugin/rainlab-forum
 
 ## Configuration
@@ -16,7 +15,7 @@ The forum does not require immediate configuration to operate. However the follo
 * Forum categories (Channels) can be managed via the System > Channels menu.
 * Forum members can be managed via the User menu.
 
-## Displaying a list of channels
+## Displaying a List of Channels
 
 The plugin includes a component forumChannels that should be used as the main page for your forum. Add the component to your page and render it with the component tag:
 
@@ -30,7 +29,7 @@ You should tell this component about the other forum pages.
 * **topicPage** - the page used for viewing a discussion topic and posts.
 * **memberPage** - the page used for viewing a forum user.
 
-### RSS feed
+### RSS Feed
 
 Use the `forumRssFeed` component to display an RSS feed containing the latest blog posts. The following properties are supported:
 
@@ -52,7 +51,7 @@ topicPage = "forum/topic"
 <!-- This markup will never be displayed -->
 ```
 
-## Example page structure
+## Example Page Structure
 
 #### forum/home.htm
 
