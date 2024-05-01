@@ -1,0 +1,26 @@
+<div class="rainlab-forum">
+    <div class="d-flex">
+        <div>
+            <img src="{{ member.user.avatarThumb(50) }}" class="img-thumbnail" alt="{{ member.username }}" />
+        </div>
+        <div class="ms-3">
+            <h5>{{ member.username }}</h5>
+            <p>Member since: {{ member.created_at|date('M Y') }}</p>
+        </div>
+    </div>
+
+    <div class="alert alert-info pb-0">
+        {% if not member.is_approved %}
+            <p>{{ member.username }} requires approval before posting in guarded channels</p>
+        {% endif %}
+        {% if member.is_banned %}
+            <p>{{ member.username }} has been banned from posting</p>
+        {% endif %}
+        {% if member.is_moderator %}
+            <p>{{ member.username }} is a forum moderator</p>
+        {% endif %}
+    </div>
+
+    <h4>Recent Posts</h4>
+    {% partial '@recentposts' %}
+</div>

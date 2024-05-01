@@ -1,0 +1,29 @@
+<form data-request="onUpdate" data-request-flash>
+    <div class="mb-3">
+        <label for="memberUsername" class="form-label">Username</label>
+        <input name="username" type="text" class="form-control" id="memberUsername" value="{{ member.username }}">
+    </div>
+
+    <div class="mb-3">
+        <div class="form-check">
+            <input name="notify_replies" type="hidden" value="0" />
+            <input
+                id="userPreferenceTopicReply"
+                name="notify_replies"
+                class="form-check-input"
+                {{ sendNotifications ? 'checked' }}
+                type="checkbox"
+                value="1" />
+            <label for="userPreferenceTopicReply" class="form-check-label">
+                Notify me about replies to topics I am watching
+            </label>
+        </div>
+    </div>
+
+    <button
+        type="submit"
+        class="btn btn-primary"
+        data-attach-loading>
+        Save
+    </button>
+</form>

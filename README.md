@@ -1,9 +1,12 @@
 # Forum plugin
 
-This plugin adds a simple embeddable forum to [OctoberCMS](http://octobercms.com).
+This plugin adds a simple embeddable forum to [October CMS](https://octobercms.com).
 
 A video demonstration of this plugin can be seen here:
-https://vimeo.com/97088926
+- https://vimeo.com/97088926
+
+View this plugin on the October CMS marketplace:
+- https://octobercms.com/plugin/rainlab-forum
 
 ## Configuration
 
@@ -12,7 +15,7 @@ The forum does not require immediate configuration to operate. However the follo
 * Forum categories (Channels) can be managed via the System > Channels menu.
 * Forum members can be managed via the User menu.
 
-## Displaying a list of channels
+## Displaying a List of Channels
 
 The plugin includes a component forumChannels that should be used as the main page for your forum. Add the component to your page and render it with the component tag:
 
@@ -26,7 +29,7 @@ You should tell this component about the other forum pages.
 * **topicPage** - the page used for viewing a discussion topic and posts.
 * **memberPage** - the page used for viewing a forum user.
 
-### RSS feed
+### RSS Feed
 
 Use the `forumRssFeed` component to display an RSS feed containing the latest blog posts. The following properties are supported:
 
@@ -37,16 +40,18 @@ Use the `forumRssFeed` component to display an RSS feed containing the latest bl
 
 The component can be used on any page, it will hijack the entire page cycle to display the feed in RSS format. The next example shows how to use it:
 
-    title = "RSS Feed"
-    url = "/forum/rss.xml"
+```
+title = "RSS Feed"
+url = "/forum/rss.xml"
 
-    [forumRssFeed]
-    forumPage = "forum"
-    topicPage = "forum/topic"
-    ==
-    <!-- This markup will never be displayed -->
+[forumRssFeed]
+forumPage = "forum"
+topicPage = "forum/topic"
+==
+<!-- This markup will never be displayed -->
+```
 
-## Example page structure
+## Example Page Structure
 
 #### forum/home.htm
 
@@ -112,3 +117,7 @@ topicPage = "forum/topic"
 <h1>{{ member.username }}</h1>
 {% component 'forumMember' %}
 ```
+
+### License
+
+This plugin is an official extension of the October CMS platform and is free to use if you have a platform license. See [EULA license](LICENSE.md) for more details.

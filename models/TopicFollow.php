@@ -3,6 +3,7 @@
 use Mail;
 use Model;
 use Carbon\Carbon;
+use RainLab\User\Models\UserPreference;
 
 /**
  * Topic watching model
@@ -10,17 +11,17 @@ use Carbon\Carbon;
 class TopicFollow extends Model
 {
     /**
-     * @var string The database table used by the model.
+     * @var string table associated with the model
      */
     public $table = 'rainlab_forum_topic_followers';
 
     /**
-     * @var string Primary key, used to satisfy PostgreSQL
+     * @var string primaryKey, used to satisfy PostgreSQL
      */
     protected $primaryKey = 'member_id';
 
     /**
-     * Flag a topic as being followed by a member
+     * follow a topic as being followed by a member
      * @param Topic $topic   Forum topic
      * @param Member $member Forum member
      */
@@ -37,7 +38,7 @@ class TopicFollow extends Model
     }
 
     /**
-     * Unflag a topic as being followed by a member
+     * unfollow a topic as being followed by a member
      * @param Topic $topic   Forum topic
      * @param Member $member Forum member
      */
@@ -47,7 +48,7 @@ class TopicFollow extends Model
     }
 
     /**
-     * Toggles a topic as being followed by a member, returns true
+     * toggle a topic as being followed by a member, returns true
      * if the member was following, or false if they were not.
      * @param Topic $topic   Forum topic
      * @param Member $member Forum member
@@ -65,7 +66,7 @@ class TopicFollow extends Model
     }
 
     /**
-     * Checks if a topic is being followed by a member
+     * check if a topic is being followed by a member
      * @param Topic $topic   Forum topic
      * @param Member $member Forum member
      */
@@ -75,7 +76,7 @@ class TopicFollow extends Model
     }
 
     /**
-     * Sends notifications to followers of a topic about a post
+     * sendNotifications to followers of a topic about a post
      * @param  Topic $topic
      * @param  Post $post
      * @return void
@@ -85,33 +86,32 @@ class TopicFollow extends Model
         $members = $topic->followers;
 
         $data = [
-            'member'  => null,
-            'post'    => $post,
-            'topic'   => $topic,
+            'member' => null,
+            'post' => $post,
+            'topic' => $topic,
             'channel' => $topic->channel,
             'postUrl' => $postUrl . '?' . http_build_query(['page' => 'last']),
         ];
 
         foreach ($members as $member) {
-            /*
-             * Not notifying self
-             */
+            // Not notifying self
             if ($post->member->id == $member->id) {
                 continue;
             }
 
-            /*
-             * Already notified
-             */
+            // Already notified
             if ($member->last_active_at && $member->pivot->updated_at) {
                 if ($member->last_active_at->lt($member->pivot->updated_at)) {
                     continue;
                 }
             }
 
-            /*
-             * Send notification
-             */
+            // Notification blocked
+            if (UserPreference::getPreference($member->user_id, 'forum_notify_replies', true) === false) {
+                continue;
+            }
+
+            // Send notification
             $data['member'] = $member;
 
             $data['unfollowUrl'] = $postUrl . '?' . http_build_query([
@@ -125,12 +125,11 @@ class TopicFollow extends Model
             ]);
 
             $vars = [
-                'name'  => $member->username,
+                'name' => $member->username,
                 'email' => $member->user->email
             ];
 
-            Mail::queue('rainlab.forum::mail.topic_reply', $data, function($message) use ($vars)
-            {
+            Mail::queue('rainlab.forum:topic_reply', $data, function($message) use ($vars) {
                 extract($vars);
                 $message->to($email, $name);
             });
@@ -139,6 +138,9 @@ class TopicFollow extends Model
         static::where('topic_id', $topic->id)->update(['updated_at' => Carbon::now()]);
     }
 
+    /**
+     * makeAuthCode
+     */
     public static function makeAuthCode($action, $topic, $member)
     {
         $hash = md5(

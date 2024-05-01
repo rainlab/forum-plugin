@@ -1,0 +1,36 @@
+<form data-request="onCreate" data-request-flash>
+    <input type="hidden" name="channel" value="{{ channel.id }}" />
+
+    <div class="mb-3">
+        <label for="topicSubject" class="form-label">Subject</label>
+        <input
+            id="topicSubject"
+            name="subject"
+            type="text"
+            class="form-control"
+            value="{{ post('subject') }}" />
+    </div>
+
+    <div class="mb-3">
+        <label for="topicContent" class="form-label">Content</label>
+        <textarea
+            id="topicContent"
+            name="content"
+            rows="8"
+            type="text"
+            class="form-control">{{ post('content') }}</textarea>
+        <span class="help-block">You can use <a href="http://daringfireball.net/projects/markdown/syntax" target="_blank">Markdown</a> syntax.</span>
+    </div>
+
+    <div class="mb-3 post-buttons">
+        <button
+            type="submit"
+            class="btn btn-primary btn-lg"
+            data-attach-loading>
+            Post this topic
+        </button>
+        {% if returnUrl %}
+            <a class="btn btn-link btn-lg" href="{{ returnUrl }}">Cancel</a>
+        {% endif %}
+    </div>
+</form>

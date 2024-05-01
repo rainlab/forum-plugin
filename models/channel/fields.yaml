@@ -4,39 +4,39 @@
 
 fields:
     parent:
-        label: rainlab.forum::lang.data.parent
+        label: Parent
         type: relation
         nameFrom: title
-        emptyOption: rainlab.forum::lang.data.noparent
+        emptyOption: -- No parent --
 
     title:
-        label: rainlab.forum::lang.data.title
+        label: Title
         span: left
 
     slug:
-        label: rainlab.forum::lang.data.slug
+        label: Slug
         span: right
         preset: title
 
     description:
-        label: rainlab.forum::lang.data.desc
+        label: Description
         type: textarea
         size: tiny
 
     is_moderated:
-        label: rainlab.forum::lang.data.moderated
-        comment: rainlab.forum::lang.data.is_mod
+        label: Moderated
+        comment: Only moderators can post to this channel.
         type: checkbox
         span: auto
 
     is_hidden:
-        label: rainlab.forum::lang.data.hidden
-        comment: rainlab.forum::lang.data.is_hidden
+        label: Hidden
+        comment: Hide this category from the main category list.
         type: checkbox
         span: auto
 
     is_guarded:
-        label: rainlab.forum::lang.data.guarded
-        comment: rainlab.forum::lang.data.is_guarded
+        label: Spam Guarded
+        comment: "Members must be approved by moderators before their posts appear to unregistered users."
         type: checkbox
         span: full

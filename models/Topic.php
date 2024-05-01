@@ -1,11 +1,9 @@
 <?php namespace RainLab\Forum\Models;
 
-use Config;
 use Db;
-use App;
 use Model;
+use Config;
 use Carbon\Carbon;
-use ApplicationException;
 
 /**
  * Topic Model
@@ -17,14 +15,9 @@ class Topic extends Model
     use \October\Rain\Database\Traits\Validation;
 
     /**
-     * @var string The database table used by the model.
+     * @var string table associated with the model
      */
     public $table = 'rainlab_forum_topics';
-
-    /**
-     * @var array Guarded fields
-     */
-    protected $guarded = [];
 
     /**
      * @var array Fillable fields
@@ -40,8 +33,8 @@ class Topic extends Model
      * @var array Validation rules
      */
     public $rules = [
-        'subject'         => 'required',
-        'channel_id'      => 'required',
+        'subject' => 'required',
+        'channel_id' => 'required',
         'start_member_id' => 'required'
     ];
 
@@ -75,9 +68,9 @@ class Topic extends Model
     ];
 
     public $belongsTo = [
-        'channel'          => ['RainLab\Forum\Models\Channel'],
-        'start_member'     => ['RainLab\Forum\Models\Member'],
-        'last_post'        => ['RainLab\Forum\Models\Post'],
+        'channel' => ['RainLab\Forum\Models\Channel'],
+        'start_member' => ['RainLab\Forum\Models\Member'],
+        'last_post' => ['RainLab\Forum\Models\Post'],
         'last_post_member' => ['RainLab\Forum\Models\Member'],
     ];
 

@@ -4,6 +4,7 @@ use Backend;
 use RainLab\User\Models\User;
 use RainLab\Forum\Models\Member;
 use System\Classes\PluginBase;
+use System\Classes\SettingsManager;
 use RainLab\User\Controllers\Users as UsersController;
 
 /**
@@ -24,12 +25,20 @@ class Plugin extends PluginBase
     public function pluginDetails()
     {
         return [
-            'name' => 'rainlab.forum::lang.plugin.name',
-            'description' => 'rainlab.forum::lang.plugin.description',
+            'name' => "Forum",
+            'description' => "A simple embeddable forum",
             'author' => 'Alexey Bobkov, Samuel Georges',
             'icon' => 'icon-comments',
             'homepage' => 'https://github.com/rainlab/forum-plugin'
         ];
+    }
+
+    /**
+     * register the service provider.
+     */
+    public function register()
+    {
+        $this->registerSingletons();
     }
 
     /**
@@ -38,7 +47,7 @@ class Plugin extends PluginBase
     public function boot()
     {
         User::extend(function($model) {
-            $model->hasOne['forum_member'] = ['RainLab\Forum\Models\Member'];
+            $model->hasOne['forum_member'] = \RainLab\Forum\Models\Member::class;
 
             $model->bindEvent('model.beforeDelete', function() use ($model) {
                 $model->forum_member && $model->forum_member->delete();
@@ -59,23 +68,23 @@ class Plugin extends PluginBase
 
             $widget->addFields([
                 'forum_member[username]' => [
-                    'label' => 'rainlab.forum::lang.settings.username',
-                    'tab' => 'Forum',
-                    'comment' => 'rainlab.forum::lang.settings.username_comment'
+                    'label' => "Username",
+                    'comment' => "The display to represent this user on the forum.",
+                    'tab' => 'Forum'
                 ],
                 'forum_member[is_moderator]' => [
-                    'label' => 'rainlab.forum::lang.settings.moderator',
+                    'label' => "Forum moderator",
+                    'comment' => "Place a tick in this box if this user can moderate the entire forum.",
                     'type' => 'checkbox',
                     'tab' => 'Forum',
-                    'span' => 'auto',
-                    'comment' => 'rainlab.forum::lang.settings.moderator_comment'
+                    'span' => 'auto'
                 ],
                 'forum_member[is_banned]' => [
-                    'label' => 'rainlab.forum::lang.settings.banned',
+                    'label' => "Banned from forum",
+                    'comment' => "Place a tick in this box if this user is banned from posting to the forum.",
                     'type' => 'checkbox',
                     'tab' => 'Forum',
-                    'span' => 'auto',
-                    'comment' => 'rainlab.forum::lang.settings.banned_comment'
+                    'span' => 'auto'
                 ]
             ], 'primary');
         });
@@ -87,7 +96,7 @@ class Plugin extends PluginBase
 
             $widget->addColumns([
                 'forum_member_username' => [
-                    'label' => 'rainlab.forum::lang.settings.forum_username',
+                    'label' => "Forum Username",
                     'relation' => 'forum_member',
                     'select' => 'username',
                     'searchable' => false,
@@ -98,20 +107,28 @@ class Plugin extends PluginBase
     }
 
     /**
+     * registerSingletons
+     */
+    protected function registerSingletons()
+    {
+        $this->app->singleton('rainlab.forum.tracker', \RainLab\Forum\Classes\TopicTracker::class);
+    }
+
+    /**
      * registerComponents
      */
     public function registerComponents()
     {
         return [
-           \RainLab\Forum\Components\Channels::class     => 'forumChannels',
-           \RainLab\Forum\Components\Channel::class      => 'forumChannel',
-           \RainLab\Forum\Components\Topic::class        => 'forumTopic',
-           \RainLab\Forum\Components\Topics::class       => 'forumTopics',
-           \RainLab\Forum\Components\Posts::class        => 'forumPosts',
-           \RainLab\Forum\Components\Member::class       => 'forumMember',
-           \RainLab\Forum\Components\EmbedTopic::class   => 'forumEmbedTopic',
-           \RainLab\Forum\Components\EmbedChannel::class => 'forumEmbedChannel',
-           \RainLab\Forum\Components\RssFeed::class      => 'forumRssFeed'
+           \RainLab\Forum\Components\ForumChannel::class => 'forumChannel',
+           \RainLab\Forum\Components\ForumChannels::class => 'forumChannels',
+           \RainLab\Forum\Components\ForumTopic::class => 'forumTopic',
+           \RainLab\Forum\Components\ForumTopics::class => 'forumTopics',
+           \RainLab\Forum\Components\ForumPosts::class => 'forumPosts',
+           \RainLab\Forum\Components\ForumMember::class => 'forumMember',
+           \RainLab\Forum\Components\ForumEmbedTopic::class => 'forumEmbedTopic',
+           \RainLab\Forum\Components\ForumEmbedChannel::class => 'forumEmbedChannel',
+           \RainLab\Forum\Components\ForumRssFeed::class => 'forumRssFeed'
         ];
     }
 
@@ -122,8 +139,8 @@ class Plugin extends PluginBase
     {
         return [
             'rainlab.forum.manage_channels' => [
-                'tab' => 'rainlab.forum::lang.settings.channels',
-                'label' => 'rainlab.forum::lang.settings.channels_desc'
+                'tab' => "Forum Channels",
+                'label' => "Manage available forum channels."
             ]
         ];
     }
@@ -135,11 +152,11 @@ class Plugin extends PluginBase
     {
         return [
             'settings' => [
-                'label' => 'rainlab.forum::lang.settings.channels',
-                'description' => 'rainlab.forum::lang.settings.channels_desc',
+                'label' => "Forum Channels",
+                'description' => "Manage available forum channels.",
                 'icon' => 'icon-comments',
                 'url' => Backend::url('rainlab/forum/channels'),
-                'category' => 'rainlab.forum::lang.plugin.name',
+                'category' => SettingsManager::CATEGORY_USERS,
                 'order' => 500,
                 'permissions' => ['rainlab.forum.manage_channels'],
             ]
@@ -152,8 +169,8 @@ class Plugin extends PluginBase
     public function registerMailTemplates()
     {
         return [
-            'rainlab.forum::mail.topic_reply',
-            'rainlab.forum::mail.member_report'
+            'rainlab.forum:topic_reply' => 'rainlab.forum::mail.topic_reply',
+            'rainlab.forum:member_report' => 'rainlab.forum::mail.member_report'
         ];
     }
 }
