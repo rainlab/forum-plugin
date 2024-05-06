@@ -3,17 +3,16 @@
 use Schema;
 use October\Rain\Database\Updates\Migration;
 
-class CreatePostsTable extends Migration
+return new class extends Migration
 {
     public function up()
     {
-        Schema::create('rainlab_forum_posts', function($table)
-        {
-            $table->engine = 'InnoDB';
+        Schema::create('rainlab_forum_posts', function($table) {
             $table->increments('id');
             $table->string('subject')->nullable();
             $table->text('content')->nullable();
             $table->text('content_html')->nullable();
+            $table->integer('count_links')->default(0);
             $table->integer('topic_id')->unsigned()->index()->nullable();
             $table->integer('member_id')->unsigned()->index()->nullable();
             $table->integer('edit_user_id')->nullable();
@@ -26,4 +25,4 @@ class CreatePostsTable extends Migration
     {
         Schema::dropIfExists('rainlab_forum_posts');
     }
-}
+};

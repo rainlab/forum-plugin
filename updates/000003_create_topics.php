@@ -3,13 +3,11 @@
 use Schema;
 use October\Rain\Database\Updates\Migration;
 
-class CreateTopicsTable extends Migration
+return new class extends Migration
 {
     public function up()
     {
-        Schema::create('rainlab_forum_topics', function($table)
-        {
-            $table->engine = 'InnoDB';
+        Schema::create('rainlab_forum_topics', function($table) {
             $table->increments('id');
             $table->string('subject')->nullable();
             $table->string('slug')->index()->unique();
@@ -23,6 +21,7 @@ class CreateTopicsTable extends Migration
             $table->boolean('is_locked')->index()->default(0);
             $table->integer('count_posts')->index()->default(0);
             $table->integer('count_views')->index()->default(0);
+            $table->string('embed_code')->nullable()->index();
             $table->index(['is_sticky', 'last_post_at'], 'sticky_post_time');
             $table->timestamps();
         });
@@ -32,4 +31,4 @@ class CreateTopicsTable extends Migration
     {
         Schema::dropIfExists('rainlab_forum_topics');
     }
-}
+};

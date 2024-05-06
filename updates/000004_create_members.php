@@ -3,13 +3,11 @@
 use Schema;
 use October\Rain\Database\Updates\Migration;
 
-class CreateMembersTable extends Migration
+return new class extends Migration
 {
     public function up()
     {
-        Schema::create('rainlab_forum_members', function($table)
-        {
-            $table->engine = 'InnoDB';
+        Schema::create('rainlab_forum_members', function($table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned()->index()->nullable();
             $table->string('username')->nullable();
@@ -17,6 +15,9 @@ class CreateMembersTable extends Migration
             $table->integer('count_posts')->index()->default(0);
             $table->integer('count_topics')->index()->default(0);
             $table->dateTime('last_active_at')->index()->nullable();
+            $table->boolean('is_moderator')->default(0)->index();
+            $table->boolean('is_banned')->default(0);
+            $table->boolean('is_approved')->default(0)->index();
             $table->timestamps();
         });
     }
@@ -25,4 +26,4 @@ class CreateMembersTable extends Migration
     {
         Schema::dropIfExists('rainlab_forum_members');
     }
-}
+};

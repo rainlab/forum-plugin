@@ -1,28 +1,18 @@
 v1.0.1:
     - First version of Forum
-    - create_channels_table.php
-    - create_posts_table.php
-    - create_topics_table.php
-    - create_members_table.php
-    - seed_all_tables.php
+    - 000001_create_channels.php
+    - 000002_create_posts.php
+    - 000003_create_topics.php
+    - 000004_create_members.php
+    - 000005_create_topic_followers.php
 v1.0.2:
-    - Add unread flags to topics
-    - create_topic_watches_table.php
-v1.0.3:
-    - Users can now be made moderators or be banned
-    - members_add_mod_and_ban.php
-v1.0.4:
-    - Channels can now be hidden or moderated
-    - channels_add_hidden_and_moderated.php
-v1.0.5:
-    - Introduced topic and channel embedding
-    - add_embed_code.php
-v1.0.6:
-    - Add unread flags to channels
-    - create_channel_watches_table.php
-v1.0.7:
-    - Forum members can now follow topics
-    - create_topic_followers_table.php
+    - Seeding tables
+    - seed_all_tables.php
+v1.0.3: Users can now be made moderators or be banned
+v1.0.4: Channels can now be hidden or moderated
+v1.0.5: Introduced topic and channel embedding
+v1.0.6: Add unread flags to channels
+v1.0.7: Forum members can now follow topics
 v1.0.8: Added Channel name to the Topics component view
 v1.0.9: Updated the Settings page
 v1.0.10: Users can now report spammers who can be banned by moderators.
@@ -34,17 +24,12 @@ v1.0.15: When a User is deleted, their Member profile and posts is also deleted.
 v1.0.16: Posting topics is now throttled allowing 3 new topics every 15 minutes.
 v1.0.17: Update channel reorder page to new system reordering feature.
 v1.0.18: Minor fix to embed topic component.
-v1.0.19:
-    - Database maintenance. Updated all timestamp columns to be nullable.
-    - update_timestamp_nullable.php
-v1.1.0:
-    - Major performance enhancements
-    - drop_watches_tables.php
+v1.0.19: Database maintenance. Updated all timestamp columns to be nullable.
+v1.1.0: Major performance enhancements
 v1.1.1: Fixes bug throwing error when a forum topic has no posts.
 v1.1.2: Add button for administrators to purge all posts by a member.
-v1.2.0:
-    - Added spam guarding features.
-    - members_add_spam_guard.php
+v1.2.0: Added spam guarding features.
 v1.2.1: Made plugin compatible with PHP 7.3. Improved translations.
 v1.2.2: The default CSS can now be disabled for all components. Changed `getChannelSlugOptions` method in EmbedChannel component from protected to public.
 v1.4.0: Compatibility updates with October CMS v3.6
+v2.0.0: Major Upgrade to Forum Plugin
