@@ -106,7 +106,7 @@ class ForumEmbedChannel extends ComponentBase
         // Proxy as topic
         if (input('channel') || $this->property('topicSlug')) {
             $properties['slug'] = '{{' . $this->propertyName('topicSlug') . '}}';
-            $component = $this->addComponent('RainLab\Forum\Components\Topic', $this->alias, $properties);
+            $component = $this->addComponent(\RainLab\Forum\Components\ForumTopic::class, $this->alias, $properties);
         }
         // Proxy as channel
         else {
@@ -115,7 +115,7 @@ class ForumEmbedChannel extends ComponentBase
             }
 
             $properties['topicPage'] = $this->page->baseFileName;
-            $component = $this->addComponent('RainLab\Forum\Components\Channel', $this->alias, $properties);
+            $component = $this->addComponent(\RainLab\Forum\Components\ForumChannel::class, $this->alias, $properties);
             $component->embedTopicParam = $this->paramName('topicSlug');
 
             // If a channel does not already exist, generate it when the page ends.

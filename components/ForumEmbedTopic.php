@@ -95,7 +95,7 @@ class ForumEmbedTopic extends ComponentBase
             $properties['slug'] = $topic->slug;
         }
 
-        $component = $this->addComponent('RainLab\Forum\Components\Topic', $this->alias, $properties);
+        $component = $this->addComponent(\RainLab\Forum\Components\ForumTopic::class, $this->alias, $properties);
 
         // If a topic does not already exist, generate it when the page ends.
         // This can be disabled by the page setting embedMode to FALSE, for example,
