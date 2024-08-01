@@ -105,7 +105,7 @@ class ForumEmbedChannel extends ComponentBase
 
         // Proxy as topic
         if (input('channel') || $this->property('topicSlug')) {
-            $properties['slug'] = '{{' . $this->propertyName('topicSlug') . '}}';
+            $properties['slug'] = '{{ ' . $this->propertyName('topicSlug') . ' }}';
             $component = $this->addComponent(\RainLab\Forum\Components\ForumTopic::class, $this->alias, $properties);
         }
         // Proxy as channel

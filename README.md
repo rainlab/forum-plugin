@@ -19,7 +19,7 @@ The forum does not require immediate configuration to operate. However the follo
 
 The plugin includes a component forumChannels that should be used as the main page for your forum. Add the component to your page and render it with the component tag:
 
-```php
+```twig
 {% component 'forumChannels' %}
 ```
 
