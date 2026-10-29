@@ -34,3 +34,4 @@ v1.2.2: The default CSS can now be disabled for all components. Changed `getChan
 v1.4.0: Compatibility updates with October CMS v3.6
 v2.0.0: Major Upgrade to Forum Plugin
 v2.0.1: Fixes bug in forum embedding
+v2.0.2: Removes the jQuery dependency from the forum script.

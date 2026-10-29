@@ -1,55 +1,39 @@
 /*
- * Forum Manager class
+ * Forum, quotes a post into the reply form when its Quote link is clicked.
+ * Uses the AJAX framework without jQuery.
  */
+(function() {
+    'use strict';
 
-+function ($) { "use strict";
+    // Each line of the post becomes a Markdown quote, led by its author
+    function formatForumQuote(author, quote) {
+        quote = '**' + author + '** said:\n\n' + quote;
+        quote = quote.replace(/^/, '>');
+        quote = quote.replace(/\n/g, '\n>');
 
-    var ForumManager = function () {
-        this.init();
+        return quote;
     }
 
-    ForumManager.prototype.init = function() {
-        var self = this;
+    function onClickQuoteButton(ev) {
+        var button = ev.target.closest('[data-quote-button]');
+        if (!button) {
+            return;
+        }
 
-        // Bind event handlers
-        $(document).on('click', '[data-quote-button]', function(ev) {
-            self.clickQuoteButton(ev.target);
-        });
-    }
+        ev.preventDefault();
 
-    //
-    // Topic posting
-    //
-
-    ForumManager.prototype.formatForumQuote = function(author, quote) {
-        quote = "**" + author + "** said:\n\n" + quote
-        quote = quote.replace(/^/g, ">")
-        quote = quote.replace(/\n/g, "\n>")
-
-        return quote
-    }
-
-    ForumManager.prototype.clickQuoteButton = function(el) {
-        var self = this,
-            $el = $(el);
-
-        $el.request('onQuote', {
+        oc.request(button, 'onQuote', {
             success: function(data) {
-                var quoteBody = data.content,
-                    authorName = data.author,
-                    quoteText = self.formatForumQuote(authorName, quoteBody)
+                var textarea = document.getElementById('topicContent');
+                if (!textarea) {
+                    return;
+                }
 
-                $('#topicContent')
-                    .val($('#topicContent').val() + quoteText + '\n\n')
-                    .focus()
+                textarea.value += formatForumQuote(data.author, data.content) + '\n\n';
+                textarea.focus();
             }
         });
-
-        return false;
     }
 
-    $(document).ready(function(){
-        new ForumManager;
-    });
-
-}(window.jQuery);
+    document.addEventListener('click', onClickQuoteButton);
+})();
