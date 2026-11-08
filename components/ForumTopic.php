@@ -16,7 +16,6 @@ use RainLab\Forum\Models\Post as PostModel;
 use RainLab\Forum\Models\TopicFollow;
 use RainLab\Forum\Classes\TopicTracker;
 use ApplicationException;
-use Exception;
 
 /**
  * ForumTopic component displays a forum conversation
@@ -341,43 +340,38 @@ class ForumTopic extends ComponentBase
      */
     public function onCreate()
     {
-        try {
-            if (!Auth::check()) {
-                throw new ApplicationException('You should be logged in.');
-            }
-
-            $member = $this->getMember();
-            $channel = $this->getChannel();
-
-            if ($channel->is_moderated && !$member->is_moderator) {
-                throw new ApplicationException('You cannot create a topic in this channel.');
-            }
-
-            if (TopicModel::checkThrottle($member)) {
-                throw new ApplicationException('Please wait a few minutes before posting another topic.');
-            }
-
-            if ($member->is_banned) {
-                throw new ApplicationException('You cannot create new topics: Your account is banned.');
-            }
-
-            $topic = TopicModel::createInChannel($channel, $member, post());
-            $topicUrl = $this->currentPageUrl([$this->paramName('slug') => $topic->slug]);
-
-            Flash::success(post('flash', 'Topic created successfully!'));
-
-            // Extensibility
-            Event::fire('rainlab.forum.topic.create', [$this, $topic, $topicUrl]);
-            $this->fireEvent('topic.create', [$topic, $topicUrl]);
-
-            // Redirect to the intended page after successful update
-            $redirectUrl = post('redirect', $topicUrl);
-
-            return Redirect::to($redirectUrl);
+        if (!Auth::check()) {
+            throw new ApplicationException('You should be logged in.');
         }
-        catch (Exception $ex) {
-            Flash::error($ex->getMessage());
+
+        $member = $this->getMember();
+        $channel = $this->getChannel();
+
+        if ($channel->is_moderated && !$member->is_moderator) {
+            throw new ApplicationException('You cannot create a topic in this channel.');
         }
+
+        if (TopicModel::checkThrottle($member)) {
+            throw new ApplicationException('Please wait a few minutes before posting another topic.');
+        }
+
+        if ($member->is_banned) {
+            throw new ApplicationException('You cannot create new topics: Your account is banned.');
+        }
+
+        $topic = TopicModel::createInChannel($channel, $member, post());
+        $topicUrl = $this->currentPageUrl([$this->paramName('slug') => $topic->slug]);
+
+        Flash::success(post('flash', 'Topic created successfully!'));
+
+        // Extensibility
+        Event::fire('rainlab.forum.topic.create', [$this, $topic, $topicUrl]);
+        $this->fireEvent('topic.create', [$topic, $topicUrl]);
+
+        // Redirect to the intended page after successful update
+        $redirectUrl = post('redirect', $topicUrl);
+
+        return Redirect::to($redirectUrl);
     }
 
     /**
@@ -385,36 +379,31 @@ class ForumTopic extends ComponentBase
      */
     public function onPost()
     {
-        try {
-            if (!Auth::check()) {
-                throw new ApplicationException('You should be logged in.');
-            }
-
-            $member = $this->getMember();
-            $topic = $this->getTopic();
-
-            if (!$topic || !$topic->canPost()) {
-                throw new ApplicationException('You cannot edit posts or make replies.');
-            }
-
-            $post = PostModel::createInTopic($topic, $member, post());
-            $postUrl = $this->currentPageUrl([$this->paramName('slug') => $topic->slug]);
-
-            TopicFollow::sendNotifications($topic, $post, $postUrl);
-            Flash::success(post('flash', 'Response added successfully!'));
-
-            // Extensibility
-            Event::fire('rainlab.forum.topic.post', [$this, $post, $postUrl]);
-            $this->fireEvent('topic.post', [$post, $postUrl]);
-
-            // Redirect to the intended page after successful update
-            $redirectUrl = post('redirect', $postUrl);
-
-            return Redirect::to($redirectUrl.'?page=last#post-'.$post->id);
+        if (!Auth::check()) {
+            throw new ApplicationException('You should be logged in.');
         }
-        catch (Exception $ex) {
-            Flash::error($ex->getMessage());
+
+        $member = $this->getMember();
+        $topic = $this->getTopic();
+
+        if (!$topic || !$topic->canPost()) {
+            throw new ApplicationException('You cannot edit posts or make replies.');
         }
+
+        $post = PostModel::createInTopic($topic, $member, post());
+        $postUrl = $this->currentPageUrl([$this->paramName('slug') => $topic->slug]);
+
+        TopicFollow::sendNotifications($topic, $post, $postUrl);
+        Flash::success(post('flash', 'Response added successfully!'));
+
+        // Extensibility
+        Event::fire('rainlab.forum.topic.post', [$this, $post, $postUrl]);
+        $this->fireEvent('topic.post', [$post, $postUrl]);
+
+        // Redirect to the intended page after successful update
+        $redirectUrl = post('redirect', $postUrl);
+
+        return Redirect::to($redirectUrl.'?page=last#post-'.$post->id);
     }
 
     /**

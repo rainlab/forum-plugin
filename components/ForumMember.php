@@ -12,7 +12,6 @@ use RainLab\User\Models\UserPreference;
 use RainLab\UserPlus\Models\UserNotification;
 use System\Classes\RateLimiter;
 use ApplicationException;
-use Exception;
 
 /**
  * ForumMember component displays a forum member details
@@ -221,45 +220,39 @@ class ForumMember extends ComponentBase
      */
     public function onPoke()
     {
-        try {
-            if (!class_exists(UserNotification::class)) {
-                throw new ApplicationException("Please install the RainLab.UserPlus plugin to enable this feature.");
-            }
-
-            $member = $this->getMember();
-            $viewer = $this->getOtherMember();
-            if (!$viewer || !$member) {
-                throw new ApplicationException('Permission denied.');
-            }
-
-            $limiter = new RateLimiter('forum.poke:'.$viewer->getKey().'|'.$member->getKey());
-            if ($limiter->tooManyAttempts(1)) {
-                throw new ApplicationException("You have poked {$member->username} too many times. Come back tomorrow!");
-            }
-
-            if ($viewer->id === $member->id) {
-                UserNotification::createRecord($member->user_id, 'forum-poke', "You poked yourself!", [
-                    'icon' => 'hand-index'
-                ]);
-
-                Flash::success(post('flash', "You poked yourself!"));
-                $this->dispatchBrowserEvent('user:notification-count', ['unreadCount' => 1]);
-            }
-            else {
-                UserNotification::createRecord($member->user_id, 'forum-poke', "{$viewer->username} has poked you!", [
-                    'icon' => 'hand-index'
-                ]);
-
-                Flash::success(post('flash', "Sent a poke to {$member->username}!"));
-            }
-
-            // One poke per day
-            $limiter->increment(86400);
-
+        if (!class_exists(UserNotification::class)) {
+            throw new ApplicationException("Please install the RainLab.UserPlus plugin to enable this feature.");
         }
-        catch (Exception $ex) {
-            Flash::error($ex->getMessage());
+
+        $member = $this->getMember();
+        $viewer = $this->getOtherMember();
+        if (!$viewer || !$member) {
+            throw new ApplicationException('Permission denied.');
         }
+
+        $limiter = new RateLimiter('forum.poke:'.$viewer->getKey().'|'.$member->getKey());
+        if ($limiter->tooManyAttempts(1)) {
+            throw new ApplicationException("You have poked {$member->username} too many times. Come back tomorrow!");
+        }
+
+        if ($viewer->id === $member->id) {
+            UserNotification::createRecord($member->user_id, 'forum-poke', "You poked yourself!", [
+                'icon' => 'hand-index'
+            ]);
+
+            Flash::success(post('flash', "You poked yourself!"));
+            $this->dispatchBrowserEvent('user:notification-count', ['unreadCount' => 1]);
+        }
+        else {
+            UserNotification::createRecord($member->user_id, 'forum-poke', "{$viewer->username} has poked you!", [
+                'icon' => 'hand-index'
+            ]);
+
+            Flash::success(post('flash', "Sent a poke to {$member->username}!"));
+        }
+
+        // One poke per day
+        $limiter->increment(86400);
     }
 
     /**
@@ -267,34 +260,29 @@ class ForumMember extends ComponentBase
      */
     public function onUpdate()
     {
-        try {
-            if (!$this->canEdit()) {
-                throw new ApplicationException('Permission denied.');
-            }
-
-            $member = $this->getMember();
-            if (!$member) {
-                return;
-            }
-
-            // Process mail preferences
-            if ($member->user) {
-                $shouldNotify = (bool) post('notify_replies');
-                UserPreference::setPreference($member->user_id, 'forum_notify_replies', $shouldNotify === true ? null : false);
-            }
-
-            // Save member
-            $data = array_except(post(), 'notify_replies');
-            $member->fill($data);
-            $member->save();
-
-            Flash::success(post('flash', 'Settings successfully saved!'));
-
-            return $this->redirectToSelf();
+        if (!$this->canEdit()) {
+            throw new ApplicationException('Permission denied.');
         }
-        catch (Exception $ex) {
-            Flash::error($ex->getMessage());
+
+        $member = $this->getMember();
+        if (!$member) {
+            return;
         }
+
+        // Process mail preferences
+        if ($member->user) {
+            $shouldNotify = (bool) post('notify_replies');
+            UserPreference::setPreference($member->user_id, 'forum_notify_replies', $shouldNotify === true ? null : false);
+        }
+
+        // Save member
+        $data = array_except(post(), 'notify_replies');
+        $member->fill($data);
+        $member->save();
+
+        Flash::success(post('flash', 'Settings successfully saved!'));
+
+        return $this->redirectToSelf();
     }
 
     /**
@@ -302,25 +290,20 @@ class ForumMember extends ComponentBase
      */
     public function onPurgePosts()
     {
-        try {
-            $otherMember = $this->getOtherMember();
-            if (!$otherMember || !$otherMember->is_moderator) {
-                throw new ApplicationException('Access denied');
-            }
-
-            if ($member = $this->getMember()) {
-                foreach ($member->posts as $post) {
-                    $post->delete();
-                }
-            }
-
-            Flash::success(post('flash', 'Posts deleted!'));
-
-            return $this->redirectToSelf();
+        $otherMember = $this->getOtherMember();
+        if (!$otherMember || !$otherMember->is_moderator) {
+            throw new ApplicationException('Access denied');
         }
-        catch (Exception $ex) {
-            Flash::error($ex->getMessage());
+
+        if ($member = $this->getMember()) {
+            foreach ($member->posts as $post) {
+                $post->delete();
+            }
         }
+
+        Flash::success(post('flash', 'Posts deleted!'));
+
+        return $this->redirectToSelf();
     }
 
     /**

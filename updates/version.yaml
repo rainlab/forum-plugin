@@ -35,3 +35,4 @@ v1.4.0: Compatibility updates with October CMS v3.6
 v2.0.0: Major Upgrade to Forum Plugin
 v2.0.1: Fixes bug in forum embedding
 v2.0.2: Removes the jQuery dependency from the forum script.
+v2.0.3: Unexpected errors in the forum components are logged and shown to visitors as a generic message.
