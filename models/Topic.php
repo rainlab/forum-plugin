@@ -228,6 +228,11 @@ class Topic extends Model
             $query->whereIn('channel_id', $channels);
         }
 
+        /*
+         * Pagination
+         */
+        $page = max(1, (int) $page);
+
         return $query->paginate($perPage, $page);
     }
 

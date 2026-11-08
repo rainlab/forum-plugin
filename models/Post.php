@@ -123,9 +123,7 @@ class Post extends Model
         /*
          * Pagination
          */
-        if (intval($page) === 0) {
-            $page = 1;
-        }
+        $page = max(1, (int) $page);
 
         return $query->paginate($perPage, $page);
     }
